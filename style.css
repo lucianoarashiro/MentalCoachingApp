@@ -1,0 +1,387 @@
+/* Importação das fontes diretamente no CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+    --brand-yellow: #ffde59;
+    --bg-soft: #f9f9f7;
+    --border-dark: #1a1a1a;
+    --text-main: #1a1a1a;
+}
+
+body {
+    background-color: var(--bg-soft);
+    /* Fonte Inter: Alta legibilidade em qualquer tela */
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4 { 
+    font-family: 'Space Grotesk', sans-serif; 
+    font-weight: 700;
+    color: var(--border-dark);
+}
+
+/* Estilo Neo-Brutalista Limpo */
+.bc-card {
+    background: white;
+    border: 3px solid var(--border-dark);
+    box-shadow: 6px 6px 0px 0px var(--border-dark);
+    transition: all 0.2s ease;
+}
+
+/* Estilo Neo-Brutalista Limpo 
+.bc-card:hover {
+    box-shadow: 8px 8px 0px 0px var(--border-dark);
+}*/
+
+.btn-main {
+    background-color: var(--brand-yellow);
+    border: 3px solid var(--border-dark);
+    padding: 14px 28px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 4px 4px 0px 0px var(--border-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Ao passar o mouse, ele levanta levemente */
+.btn-main:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px var(--border-dark);
+}
+
+/* Efeito de "Afundar" ao clicar */
+.btn-main:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px 0px var(--border-dark);
+}
+
+.input-field {
+    width: 100%;
+    border: 3px solid var(--border-dark);
+    padding: 14px;
+    font-weight: 500;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    overflow: hidden; /* Remove barra de rolagem para o auto-resize */
+    resize: none;    /* Impede redimensionamento manual pelo usuário */
+}
+
+.input-field:focus {
+    background-color: #fffef0;
+    box-shadow: 4px 4px 0px 0px var(--brand-yellow);
+}
+
+.nav-link {
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Space Grotesk', sans-serif;
+    box-shadow: 4px 4px 0px 0px var(--border-dark);
+    background: var(--brand-yellow); 
+    
+    border: 3px solid var(--border-dark); 
+}
+
+.nav-link:hover { 
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px var(--border-dark);
+}
+
+.nav-link:active { 
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px 0px var(--border-dark);
+}
+
+/* Helper de Tipografia para Perguntas */
+.label-main {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem; 
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.4rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.label-reference {
+    font-size: 0.95rem; 
+    font-weight: 500;
+    color: #4a4a4a;
+    margin-bottom: 1rem;
+    display: block;
+    line-height: 1.4;
+    padding-left: 10px;
+    border-left: 4px solid var(--brand-yellow);
+}
+
+#app-container {
+    flex: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* MOBILE */
+
+/* Ajuste para palavras longas no mobile */
+.break-words-mobile {
+    hyphens: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+@media (max-width: 768px) {
+    .label-main {
+        font-size: 1.1rem !important; /* Diminui levemente o título no mobile */
+        line-height: 1.2;
+    }
+}
+
+
+/* CLAREZA PLENA */
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+details summary {
+    list-style: none;
+}
+
+/* VALUES TOOL */
+/* Drag and Drop */
+.drop-zone {
+    min-height: 120px;
+    background: #f3f4f6;
+    border: 2px dashed #bbb;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: flex-start;
+    transition: background 0.2s;
+}
+.drop-zone:hover { background: #ebedef; }
+
+.value-tag {
+    background: white;
+    border: 2px solid #1a1a1a;
+    padding: 6px 12px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 2px 2px 0px 0px #1a1a1a;
+    text-transform: uppercase;
+    transition: transform 0.1s;
+    display: inline-flex; /* Mudança aqui: inline-flex ajuda no dimensionamento */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.1s;
+    white-space: nowrap; /* Garante que o texto e o X fiquem na mesma linha */
+    height: fit-content;
+
+}
+.value-tag:active { cursor: grabbing; transform: scale(0.95); }
+
+/* Estilo do Número de Ranking */
+.rank-badge {
+    background: black;
+    color: white;
+    font-size: 0.65rem;
+    width: 22px;
+    height: 18px;
+    display: none; /* Escondido por padrão em todas as zonas */
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+/* Mostrar Badge apenas na coluna de Top 5 */
+#col-top5 .value-tag .rank-badge {
+    display: flex;
+}
+
+.delete-btn {
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+.delete-btn:hover {
+    background: rgba(255, 77, 77, 0.1);
+}
+
+.view {
+    width: 100%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media print {
+    @page {
+        margin: 10mm; /* Remove cabeçalhos e rodapés do browser */
+    }
+    /* Esconde o corpo principal do app, nav, botões, etc */
+    body > *:not(#print-area) {
+        display: none !important;
+    }
+
+    /* Força o print-area a aparecer e ocupar a tela toda */
+    #print-area {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    body {
+        background: white;
+        padding: 0;
+        font-size: 11pt;
+    }
+    .no-print { display: none !important; }
+    .print-only { display: block !important; }
+    .bc-card { border: none; box-shadow: none; padding: 0; }
+    
+    /* Evita quebra dentro de blocos de conteúdo */
+    .print-block {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: block;
+        padding-top: 30px;
+    }
+
+    .page-break {
+        page-break-before: always;
+        margin-top: 2rem;
+    }
+
+    .print-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 2rem;
+    }
+
+    .value-tag .delete-btn { display: none !important; }
+
+    .columns-container { 
+        display: flex; 
+        gap: 10px; 
+        width: 100%; 
+        align-items: flex-start; /* Alinha pelo topo */
+    }
+    .print-col { 
+        flex: 1; /* Força as 3 a terem largura igual */
+        min-width: 0; 
+        border: 2px solid #000;
+    }
+
+    /* 1. Garante que o container da Pirâmide seja visível */
+    #view-pyramid, #view-pyramid * {
+        visibility: visible !important;
+    }
+
+    /* 2. Força textareas a respeitarem as quebras de linha */
+    #view-pyramid textarea.persist, 
+    #view-pyramid .input-field {
+        white-space: pre-wrap !important; /* Mantém as quebras de linha do usuário */
+        word-wrap: break-word !important;
+        height: auto !important;          /* Expande a altura no papel */
+        overflow: visible !important;      /* Garante que nada fique escondido */
+        border: 2px solid black !important; /* Mantém o visual Bauhaus */
+        background-color: transparent !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+    }
+
+    /* 3. Ajuste específico para o topo (amarelo) */
+    #pyramid-goal {
+        background-color: #ffde59 !important;
+        -webkit-print-color-adjust: exact; /* Força o navegador a imprimir a cor */
+        print-color-adjust: exact;
+        text-align: center !important;
+        font-weight: bold !important;
+    }
+
+    /* 4. Remove elementos desnecessários na impressão */
+    .no-print, button, summary i {
+        display: none !important;
+    }
+
+}
+
+.print-only { display: none; }
+
+/* Esconde a div de impressão enquanto você está usando o app */
+#print-area {
+    display: none;
+}
+
+/* Feedback visual para o Drag & Drop */
+.drop-zone {
+    transition: all 0.2s ease;
+    border: 3px solid transparent; /* Reserva o espaço da borda */
+}
+
+/* Quando uma tag está sendo arrastada sobre a coluna */
+.drop-zone.drop-target-active {
+    background-color: rgba(255, 222, 89, 0.1); /* Um leve amarelo ao fundo */
+    border: 3px dashed var(--brand-yellow);
+    transform: scale(1.01); /* Um leve "zoom" para dar profundidade */
+}
+
+/* Opcional: Feedback no item que está sendo carregado */
+.value-tag.dragging {
+    opacity: 0.5;
+    border-style: dashed;
+}
+
+/* MATRIZ SWOT */
+
+/* Indicador visual de rotação para SWOT */
+.swot-helper-text {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: #000;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-top: 10px;
+    display: inline-block;
+}
