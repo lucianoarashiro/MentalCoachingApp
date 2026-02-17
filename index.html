@@ -28,6 +28,7 @@
             </div>
             <div class="flex gap-2">
                 <span class="nav-link active" id="link-home" onclick="Navigation.view('home')">Início</span>
+                <button onclick="Navigation.view('apoio')" class="font-black text-xs uppercase hover:underline nav-link active">Apoie este projeto</button>
             </div>
         </div>
     </nav>
@@ -781,6 +782,50 @@
                 </div>
             </div>
         </section>
+
+        <!-- APOIO AO PROJETO -->
+        <section id="view-apoio" class="view hidden p-4 animate-in fade-in duration-500">
+            <div class="max-w-2xl mx-auto mt-10">
+                <div class="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_black] text-center">
+                    <div class="w-20 h-20 bg-[#ffde59] border-4 border-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-coffee text-3xl"></i>
+                    </div>
+                    
+                    <h2 class="text-3xl font-black uppercase mb-4">Me pague um café! ☕</h2>
+                    
+                    <p class="text-gray-700 font-medium mb-8 leading-relaxed">
+                        Estas ferramentas foram criadas para ajudar Coaches e Mentores a entregarem resultados de alto nível. 
+                        Se essas ferramentas facilitam o seu dia a dia, considere fazer uma contribuição para incentivar a criação de novos recursos!
+                    </p>
+
+                    <div class="bg-[#f9f9f7] border-4 border-black p-6 mb-8 relative">
+                        <span class="absolute -top-4 left-4 bg-black text-white px-3 py-1 font-black text-xs uppercase italic">
+                            Chave PIX
+                        </span>
+                        <div class="flex flex-col items-center gap-4">
+                            <p id="pix-key" class="text-xl font-black break-all selection:bg-[#ffde59]">mentalcoachingappbrasil@gmail.com</p>
+                            <button onclick="copyPix()" class="bg-[#ffde59] border-4 border-black px-6 py-2 font-black uppercase text-sm shadow-[4px_4px_0px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+                                <i class="fas fa-copy mr-2"></i> Copiar Chave
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                        <div class="border-2 border-black p-4 bg-white font-bold text-sm">
+                            <i class="fas fa-tools mr-2 text-[#ffde59]"></i> Manutenção do Sistema
+                        </div>
+                        <div class="border-2 border-black p-4 bg-white font-bold text-sm">
+                            <i class="fas fa-lightbulb mr-2 text-[#ffde59]"></i> Novas Ferramentas
+                        </div>
+                    </div>
+                    
+                    <button onclick="Navigation.view('home')" class="mt-10 text-xs font-black uppercase underline decoration-4 decoration-[#ffde59] hover:text-gray-600">
+                        Voltar para o Início
+                    </button>
+                </div>
+            </div>
+        </section>
+
 
     </div>
 
