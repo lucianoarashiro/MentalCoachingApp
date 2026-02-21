@@ -1,4 +1,135 @@
-const PyramidTool = {
+window.PyramidTool = (function(){
+    'use strict';
+    const that = {
+    load: () => {
+        const container = document.getElementById('view-pyramid');
+        if (!container) return;
+        if (container.querySelector('#pyramid-main')) return; // already built
+
+        const html = `
+            <div id="pyramid-main" class="max-w-5xl mx-auto">
+                
+                <div class="mb-6 flex justify-between items-center border-b-2 border-black pb-4">
+                    <div class="w-20"></div>
+                    <div class="text-center">
+                        <h2 class="font-black uppercase text-xl">Pirâmide do Sucesso</h2>
+                    </div>
+                    <div class="w-20"></div>
+                </div>
+
+                <div class="no-print mb-8">
+                    <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
+                        <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center gap-3">
+                                <i class="fas fa-layer-group text-[#ffde59]"></i>
+                                Roteiro e Orientações (Atividades SMART)
+                            </span>
+                            <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed text-gray-800">
+                            <p><strong>Atenção:</strong> Ao definir as atividades na base da pirâmide, certifique-se de que elas respondam: <em>O que exatamente será feito? Como será medido? Qual o prazo?</em></p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="bc-card p-6 md:p-10 bg-white mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <div>
+                            <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
+                            <input type="text" id="pyramid-name" class="persist input-field" placeholder="Nome do cliente">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase block mb-1">Data</label>
+                            <input type="date" id="pyramid-date" class="persist input-field">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
+                            <input type="text" id="pyramid-coach" class="persist input-field" placeholder="Nome do coach">
+                        </div>
+                    </div>
+
+                    <div class="space-y-12">
+                        
+                        <div class="flex justify-center">
+                            <div class="w-full max-w-lg bg-[#ffde59] border-4 border-black p-6 shadow-[8px_8px_0px_0px_black] text-center">
+                                <label class="label-main !mb-2 uppercase">Objetivo Principal do Processo</label>
+                                <textarea id="pyramid-goal" class="persist w-full bg-transparent border-none focus:ring-0 font-black text-center uppercase placeholder:text-black/30 auto-resize" placeholder="QUAL O RESULTADO FINAL ESPERADO?"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            
+                            <div class="flex flex-col gap-4">
+                                <div class="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
+                                    <label class="text-[9px] font-black uppercase text-blue-600 block mb-1 italic">Sub-Meta 01</label>
+                                    <textarea id="pyramid-sub-1" class="persist w-full bg-transparent border-none focus:ring-0 font-bold text-sm min-h-[50px] p-0 auto-resize" placeholder="Defina o marco..."></textarea>
+                                </div>
+                                <div class="space-y-3 pl-4 border-l-4 border-blue-600">
+                                    <textarea id="pyramid-a1-1" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 1.1 (O que/Prazo)"></textarea>
+                                    <textarea id="pyramid-a1-2" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 1.2 (O que/Prazo)"></textarea>
+                                    <textarea id="pyramid-a1-3" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 1.3 (O que/Prazo)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-4">
+                                <div class="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
+                                    <label class="text-[9px] font-black uppercase text-green-600 block mb-1 italic">Sub-Meta 02</label>
+                                    <textarea id="pyramid-sub-2" class="persist w-full bg-transparent border-none focus:ring-0 font-bold text-sm min-h-[50px] p-0 auto-resize" placeholder="Defina o marco..."></textarea>
+                                </div>
+                                <div class="space-y-3 pl-4 border-l-4 border-green-600">
+                                    <textarea id="pyramid-a2-1" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 2.1 (O que/Prazo)"></textarea>
+                                    <textarea id="pyramid-a2-2" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 2.2 (O que/Prazo)"></textarea>
+                                    <textarea id="pyramid-a2-3" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 2.3 (O que/Prazo)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-4">
+                                <div class="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
+                                    <label class="text-[9px] font-black uppercase text-purple-600 block mb-1 italic">Sub-Meta 03</label>
+                                    <textarea id="pyramid-sub-3" class="persist w-full bg-transparent border-none focus:ring-0 font-bold text-sm min-h-[50px] p-0 auto-resize" placeholder="Defina o marco..."></textarea>
+                                </div>
+                                <div class="space-y-3 pl-4 border-l-4 border-purple-600">
+                                    <textarea id="pyramid-a3-1" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 3.1 (O que/Prazo)"></textarea>
+                                    <textarea id="pyramid-a3-2" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 3.2 (O que/Prazo)"></textarea>
+                                    <textarea id="pyramid-a3-3" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 3.3 (O que/Prazo)"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="space-y-8 pt-10 border-t-4 border-black border-dashed">
+                            <div>
+                                <label class="label-main">Pequena vitória (Próximas 24h)</label>
+                                <textarea id="pyramid-victory" class="persist input-field min-h-[80px] auto-resize" placeholder="O que será feito imediatamente?"></textarea>
+                            </div>
+                            <div>
+                                <label class="label-main">Insight da Sessão</label>
+                                <textarea id="pyramid-worthy" class="persist input-field min-h-[80px] auto-resize" placeholder="Por que valeu a pena desenhar esta pirâmide?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="no-print fixed bottom-0 left-0 w-full lg:bottom-8 lg:left-auto lg:right-8 lg:w-auto flex gap-3 p-4 lg:p-0 bg-white lg:bg-transparent border-t-4 border-black lg:border-t-0 z-50">
+                        <button onclick="PyramidTool.clearForm()" class="flex-1 lg:flex-none bg-white border-4 border-black p-3 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] transition-all flex items-center justify-center gap-2 group">
+                            <i class="fas fa-trash-alt text-red-500"></i>
+                            <span class="font-black text-xs uppercase">Limpar</span>
+                        </button>
+                        <button onclick="PyramidTool.print()" class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] transition-all flex items-center justify-center gap-2 group">
+                            <i class="fas fa-print text-lg text-black"></i>
+                            <span class="font-black text-xs uppercase">Imprimir relatório</span>
+                        </button>
+                    </div>
+                    
+                    <div class="h-28 lg:hidden"></div>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+        console.log('DEBUG: PyramidTool.load() HTML injected', container.innerHTML.length);
+        that.init();  // Inicializa auto-resize e data
+    },
+
     init: () => {
         const textareas = document.querySelectorAll('#view-pyramid .auto-resize');
         textareas.forEach(tx => {
@@ -172,6 +303,9 @@ const PyramidTool = {
 
         setTimeout(() => { window.print(); }, 500);
     }
-};
+    };
 
-document.addEventListener('DOMContentLoaded', PyramidTool.init);
+    document.addEventListener('DOMContentLoaded', function(){ if (window.PyramidTool && window.PyramidTool.init) window.PyramidTool.init(); });
+
+    return that;
+})();

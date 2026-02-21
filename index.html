@@ -1,49 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coaching Tools App | Master System</title>
-    
+
     <!-- Bibliotecas Externas -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <link href="style.css" rel="stylesheet"/>
-    <script src="app.js"></script>
-    <script src="clareza.js"></script>
-    <script src="valores.js"></script>
-    <script src="rota.js"></script>
-    <script src="swot.js"></script>
-    <script src="pyramid.js"></script>
+    <link href="style.css" rel="stylesheet" />
+    <script src="app.js" defer></script>
+    <script src="clareza.js" defer></script>
+    <script src="proposito.js" defer></script>
+    <script src="perdas_ganhos.js" defer></script>
+    <script src="ciclo_realidade.js" defer></script>
+    <script src="valores.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="rota.js" defer></script>
+    <script src="swot.js" defer></script>
+    <script src="pyramid.js" defer></script>
+    <script src="competencias.js" defer></script>
 </head>
+
 <body>
 
     <!-- NAVBAR -->
     <nav class="no-print bg-white border-b-4 border-black p-4 sticky top-0 z-50">
         <div class="max-w-5xl mx-auto flex justify-between items-center px-4">
             <div class="flex items-center gap-3 cursor-pointer" onclick="Navigation.view('home')">
-                <div class="w-10 h-10 bg-[#ffde59] border-4 border-black flex items-center justify-center font-black text-2xl shadow-[2px_2px_0px_0px_black]">C</div>
+                <div
+                    class="w-10 h-10 bg-[#ffde59] border-4 border-black flex items-center justify-center font-black text-2xl shadow-[2px_2px_0px_0px_black]">
+                    C</div>
                 <span class="font-black text-xl tracking-tighter uppercase italic">Coaching Tools</span>
             </div>
             <div class="flex gap-2">
                 <span class="nav-link active" id="link-home" onclick="Navigation.view('home')">Início</span>
-                <button onclick="Navigation.view('apoio')" class="font-black text-xs uppercase hover:underline nav-link active">Apoie este projeto</button>
+                <button onclick="Navigation.view('apoio')"
+                    class="font-black text-xs uppercase hover:underline nav-link active">Apoie este projeto</button>
             </div>
         </div>
     </nav>
 
     <div id="app-container" class="p-6 mt-4">
-        
+
         <!-- VIEW: HOME (Dashboard Centralizado) -->
         <section id="view-home" class="view text-center">
             <div class="mb-12 max-w-2xl mx-auto">
                 <h1 class="text-4xl md:text-5xl font-black uppercase leading-none mb-4">
                     Painel de <mark class="bg-[#ffde59] px-2">Ferramentas</mark>
                 </h1>
-                <p class="text-sm font-bold text-gray-600 uppercase tracking-widest mb-2">Seu Workspace de Alta Performance</p>
+                <p class="text-sm font-bold text-gray-600 uppercase tracking-widest mb-2">Seu Workspace de Alta
+                    Performance</p>
                 <p class="text-gray-500 font-medium">
-                    Aplicativo exclusivo para coaches realizarem sessões profissionais e organizadas, 
+                    Aplicativo exclusivo para coaches realizarem sessões profissionais e organizadas,
                     aplicando ferramentas estruturadas e gerando relatórios de impacto para seus coachees.
                 </p>
             </div>
@@ -52,29 +63,37 @@
                 <!-- Card 1 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de Clareza</span>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                            Clareza</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Clareza Plena</h3>
-                        <p class="text-sm text-gray-600 mt-2">Defina o objetivo do processo e os resultados da sessão.</p>
+                        <p class="text-sm text-gray-600 mt-2">Defina o objetivo do processo e os resultados da sessão.
+                        </p>
                     </div>
-                    <button onclick="Navigation.view('tool-clareza')" class="btn-main mt-6 w-full text-xs">Acessar</button>
+                    <button onclick="Navigation.view('tool-clareza')"
+                        class="btn-main mt-6 w-full text-xs">Acessar</button>
                 </div>
 
                 <!-- Card 2 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas Alinhamento</span>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas
+                            Alinhamento</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Valores</h3>
-                        <p class="text-sm text-gray-600 mt-2">Identifique o que realmente governa suas decisões e prioridades.</p>
+                        <p class="text-sm text-gray-600 mt-2">Identifique o que realmente governa suas decisões e
+                            prioridades.</p>
                     </div>
-                    <button onclick="Navigation.view('tool-valores')" class="btn-main mt-6 w-full text-xs">Acessar</button>
+                    <button onclick="Navigation.view('tool-valores')"
+                        class="btn-main mt-6 w-full text-xs">Acessar</button>
                 </div>
 
                 <!-- Card 3 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas Caminho</span>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas
+                            Caminho</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Rota da Jornada</h3>
-                        <p class="text-sm text-gray-600 mt-2">Identifique um caminho para a realização de seus sonhos e objetivos.</p>
+                        <p class="text-sm text-gray-600 mt-2">Identifique um caminho para a realização de seus sonhos e
+                            objetivos.</p>
                     </div>
                     <button onclick="Navigation.view('rota')" class="btn-main mt-6 w-full text-xs">Acessar</button>
                 </div>
@@ -82,591 +101,124 @@
                 <!-- Card 4 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas Forças e Fraquezas</span>
-                        <h3 class="text-2xl font-black mt-4 uppercase leading-tight">SWOT Pessoal</h3>
-                        <p class="text-sm text-gray-600 mt-2">Identifique as forças, fraquezas, oportunidades e ameaças.</p>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                            Propósito</span>
+                        <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Propósito Inabalável</h3>
+                        <p class="text-sm text-gray-600 mt-2">Identifique o que te move e defina sua missão inabalável.
+                        </p>
                     </div>
-                    <button onclick="Navigation.view('swot')" class="btn-main mt-6 w-full text-xs">Acessar</button>
+                    <button onclick="Navigation.view('tool-proposito')"
+                        class="btn-main mt-6 w-full text-xs">Acessar</button>
                 </div>
-                
+
                 <!-- Card 5 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de Consistência</span>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                            Decisão</span>
+                        <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Perdas e Ganhos</h3>
+                        <p class="text-sm text-gray-600 mt-2">Pese os ganhos e as perdas de suas decisões para agir com
+                            segurança.</p>
+                    </div>
+                    <button onclick="Navigation.view('tool-perdas-ganhos')"
+                        class="btn-main mt-6 w-full text-xs">Acessar</button>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
+                    <div>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas
+                            Forças e Fraquezas</span>
+                        <h3 class="text-2xl font-black mt-4 uppercase leading-tight">SWOT Pessoal</h3>
+                        <p class="text-sm text-gray-600 mt-2">Identifique as forças, fraquezas, oportunidades e ameaças.
+                        </p>
+                    </div>
+                    <button onclick="Navigation.view('swot')" class="btn-main mt-6 w-full text-xs">Acessar</button>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
+                    <div>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                            Consistência</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Pirâmide do sucesso</h3>
                         <p class="text-sm text-gray-600 mt-2">Detalhe as próximas atividades para as próximas metas.</p>
                     </div>
                     <button onclick="Navigation.view('pyramid')" class="btn-main mt-6 w-full text-xs">Acessar</button>
                 </div>
+
+                <!-- Card 8 -->
+                <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
+                    <div>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                            Consistência</span>
+                        <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Roda de competências</h3>
+                        <p class="text-sm text-gray-600 mt-2">Descubra quais são as competências mais importantes para
+                            você neste momento.</p>
+                    </div>
+                    <button onclick="Navigation.view('competencias')"
+                        class="btn-main mt-6 w-full text-xs">Acessar</button>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
+                    <div>
+                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                            Realidade</span>
+                        <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Ciclo da Realidade</h3>
+                        <p class="text-sm text-gray-600 mt-2">Mude sua percepção de mundo e modele o sucesso de quem já
+                            chegou lá.</p>
+                    </div>
+                    <button onclick="Navigation.view('tool-ciclo-realidade')"
+                        class="btn-main mt-6 w-full text-xs">Acessar</button>
+                </div>
             </div>
         </section>
 
-        <!-- VIEW: TOOL CLAREZA -->
-        <section id="view-tool-clareza" class="view hidden no-print">
-            <div class="mb-6 flex justify-between items-center border-b-2 border-black pb-4">
-                <div class="w-20"></div>
-                <div class="text-center">
-                    <h2 class="font-black uppercase text-xl">Clareza Plena</h2>
-                </div>
-                <div class="w-20"></div>
-            </div>
-
-            <div class="no-print mb-8">
-                <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
-                    <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
-                        <span class="flex items-center gap-3">
-                            <i class="fas fa-chalkboard-teacher text-[#ffde59]"></i>
-                            Roteiro e Orientações de Aplicação
-                        </span>
-                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    
-                    <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed">
-                        <div class="space-y-4 text-gray-800">
-                            <p><strong>Objetivo:</strong> Trazer clareza absoluta sobre o estado atual e o destino desejado, alinhando a identidade do coachee ao processo.</p>
-                            
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div class="bg-white p-3 border-2 border-black">
-                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Dicas de Condução:</h4>
-                                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                                        <li><strong>EPP:</strong> Foque na vitória da semana anterior para gerar dopamina.</li>
-                                        <li><strong>Fotografia:</strong> Peça para descrever com detalhes sensoriais (o que vê, ouve e sente).</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-white p-3 border-2 border-black">
-                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Perguntas Poderosas:</h4>
-                                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                                        <li>"O que te impede de desistir?"</li>
-                                        <li>"Quem você se torna quando alcança isso?"</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-            </div>
-
-            <div class="bc-card p-8 bg-white mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
-                        <input type="text" id="cp-name" class="persist input-field" placeholder="Nome do cliente">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Data</label>
-                        <input type="date" id="cp-date" class="persist input-field">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
-                        <input type="text" id="cp-coach" class="persist input-field" placeholder="Nome do coach">
-                    </div>
-                </div>
-                
-                <div class="space-y-12">
-                    <!-- Perguntas -->
-                    <div class="print-block">
-                        <label class="label-main">Resultado esperado</label>
-                        <label class="label-reference">O que você veio buscar aqui? O que traz você aqui na minha frente?</label>
-                        <textarea id="cp-actual" class="persist input-field min-h-[120px] auto-resize" placeholder="Resposta do coachee..."></textarea>
-                    </div>
-
-                    <div class="print-block">
-                        <label class="label-main">Resultado esperado do processo</label>
-                        <label class="label-reference">Sabendo que o processo de coaching dura aproximadamente 10 sessões, o que vai fazer o processo de coaching ter sido surreal?</label>
-                        <textarea id="cp-desired" class="persist input-field min-h-[120px] auto-resize" placeholder="Resposta do coachee..."></textarea>
-                    </div>
-
-                    <div class="print-block">
-                        <label class="label-main">Fotografia</label>
-                        <label class="label-reference">Quando isso acontecer, se você pudesse bater uma foto de um momento que simboliza essa conquista, qual seria o momento?</label>
-                        <textarea id="cp-picture" class="persist input-field min-h-[120px] auto-resize" placeholder="Resposta do coachee..."></textarea>
-                    </div>
-
-                    <div class="print-block">
-                        <label class="label-main">Propósito Inabalável</label>
-                        <label class="label-reference">Por que isso é importante pra você? Quem vai ter orgulho de você?</label>
-                        <textarea id="cp-purpose" class="persist input-field min-h-[120px] auto-resize" placeholder="Resposta do coachee..."></textarea>
-                    </div>
-
-                    <!-- Pergunta 5 Sintetizada -->
-                    <div class="p-6 bg-gray-50 border-4 border-black border-dashed print-block">
-                        <label class="label-main mb-6 break-words-mobile">Comprometimento e Autorresponsabilidade</label>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div>
-                                <label class="text-[10px] font-black uppercase text-gray-500 block mb-2">Quem é responsável?</label>
-                                <input type="text" id="cp-resp-who" class="persist input-field bg-white py-2" placeholder="Ex: Eu mesmo.">
-                            </div>
-
-                            <div>
-                                <label class="text-[10px] font-black uppercase text-gray-500 block mb-2">Nível de responsabilidade (0-100%)</label>
-                                <div class="flex items-center gap-3">
-                                    <input type="range" id="cp-resp-level" min="0" max="100" value="100" class="persist range-slider" oninput="document.getElementById('resp-val').innerText = this.value + '%'">
-                                    <span id="resp-val" class="text-xl font-black font-mono w-16">100%</span>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="text-[10px] font-black uppercase text-gray-500 block mb-2">Comprometimento (1 a 5)</label>
-                                <div class="grid grid-cols-5 gap-1 commit-group">
-                                    <label><input type="radio" name="commit" value="1" class="persist persist-radio"><div class="commit-label">1</div></label>
-                                    <label><input type="radio" name="commit" value="2" class="persist persist-radio"><div class="commit-label">2</div></label>
-                                    <label><input type="radio" name="commit" value="3" class="persist persist-radio"><div class="commit-label">3</div></label>
-                                    <label><input type="radio" name="commit" value="4" class="persist persist-radio"><div class="commit-label">4</div></label>
-                                    <label><input type="radio" name="commit" value="5" class="persist persist-radio" checked><div class="commit-label">5</div></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="print-block">
-                        <label class="label-main">Pequena vitória</label>
-                        <label class="label-reference">O que seria um pequeno passo para começar hoje mesmo?</label>
-                        <textarea id="cp-epp" class="persist input-field min-h-[120px] auto-resize" placeholder="Resposta do coachee..."></textarea>
-                    </div>
-
-                    <div class="print-block">
-                        <label class="label-main">Por que valeu a pena</label>
-                        <label class="label-reference">Por que valeu demais essa sessão pra você?</label>
-                        <textarea id="cp-worthy" class="persist input-field min-h-[120px] auto-resize" placeholder="Resposta do coachee..."></textarea>
-                    </div>
-                </div>
-
-                <div class="no-print fixed bottom-0 left-0 w-full lg:bottom-8 lg:left-auto lg:right-8 lg:w-auto flex gap-3 p-4 lg:p-0 bg-white lg:bg-transparent border-t-4 border-black lg:border-t-0 z-50">
-    
-                    <button onclick="ClarezaTool.clearForm()" 
-                            class="flex-1 lg:flex-none bg-white border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-trash-alt text-red-500 group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Limpar</span>
-                    </button>
-                    
-                    <button onclick="ClarezaTool.print()" 
-                            class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-print text-lg text-black group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Imprimir Relatório</span>
-                    </button>
-                </div>
-
-                <div class="h-28 lg:hidden"></div>
-            </div>
+        <!-- VIEW: TOOL CLAREZA (HTML renderizado por clareza.js) -->
+        <section id="view-tool-clareza" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por ClarezaTool.load() -->
         </section>
 
-        <!-- VALORES TOOL -->
-        <section id="view-tool-valores" class="view hidden">
-            <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
-                <div class="w-20"></div>
-                <h2 class="font-black uppercase text-2xl">Ferramenta de Valores</h2>
-                <div class="w-20"></div>
-            </div>
-
-            <div class="no-print mb-8">
-                <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
-                    <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
-                        <span class="flex items-center gap-3">
-                            <i class="fas fa-gem text-[#ffde59]"></i>
-                            Roteiro e Orientações: Hierarquia de Valores
-                        </span>
-                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    
-                    <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed">
-                        <div class="space-y-4 text-gray-800">
-                            <p><strong>Objetivo:</strong> Identificar os motivadores internos que guiam as decisões e comportamentos do coachee.</p>
-                            
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div class="bg-white p-3 border-2 border-black">
-                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Como Aplicar:</h4>
-                                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                                        <li><strong>Brainstorming:</strong> Peça para o coachee listar tudo o que é importante na vida dele (mínimo 10).</li>
-                                        <li><strong>Triagem:</strong> Use o Drag & Drop para mover os mais importantes para a coluna do meio.</li>
-                                        <li><strong>Hierarquia:</strong> No topo da última coluna, devem estar os valores inegociáveis.</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-white p-3 border-2 border-black">
-                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Perguntas de Refinamento:</h4>
-                                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                                        <li>"Se você tivesse que escolher entre [Valor A] e [Valor B], qual manteria?"</li>
-                                        <li>"Como esse valor se manifesta nas suas decisões diárias?"</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-            </div>
-
-            <div class="bc-card p-8 mb-10">
-                <!-- Cabeçalho -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
-                        <input type="text" id="val-name" class="persist input-field" placeholder="Nome">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Data</label>
-                        <input type="date" id="val-date" class="persist input-field">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
-                        <input type="text" id="val-coach" class="persist input-field" placeholder="Nome">
-                    </div>
-                </div>
-
-                <!-- Parte 1: Triagem -->
-                <div class="mb-12">
-                    <h3 class="label-main">1. Triagem de Valores</h3>
-                    <p class="label-reference">Selecione os valores no banco abaixo e arraste-os para a categoria que faz sentido agora.</p>
-                    
-                    <div class="mb-8">
-                        <div class="flex flex-col md:flex-row justify-between items-end gap-4 mb-2">
-                            <span class="text-[10px] font-black uppercase px-2 py-1 bg-gray-800 text-white w-fit">Banco de Valores</span>
-                            <div class="flex gap-2 w-full md:w-auto">
-                                <input type="text" id="new-value-input" class="text-xs border-2 border-black p-1 uppercase font-bold outline-none" placeholder="Novo valor...">
-                                <button onclick="ValoresTool.addNewValue()" class="bg-black text-white px-3 py-1 text-[10px] font-black uppercase hover:bg-gray-800">Adicionar</button>
-                            </div>
-                        </div>
-                        <div id="pool-values" class="drop-zone w-full min-h-[120px] bg-gray-100 p-4 rounded" ondragover="ValoresTool.allowDrop(event)" ondragenter="ValoresTool.dragEnter(event)" ondragleave="ValoresTool.dragLeave(event)" ondrop="ValoresTool.drop(event)"></div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                        <div class="flex flex-col gap-2">
-                            <span class="text-[10px] font-black uppercase text-center bg-red-500 text-white py-1">Nada a ver</span>
-                            <div id="col-nada" class="drop-zone flex-1 min-h-[200px]" ondragover="ValoresTool.allowDrop(event)" ondragenter="ValoresTool.dragEnter(event)" ondragleave="ValoresTool.dragLeave(event)" ondrop="ValoresTool.drop(event)"></div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <span class="text-[10px] font-black uppercase text-center bg-blue-500 text-white py-1">Às vezes</span>
-                            <div id="col-asvezes" class="drop-zone flex-1 min-h-[200px]" ondragover="ValoresTool.allowDrop(event)" ondragenter="ValoresTool.dragEnter(event)" ondragleave="ValoresTool.dragLeave(event)" ondrop="ValoresTool.drop(event)"></div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <span class="text-[10px] font-black uppercase text-center bg-green-500 text-white py-1">Tudo a ver</span>
-                            <div id="col-tudo" class="drop-zone flex-1 min-h-[200px]" ondragover="ValoresTool.allowDrop(event)" ondragenter="ValoresTool.dragEnter(event)" ondragleave="ValoresTool.dragLeave(event)" ondrop="ValoresTool.drop(event)"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Parte 2: TOP 5 -->
-                <div class="mb-12 pt-8 border-t-4 border-black border-dashed">
-                    <h3 class="label-main">2. O seu TOP 5 (Priorização)</h3>
-                    <p class="label-reference">Arraste e <b>reordene</b> para definir a hierarquia (do 1º ao 5º).</p>
-                    <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mt-6">
-                        <!--<div class="flex flex-col gap-2">
-                            <span class="text-[10px] font-black uppercase text-center bg-gray-200 py-1">Filtro de Candidatos</span>
-                            <div id="pool-top5" class="drop-zone min-h-[250px]" ondragover="ValoresTool.allowDrop(event)" ondragenter="ValoresTool.dragEnter(event)" ondragleave="ValoresTool.dragLeave(event)" ondrop="ValoresTool.drop(event)"></div>
-                        </div>-->
-                        <div class="flex flex-col gap-2">
-                            <span class="text-[10px] font-black uppercase text-center bg-yellow-400 py-1 border-2 border-black">RANKING FINAL (1º ao 5º)</span>
-                            <div id="col-top5" class="drop-zone min-h-[250px] border-4 border-yellow-400" ondragover="ValoresTool.allowDrop(event)" ondragenter="ValoresTool.dragEnter(event)" ondragleave="ValoresTool.dragLeave(event)" ondrop="ValoresTool.drop(event)"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conclusão -->
-                <div class="space-y-8 mt-12 pt-8 border-t-2 border-black">
-                    <div>
-                        <label class="label-main">Pequena vitória</label>
-                        <label class="label-reference">Que passo você vai realizar até nossa próxima sessão rumo ao seu objetivo?</label>
-                        <textarea id="val-victory" class="persist input-field min-h-[80px] auto-resize" placeholder="Um passo prático hoje..."></textarea>
-                    </div>
-                    <div>
-                        <label class="label-main">Por que valeu a pena?</label>
-                        <label class="label-reference">Por que valeu demais essa sessão pra você?</label>
-                        <textarea id="val-worthy" class="persist input-field min-h-[80px] auto-resize" placeholder="O que descobriu hoje..."></textarea>
-                    </div>
-                </div>
-
-                <div class="no-print fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] md:w-auto md:left-auto md:right-8 md:translate-x-0 flex gap-2 z-50">
-    
-                    <button onclick="ValoresTool.clearForm()" 
-                            class="flex-1 lg:flex-none bg-white border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-trash-alt text-red-500 group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Limpar</span>
-                    </button>
-                    
-                    <button onclick="ValoresTool.print()" 
-                            class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-print text-lg text-black group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Imprimir Relatório</span>
-                    </button>
-                </div>
-
-                <div class="h-28 md:hidden"></div>
-            </div>
+        <!-- VALORES TOOL (HTML renderizado por valores.js) -->
+        <section id="view-tool-valores" class="view hidden p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por ValoresTool.load() -->
         </section>
 
-        <!-- ROTA DA JORNADA TOOL -->
+        <!-- PROPÓSITO INABALÁVEL TOOL (HTML renderizado por proposito.js) -->
+        <section id="view-tool-proposito" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por PropositoTool.load() -->
+        </section>
+
+        <!-- PERDAS E GANHOS TOOL (HTML renderizado por perdas_ganhos.js) -->
+        <section id="view-tool-perdas-ganhos" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por PerdasGanhosTool.load() -->
+        </section>
+
+        <!-- CICLO DA REALIDADE TOOL (HTML renderizado por ciclo_realidade.js) -->
+        <section id="view-tool-ciclo-realidade" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por CicloRealidadeTool.load() -->
+        </section>
+
+        <!-- ROTA DA JORNADA TOOL (conteúdo injetado por rota.js) -->
         <section id="view-rota" class="view hidden p-4 md:p-8 animate-in fade-in duration-500">
-            <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
-                <div class="w-20"></div>
-                <h2 class="font-black uppercase text-2xl">Ferramenta Rota da Jornada</h2>
-                <div class="w-20"></div>
-            </div>
-
-            <div class="no-print mb-8">
-                <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
-                    <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
-                        <span class="flex items-center gap-3">
-                            <i class="fas fa-gem text-[#ffde59]"></i>
-                            Roteiro e Orientações: Rota da Jornada
-                        </span>
-                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    
-                    <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed">
-                    <div class="space-y-4 text-gray-800">
-                        <p><strong>Objetivo:</strong> Mapear de forma reversa os marcos críticos (milestones) necessários para transformar a Fotografia de Sucesso em realidade, saindo do estado futuro até o momento presente.</p>
-                        
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_black]">
-                                <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Como Aplicar:</h4>
-                                <ul class="list-disc pl-4 space-y-1 text-xs">
-                                    <li><strong>Destino:</strong> Comece reforçando o Objetivo Final e a Fotografia definidos na sessão de Clareza Plena.</li>
-                                    <li><strong>Engenharia Reversa:</strong> Pergunte: "Para que isso aconteça, o que deve ter ocorrido imediatamente antes?".</li>
-                                    <li><strong>Critérios SMART:</strong> Cada marco (post-it) deve ser Específico, Mensurável, Atingível, Relevante e com Prazo.</li>
-                                    <li><strong>Atalhos:</strong> Use <strong>TAB</strong> para criar novos marcos rapidamente e <strong>Backspace</strong> em campos vazios para remover.</li>
-                                </ul>
-                            </div>
-                            <div class="bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_black]">
-                                <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Perguntas de Provocação:</h4>
-                                <ul class="list-disc pl-4 space-y-1 text-xs">
-                                    <li>"O que é estritamente necessário acontecer para que este marco seja alcançado?"</li>
-                                    <li>"Olhando para este caminho, onde estão os maiores riscos de interrupção?"</li>
-                                    <li>"Qual desses marcos, se alcançado, tornaria todos os outros mais fáceis?"</li>
-                                    <li>"O que você pode fazer nas próximas 24h que inicia essa rota?"</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    
-                </details>
-            </div>
-
-            <div class="bc-card p-8 mb-10">
-                <!-- Cabeçalho -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
-                        <input type="text" id="rota-name" class="persist input-field" placeholder="Nome">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Data</label>
-                        <input type="date" id="rota-date" class="persist input-field">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
-                        <input type="text" id="rota-coach" class="persist input-field" placeholder="Nome">
-                    </div>
-                </div>
-
-                <div class="relative py-10 mt-4">
-                    <div class="absolute left-1/2 top-0 bottom-0 w-2 bg-black -translate-x-1/2 hidden md:block"></div>
-
-                    <div class="relative z-10 flex flex-col gap-8">
-                        
-                        <div class="flex flex-col md:flex-row items-center gap-4">
-                            <div class="flex-1 text-right hidden md:block">
-                                <span class="font-black text-sm uppercase text-red-600">Onde quero chegar</span>
-                            </div>
-                            <div class="w-16 h-16 bg-[#ffde59] border-4 border-black flex items-center justify-center rounded-full shadow-[4px_4px_0px_0px_black] z-20">
-                                <i class="fas fa-flag-checkered text-2xl"></i>
-                            </div>
-                            <div class="flex-1 w-full bg-white border-4 border-black p-6 shadow-[6px_6px_0px_0px_black]">
-                                <label class="font-black uppercase text-xs mb-2 block">Destino Final (Objetivo & Fotografia)</label>
-                                <textarea id="rota-destiny" class="persist input-field bg-transparent border-none p-0 focus:ring-0 font-bold text-lg auto-resize" placeholder="Descreva aqui o objetivo SMART e a fotografia de sucesso..."></textarea>
-                            </div>
-                        </div>
-
-                        <div id="list-marcos" class="space-y-8">
-                            </div>
-
-                        <div class="flex justify-center my-4">
-                            <button onclick="RotaTool.addMarco()" class="bg-black text-white px-6 py-3 border-4 border-black font-black uppercase text-sm hover:bg-white hover:text-black transition-all shadow-[4px_4px_0px_0px_#ffde59] active:translate-y-1 active:shadow-none">
-                                <i class="fas fa-plus mr-2"></i> Inserir Marco SMART
-                            </button>
-                        </div>
-
-                        <div class="flex flex-col md:flex-row items-center gap-4 pt-4">
-                            <div class="flex-1 text-right hidden md:block">
-                                <span class="font-black text-sm uppercase">Ponto de Partida</span>
-                            </div>
-                            <div class="w-12 h-12 bg-black border-4 border-black text-white flex items-center justify-center rounded-full z-20">
-                                <i class="fas fa-walking"></i>
-                            </div>
-                            <div class="flex-1 w-full bg-gray-100 border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
-                                <p class="font-black uppercase text-sm">Estado Atual (Hoje)</p>
-                                <p class="text-xs font-bold text-gray-500 italic uppercase">O caminho começa aqui.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Conclusão -->
-                <div class="space-y-8 mt-12 pt-8 border-t-2 border-black">
-                    <div>
-                        <label class="label-main">Pequena vitória</label>
-                        <label class="label-reference">Que passo você vai realizar até nossa próxima sessão rumo ao seu objetivo?</label>
-                        <textarea id="rota-victory" class="persist input-field min-h-[80px] auto-resize" placeholder="Um passo prático hoje..."></textarea>
-                    </div>
-                    <div>
-                        <label class="label-main">Por que valeu a pena?</label>
-                        <label class="label-reference">Por que valeu demais essa sessão pra você?</label>
-                        <textarea id="rota-worthy" class="persist input-field min-h-[80px] auto-resize" placeholder="O que descobriu hoje..."></textarea>
-                    </div>
-                </div>
-
-                <div class="no-print fixed bottom-0 left-0 w-full lg:bottom-8 lg:left-auto lg:right-8 lg:w-auto flex gap-3 p-4 lg:p-0 bg-white lg:bg-transparent border-t-4 border-black lg:border-t-0 z-50">
-                    <button onclick="RotaTool.clearForm()" class="flex-1 lg:flex-none bg-white border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-trash-alt text-red-500 group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Limpar</span>
-                    </button>
-                    <button onclick="RotaTool.print()" class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-print text-lg text-black group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Imprimir Relatório</span>
-                    </button>
-                </div>
-                <div class="h-28 lg:hidden"></div>
-
-            </div>
+            <!-- content renderizado por RotaTool.load() -->
         </section>
 
-        <!-- MATRIZ SWOT -->
+        <!-- SWOT TOOL (HTML renderizado por swot.js) -->
         <section id="view-swot" class="view hidden p-4 md:p-8 animate-in fade-in duration-500">
-            <div class="flex flex-col gap-6">
-                
-                <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
-                    <div class="w-20"></div>
-                    <h2 class="font-black uppercase text-2xl text-center">Matriz SWOT Pessoal</h2>
-                    <div class="w-20"></div>
-                </div>
+            <!-- content renderizado por SWOTTool.load() -->
+        </section>
 
-                <div class="no-print mb-8">
-                    <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
-                        <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
-                            <span class="flex items-center gap-3">
-                                <i class="fas fa-search text-[#ffde59]"></i>
-                                Roteiro e Orientações: Análise SWOT
-                            </span>
-                            <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
-                        </summary>
-                        <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed">
-                            <p><strong>Objetivo:</strong> Avaliar forças e fraquezas (interno) e oportunidades e ameaças (externo) para embasar decisões estratégicas.</p>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div class="bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_black]">
-                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Fatores Internos:</h4>
-                                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                                        <li><strong>Forças:</strong> O que você faz bem? Quais seus talentos únicos?</li>
-                                        <li><strong>Fraquezas:</strong> Onde você falha? O que te impede de avançar?</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_black]">
-                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Fatores Externos:</h4>
-                                    <ul class="list-disc pl-4 space-y-1 text-xs">
-                                        <li><strong>Oportunidades:</strong> Quais tendências ou contatos podem te ajudar?</li>
-                                        <li><strong>Ameaças:</strong> Quais obstáculos externos ou concorrentes existem?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="bg-[#ffde59] border-2 border-black p-3 mb-4">
-                                <p class="text-xs font-black uppercase"><i class="fas fa-lightbulb mr-2"></i> Dica de Ouro:</p>
-                                <p class="text-xs">Para uma análise mais profunda, preencha a matriz no <strong>sentido horário</strong> (Forças → Fraquezas → Ameaças → Oportunidades). Isso ajuda a confrontar seus pontos de melhoria com os riscos externos antes de visualizar as soluções.</p>
-                            </div>
-                        </div>
-                    </details>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
-                        <input type="text" id="swot-name" class="persist input-field" placeholder="Nome do cliente">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Data</label>
-                        <input type="date" id="swot-date" class="persist input-field">
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
-                        <input type="text" id="swot-coach" class="persist input-field" placeholder="Nome do coach">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-    
-                    <div class="bc-card p-0 overflow-hidden border-4 border-black shadow-[8px_8px_0px_0px_#4ade80] relative">
-                        <div class="absolute top-2 right-2 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-black text-[10px] z-10">1</div>
-                        <div class="bg-[#4ade80] p-3 border-b-4 border-black flex items-center gap-2">
-                            <i class="fas fa-dumbbell"></i><span class="font-black uppercase text-sm">Forças (Interno)</span>
-                        </div>
-                        <textarea id="swot-strengths" tabindex="1" class="persist w-full p-4 min-h-[200px] bg-white border-none focus:ring-0 font-bold text-sm" placeholder="O que você faz bem?"></textarea>
-                    </div>
-
-                    <div class="bc-card p-0 overflow-hidden border-4 border-black shadow-[8px_8px_0px_0px_#f87171] relative">
-                        <div class="absolute top-2 right-2 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-black text-[10px] z-10">2</div>
-                        <div class="bg-[#f87171] p-3 border-b-4 border-black flex items-center gap-2">
-                            <i class="fas fa-exclamation-triangle"></i><span class="font-black uppercase text-sm">Fraquezas (Interno)</span>
-                        </div>
-                        <textarea id="swot-weaknesses" tabindex="2" class="persist w-full p-4 min-h-[200px] bg-white border-none focus:ring-0 font-bold text-sm" placeholder="O que precisa melhorar?"></textarea>
-                    </div>
-
-                    <div class="bc-card p-0 overflow-hidden border-4 border-black shadow-[8px_8px_0px_0px_#60a5fa] relative">
-                        <div class="absolute top-2 right-2 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-black text-[10px] z-10">4</div>
-                        <div class="bg-[#60a5fa] p-3 border-b-4 border-black flex items-center gap-2">
-                            <i class="fas fa-chart-line"></i><span class="font-black uppercase text-sm">Oportunidades (Externo)</span>
-                        </div>
-                        <textarea id="swot-opportunities" tabindex="4" class="persist w-full p-4 min-h-[200px] bg-white border-none focus:ring-0 font-bold text-sm" placeholder="Quais caminhos estão abertos?"></textarea>
-                    </div>
-
-                    <div class="bc-card p-0 overflow-hidden border-4 border-black shadow-[8px_8px_0px_0px_#fb923c] relative">
-                        <div class="absolute top-2 right-2 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center font-black text-[10px] z-10">3</div>
-                        <div class="bg-[#fb923c] p-3 border-b-4 border-black flex items-center gap-2">
-                            <i class="fas fa-shield-alt"></i><span class="font-black uppercase text-sm">Ameaças (Externo)</span>
-                        </div>
-                        <textarea id="swot-threats" tabindex="3" class="persist w-full p-4 min-h-[200px] bg-white border-none focus:ring-0 font-bold text-sm" placeholder="Quais riscos externos existem?"></textarea>
-                    </div>
-                </div>
-
-                <div class="bc-card p-6 border-4 border-black bg-white shadow-[6px_6px_0px_0px_black]">
-                    <label class="label-main flex items-center gap-2">
-                        <span class="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-[10px]">5</span>
-                        Plano de Ação (Cruzamento SWOT)
-                    </label>
-                    <textarea id="swot-action" tabindex="5" class="persist input-field min-h-[120px]" placeholder="Como usar suas forças para aproveitar as oportunidades e mitigar as ameaças?"></textarea>
-                </div>
-            </div>
-
-            <!-- Conclusão -->
-                <div class="space-y-8 mt-12 pt-8 border-t-2 border-black">
-                    <div>
-                        <label class="label-main">Pequena vitória</label>
-                        <label class="label-reference">Que passo você vai realizar até nossa próxima sessão rumo ao seu objetivo?</label>
-                        <textarea id="swot-victory" class="persist input-field min-h-[80px] auto-resize" placeholder="Um passo prático hoje..."></textarea>
-                    </div>
-                    <div>
-                        <label class="label-main">Por que valeu a pena?</label>
-                        <label class="label-reference">Por que valeu demais essa sessão pra você?</label>
-                        <textarea id="swot-worthy" class="persist input-field min-h-[80px] auto-resize" placeholder="O que descobriu hoje..."></textarea>
-                    </div>
-                </div>
-
-                <div class="no-print fixed bottom-0 left-0 w-full lg:bottom-8 lg:left-auto lg:right-8 lg:w-auto flex gap-3 p-4 lg:p-0 bg-white lg:bg-transparent border-t-4 border-black lg:border-t-0 z-50">
-                    <button onclick="SWOTTool.clearForm()" class="flex-1 lg:flex-none bg-white border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-trash-alt text-red-500 group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Limpar</span>
-                    </button>
-                    <button onclick="SWOTTool.print()" class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
-                        <i class="fas fa-print text-lg text-black group-active:scale-90 transition-transform"></i>
-                        <span class="font-black text-xs uppercase text-black">Imprimir Relatório</span>
-                    </button>
-                </div>
-                <div class="h-28 lg:hidden"></div>
-
-            </div>
+        <!-- COMPETÊNCIAS TOOL (HTML renderizado por competencias.js) -->
+        <section id="view-competencias" class="view hidden p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por CompetenciasTool.load() -->
         </section>
 
         <!-- PIRÂMIDE DO SUCESSO -->
         <section id="view-pyramid" class="view hidden no-print">
             <div class="max-w-5xl mx-auto">
-                
+
                 <div class="mb-6 flex justify-between items-center border-b-2 border-black pb-4">
                     <div class="w-20"></div>
                     <div class="text-center">
@@ -676,155 +228,27 @@
                 </div>
 
                 <div class="no-print mb-8">
-                    <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
-                        <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
+                    <details
+                        class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
+                        <summary
+                            class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
                             <span class="flex items-center gap-3">
-                                <i class="fas fa-layer-group text-[#ffde59]"></i>
-                                Roteiro e Orientações (Atividades SMART)
-                            </span>
-                            <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
-                        </summary>
-                        <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed text-gray-800">
-                            <p><strong>Atenção:</strong> Ao definir as atividades na base da pirâmide, certifique-se de que elas respondam: <em>O que exatamente será feito? Como será medido? Qual o prazo?</em></p>
-                        </div>
-                    </details>
+
+                                <div class="border-2 border-black p-4 bg-white font-bold text-sm">
+                                    <i class="fas fa-tools mr-2 text-[#ffde59]"></i> Manutenção do Sistema
+                                </div>
+                                <div class="border-2 border-black p-4 bg-white font-bold text-sm">
+                                    <i class="fas fa-lightbulb mr-2 text-[#ffde59]"></i> Novas Ferramentas
+                                </div>
                 </div>
 
-                <div class="bc-card p-6 md:p-10 bg-white mb-8">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                        <div>
-                            <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
-                            <input type="text" id="pyramid-name" class="persist input-field" placeholder="Nome do cliente">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black uppercase block mb-1">Data</label>
-                            <input type="date" id="pyramid-date" class="persist input-field">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
-                            <input type="text" id="pyramid-coach" class="persist input-field" placeholder="Nome do coach">
-                        </div>
-                    </div>
-
-                    <div class="space-y-12">
-                        
-                        <div class="flex justify-center">
-                            <div class="w-full max-w-lg bg-[#ffde59] border-4 border-black p-6 shadow-[8px_8px_0px_0px_black] text-center">
-                                <label class="label-main !mb-2 uppercase">Objetivo Principal do Processo</label>
-                                <textarea id="pyramid-goal" class="persist w-full bg-transparent border-none focus:ring-0 font-black text-center uppercase placeholder:text-black/30 auto-resize" placeholder="QUAL O RESULTADO FINAL ESPERADO?"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            
-                            <div class="flex flex-col gap-4">
-                                <div class="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
-                                    <label class="text-[9px] font-black uppercase text-blue-600 block mb-1 italic">Sub-Meta 01</label>
-                                    <textarea id="pyramid-sub-1" class="persist w-full bg-transparent border-none focus:ring-0 font-bold text-sm min-h-[50px] p-0 auto-resize" placeholder="Defina o marco..."></textarea>
-                                </div>
-                                <div class="space-y-3 pl-4 border-l-4 border-blue-600">
-                                    <textarea id="pyramid-a1-1" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 1.1 (O que/Prazo)"></textarea>
-                                    <textarea id="pyramid-a1-2" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 1.2 (O que/Prazo)"></textarea>
-                                    <textarea id="pyramid-a1-3" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 1.3 (O que/Prazo)"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col gap-4">
-                                <div class="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
-                                    <label class="text-[9px] font-black uppercase text-green-600 block mb-1 italic">Sub-Meta 02</label>
-                                    <textarea id="pyramid-sub-2" class="persist w-full bg-transparent border-none focus:ring-0 font-bold text-sm min-h-[50px] p-0 auto-resize" placeholder="Defina o marco..."></textarea>
-                                </div>
-                                <div class="space-y-3 pl-4 border-l-4 border-green-600">
-                                    <textarea id="pyramid-a2-1" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 2.1 (O que/Prazo)"></textarea>
-                                    <textarea id="pyramid-a2-2" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 2.2 (O que/Prazo)"></textarea>
-                                    <textarea id="pyramid-a2-3" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 2.3 (O que/Prazo)"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col gap-4">
-                                <div class="bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
-                                    <label class="text-[9px] font-black uppercase text-purple-600 block mb-1 italic">Sub-Meta 03</label>
-                                    <textarea id="pyramid-sub-3" class="persist w-full bg-transparent border-none focus:ring-0 font-bold text-sm min-h-[50px] p-0 auto-resize" placeholder="Defina o marco..."></textarea>
-                                </div>
-                                <div class="space-y-3 pl-4 border-l-4 border-purple-600">
-                                    <textarea id="pyramid-a3-1" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 3.1 (O que/Prazo)"></textarea>
-                                    <textarea id="pyramid-a3-2" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 3.2 (O que/Prazo)"></textarea>
-                                    <textarea id="pyramid-a3-3" class="persist input-field text-xs auto-resize py-2" placeholder="Atividade 3.3 (O que/Prazo)"></textarea>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="space-y-8 pt-10 border-t-4 border-black border-dashed">
-                            <div>
-                                <label class="label-main">Pequena vitória (Próximas 24h)</label>
-                                <textarea id="pyramid-victory" class="persist input-field min-h-[80px] auto-resize" placeholder="O que será feito imediatamente?"></textarea>
-                            </div>
-                            <div>
-                                <label class="label-main">Insight da Sessão</label>
-                                <textarea id="pyramid-worthy" class="persist input-field min-h-[80px] auto-resize" placeholder="Por que valeu a pena desenhar esta pirâmide?"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="no-print fixed bottom-0 left-0 w-full lg:bottom-8 lg:left-auto lg:right-8 lg:w-auto flex gap-3 p-4 lg:p-0 bg-white lg:bg-transparent border-t-4 border-black lg:border-t-0 z-50">
-                        <button onclick="PyramidTool.clearForm()" class="flex-1 lg:flex-none bg-white border-4 border-black p-3 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] transition-all flex items-center justify-center gap-2 group">
-                            <i class="fas fa-trash-alt text-red-500"></i>
-                            <span class="font-black text-xs uppercase">Limpar</span>
-                        </button>
-                        <button onclick="PyramidTool.print()" class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] transition-all flex items-center justify-center gap-2 group">
-                            <i class="fas fa-print text-lg text-black"></i>
-                            <span class="font-black text-xs uppercase">Imprimir relatório</span>
-                        </button>
-                    </div>
-                    
-                    <div class="h-28 lg:hidden"></div>
-                </div>
+                <button onclick="Navigation.view('home')"
+                    class="mt-10 text-xs font-black uppercase underline decoration-4 decoration-[#ffde59] hover:text-gray-600">
+                    Voltar para o Início
+                </button>
             </div>
-        </section>
-
-        <!-- APOIO AO PROJETO -->
-        <section id="view-apoio" class="view hidden p-4 animate-in fade-in duration-500">
-            <div class="max-w-2xl mx-auto mt-10">
-                <div class="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_black] text-center">
-                    <div class="w-20 h-20 bg-[#ffde59] border-4 border-black rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-coffee text-3xl"></i>
-                    </div>
-                    
-                    <h2 class="text-3xl font-black uppercase mb-4">Me pague um café! ☕</h2>
-                    
-                    <p class="text-gray-700 font-medium mb-8 leading-relaxed">
-                        Estas ferramentas foram criadas para ajudar Coaches e Mentores a entregarem resultados de alto nível. 
-                        Se essas ferramentas facilitam o seu dia a dia, considere fazer uma contribuição para incentivar a criação de novos recursos!
-                    </p>
-
-                    <div class="bg-[#f9f9f7] border-4 border-black p-6 mb-8 relative">
-                        <span class="absolute -top-4 left-4 bg-black text-white px-3 py-1 font-black text-xs uppercase italic">
-                            Chave PIX
-                        </span>
-                        <div class="flex flex-col items-center gap-4">
-                            <p id="pix-key" class="text-xl font-black break-all selection:bg-[#ffde59]">mentalcoachingappbrasil@gmail.com</p>
-                            <button onclick="copyPix()" class="bg-[#ffde59] border-4 border-black px-6 py-2 font-black uppercase text-sm shadow-[4px_4px_0px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
-                                <i class="fas fa-copy mr-2"></i> Copiar Chave
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                        <div class="border-2 border-black p-4 bg-white font-bold text-sm">
-                            <i class="fas fa-tools mr-2 text-[#ffde59]"></i> Manutenção do Sistema
-                        </div>
-                        <div class="border-2 border-black p-4 bg-white font-bold text-sm">
-                            <i class="fas fa-lightbulb mr-2 text-[#ffde59]"></i> Novas Ferramentas
-                        </div>
-                    </div>
-                    
-                    <button onclick="Navigation.view('home')" class="mt-10 text-xs font-black uppercase underline decoration-4 decoration-[#ffde59] hover:text-gray-600">
-                        Voltar para o Início
-                    </button>
-                </div>
-            </div>
-        </section>
+    </div>
+    </section>
 
 
     </div>
@@ -833,4 +257,5 @@
     <div id="print-area" class="print-only"></div>
 
 </body>
+
 </html>

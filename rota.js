@@ -1,14 +1,161 @@
-const RotaTool = {
-    // 1. ADICIONAR MARCO (POST-IT)
-    addMarco: (text = '', focus = true) => {
-        const container = document.getElementById('list-marcos');
-        const marcoId = 'marco-' + Date.now();
+window.RotaTool = (function(){
+    'use strict';
+    const that = {
+    load: () => {
+        const container = document.getElementById('view-rota');
+        if (!container) return;
+        if (container.querySelector('#rota-main')) return; // already built
+
+        const html = `
+            <div id="rota-main" class="max-w-5xl mx-auto">
+                <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
+                    <div class="w-20"></div>
+                    <h2 class="font-black uppercase text-2xl">Ferramenta Rota da Jornada</h2>
+                    <div class="w-20"></div>
+                </div>
+
+                <div class="no-print mb-8">
+                    <details class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
+                        <summary class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center gap-3">
+                                <i class="fas fa-gem text-[#ffde59]"></i>
+                                Roteiro e Orientações: Rota da Jornada
+                            </span>
+                            <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        
+                        <div class="p-6 border-t-4 border-black bg-gray-50 space-y-4 text-sm leading-relaxed">
+                        <div class="space-y-4 text-gray-800">
+                            <p><strong>Objetivo:</strong> Mapear de forma reversa os marcos críticos (milestones) necessários para transformar a Fotografia de Sucesso em realidade, saindo do estado futuro até o momento presente.</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_black]">
+                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Como Aplicar:</h4>
+                                    <ul class="list-disc pl-4 space-y-1 text-xs">
+                                        <li><strong>Destino:</strong> Comece reforçando o Objetivo Final e a Fotografia definidos na sessão de Clareza Plena.</li>
+                                        <li><strong>Engenharia Reversa:</strong> Pergunte: "Para que isso aconteça, o que deve ter ocorrido imediatamente antes?".</li>
+                                        <li><strong>Critérios SMART:</strong> Cada marco (post-it) deve ser Específico, Mensurável, Atingível, Relevante e com Prazo.</li>
+                                        <li><strong>Atalhos:</strong> Use <strong>TAB</strong> para criar novos marcos rapidamente e <strong>Backspace</strong> em campos vazios para remover.</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_black]">
+                                    <h4 class="font-bold border-b-2 border-[#ffde59] mb-2 pb-1 uppercase text-xs italic">Perguntas de Provocação:</h4>
+                                    <ul class="list-disc pl-4 space-y-1 text-xs">
+                                        <li>"O que é estritamente necessário acontecer para que este marco seja alcançado?"</li>
+                                        <li>"Olhando para este caminho, onde estão os maiores riscos de interrupção?"</li>
+                                        <li>"Qual desses marcos, se alcançado, tornaria todos os outros mais fáceis?"</li>
+                                        <li>"O que você pode fazer nas próximas 24h que inicia essa rota?"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </details>
+                </div>
+
+                <div class="bc-card p-8 mb-10">
+                    <!-- Cabeçalho -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        <div>
+                            <label class="text-[10px] font-black uppercase block mb-1">Coachee</label>
+                            <input type="text" id="rota-name" class="persist input-field" placeholder="Nome">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase block mb-1">Data</label>
+                            <input type="date" id="rota-date" class="persist input-field">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black uppercase block mb-1">Coach</label>
+                            <input type="text" id="rota-coach" class="persist input-field" placeholder="Nome">
+                        </div>
+                    </div>
+
+                    <div class="relative py-10 mt-4">
+                        <div class="absolute left-1/2 top-0 bottom-0 w-2 bg-black -translate-x-1/2 hidden md:block"></div>
+
+                        <div class="relative z-10 flex flex-col gap-8">
+                            
+                            <div class="flex flex-col md:flex-row items-center gap-4">
+                                <div class="flex-1 text-right hidden md:block">
+                                    <span class="font-black text-sm uppercase text-red-600">Onde quero chegar</span>
+                                </div>
+                                <div class="w-16 h-16 bg-[#ffde59] border-4 border-black flex items-center justify-center rounded-full shadow-[4px_4px_0px_0px_black] z-20">
+                                    <i class="fas fa-flag-checkered text-2xl"></i>
+                                </div>
+                                <div class="flex-1 w-full bg-white border-4 border-black p-6 shadow-[6px_6px_0px_0px_black]">
+                                    <label class="font-black uppercase text-xs mb-2 block">Destino Final (Objetivo & Fotografia)</label>
+                                    <textarea id="rota-destiny" class="persist input-field bg-transparent border-none p-0 focus:ring-0 font-bold text-lg auto-resize" placeholder="Descreva aqui o objetivo SMART e a fotografia de sucesso..."></textarea>
+                                </div>
+                            </div>
+
+                            <div id="list-marcos" class="space-y-8">
+                                </div>
+
+                            <div class="flex justify-center my-4">
+                                <button onclick="RotaTool.addMarco()" class="bg-black text-white px-6 py-3 border-4 border-black font-black uppercase text-sm hover:bg-white hover:text-black transition-all shadow-[4px_4px_0px_0px_#ffde59] active:translate-y-1 active:shadow-none">
+                                    <i class="fas fa-plus mr-2"></i> Inserir Marco SMART
+                                </button>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row items-center gap-4 pt-4">
+                                <div class="flex-1 text-right hidden md:block">
+                                    <span class="font-black text-sm uppercase">Ponto de Partida</span>
+                                </div>
+                                <div class="w-12 h-12 bg-black border-4 border-black text-white flex items-center justify-center rounded-full z-20">
+                                    <i class="fas fa-walking"></i>
+                                </div>
+                                <div class="flex-1 w-full bg-gray-100 border-4 border-black p-4 shadow-[4px_4px_0px_0px_black]">
+                                    <p class="font-black uppercase text-sm">Estado Atual (Hoje)</p>
+                                    <p class="text-xs font-bold text-gray-500 italic uppercase">O caminho começa aqui.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Conclusão -->
+                    <div class="space-y-8 mt-12 pt-8 border-t-2 border-black">
+                        <div>
+                            <label class="label-main">Pequena vitória</label>
+                            <label class="label-reference">Que passo você vai realizar até nossa próxima sessão rumo ao seu objetivo?</label>
+                            <textarea id="rota-victory" class="persist input-field min-h-[80px] auto-resize" placeholder="Um passo prático hoje..."></textarea>
+                        </div>
+                        <div>
+                            <label class="label-main">Por que valeu a pena?</label>
+                            <label class="label-reference">Por que valeu demais essa sessão pra você?</label>
+                            <textarea id="rota-worthy" class="persist input-field min-h-[80px] auto-resize" placeholder="O que descobriu hoje..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="no-print fixed bottom-0 left-0 w-full lg:bottom-8 lg:left-auto lg:right-8 lg:w-auto flex gap-3 p-4 lg:p-0 bg-white lg:bg-transparent border-t-4 border-black lg:border-t-0 z-50">
+                        <button onclick="RotaTool.clearForm()" class="flex-1 lg:flex-none bg-white border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
+                            <i class="fas fa-trash-alt text-red-500 group-active:scale-90 transition-transform"></i>
+                            <span class="font-black text-xs uppercase text-black">Limpar</span>
+                        </button>
+                        <button onclick="RotaTool.print()" class="flex-[2] lg:flex-none bg-[#ffde59] border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_0px_black] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_black] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[0px_0px_0px_0px_black] transition-all flex items-center justify-center gap-2 group">
+                            <i class="fas fa-print text-lg text-black group-active:scale-90 transition-transform"></i>
+                            <span class="font-black text-xs uppercase text-black">Imprimir Relatório</span>
+                        </button>
+                    </div>
+                    <div class="h-28 lg:hidden"></div>
+
+                </div>
+            </div>
+        `;
         
+        container.innerHTML = html;
+        that.restore();  // Carrega os marcos salvos
+    },
+    addMarco: (text = '', focus = false) => {
+        const container = document.getElementById('list-marcos');
+        if (!container) return;
+
+        const marcoId = 'marco-' + Date.now();
         const div = document.createElement('div');
         div.id = marcoId;
         div.className = "flex flex-col md:flex-row items-center gap-4 group animate-in slide-in-from-top duration-300 draggable-marco cursor-move";
         div.draggable = true;
-        
+
         div.innerHTML = `
             <div class="flex-1 text-right hidden md:block">
                 <span class="font-black text-[10px] uppercase text-gray-300 group-hover:text-black transition-colors">Arraste para reordenar</span>
@@ -19,8 +166,7 @@ const RotaTool = {
             </div>
             
             <div class="flex-1 w-full bg-[#fffde5] border-4 border-black p-4 shadow-[6px_6px_0px_0px_black] relative group-active:scale-95 transition-transform">
-                <button onclick="this.parentElement.parentElement.remove(); RotaTool.save();" 
-                        class="absolute -top-3 -right-3 w-8 h-8 bg-red-500 text-white border-2 border-black rounded-full flex items-center justify-center hover:bg-black transition-colors z-30">
+                <button class="remove-marco absolute -top-3 -right-3 w-8 h-8 bg-red-500 text-white border-2 border-black rounded-full flex items-center justify-center hover:bg-black transition-colors z-30">
                     <i class="fas fa-times"></i>
                 </button>
                 <textarea class="w-full bg-transparent border-none font-bold text-sm focus:ring-0 resize-none marco-input auto-resize" 
@@ -30,9 +176,12 @@ const RotaTool = {
             </div>
         `;
 
-        // Eventos de Drag & Drop
+        // Drag & Drop events
         div.addEventListener('dragstart', () => { div.classList.add('dragging'); div.style.opacity = "0.4"; });
-        div.addEventListener('dragend', () => { div.classList.remove('dragging'); div.style.opacity = "1"; RotaTool.save(); });
+        div.addEventListener('dragend', () => { div.classList.remove('dragging'); div.style.opacity = "1"; that.save(); });
+
+        // Remove button
+        div.querySelector('.remove-marco').addEventListener('click', function() { this.closest('.draggable-marco').remove(); that.save(); });
 
         container.appendChild(div);
 
@@ -45,8 +194,8 @@ const RotaTool = {
         } else if (text) {
             setTimeout(() => autoResize(textarea), 50);
         }
-        
-        RotaTool.save();
+
+        that.save();
     },
 
     // 2. LÓGICA DE TECLADO REFINADA
@@ -105,15 +254,15 @@ const RotaTool = {
         localStorage.setItem('rota-marcos-data', JSON.stringify(marcos));
     },
 
-    load: () => {
+    restore: () => {
         const container = document.getElementById('list-marcos');
         if (!container) return;
-        
-        container.innerHTML = ''; 
+
+        container.innerHTML = '';
         const saved = localStorage.getItem('rota-marcos-data');
         if (saved) {
             const marcos = JSON.parse(saved);
-            marcos.forEach(m => RotaTool.addMarco(m, false));
+            marcos.forEach(m => that.addMarco(m, false));
         }
 
         const destiny = document.getElementById('rota-destiny');
@@ -123,9 +272,8 @@ const RotaTool = {
                     const firstMarco = document.querySelector('.marco-input');
                     if (!firstMarco) {
                         e.preventDefault();
-                        RotaTool.addMarco('', true);
+                        that.addMarco('', true);
                     } else {
-                        // Se já existir marco, o TAB do destino vai para o primeiro
                         e.preventDefault();
                         firstMarco.focus();
                         firstMarco.setSelectionRange(firstMarco.value.length, firstMarco.value.length);
@@ -133,7 +281,7 @@ const RotaTool = {
                 }
             });
         }
-        RotaTool.initDragAndDrop();
+        that.initDragAndDrop();
     },
 
     // 4. SISTEMA DE ARRASTAR
@@ -309,4 +457,7 @@ const RotaTool = {
             setTimeout(() => { window.print(); }, 500);
         } catch (e) { console.error("Erro na impressão:", e); }
     }
-};
+    };
+
+    return that;
+})();

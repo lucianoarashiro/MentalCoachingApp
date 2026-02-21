@@ -13,7 +13,7 @@ const Storage = {
             // Se não tem ID, usa o Name (importante para botões de rádio)
             const storageKey = el.id || el.name;
             const saved = localStorage.getItem(storageKey);
-            
+
             if (saved !== null) {
                 if (el.type === 'radio') {
                     if (el.value === saved) {
@@ -24,9 +24,9 @@ const Storage = {
                 }
 
                 // Atualiza o badge do nível de responsabilidade
-                if(el.id === 'cp-resp-level') {
+                if (el.id === 'cp-resp-level') {
                     const badge = document.getElementById('resp-val');
-                    if(badge) badge.innerText = saved + '%';
+                    if (badge) badge.innerText = saved + '%';
                 }
             }
         });
@@ -36,14 +36,28 @@ const Storage = {
 // 2. NAVEGAÇÃO ENTRE TELAS
 const Navigation = {
     view: (id) => {
+        console.log('DEBUG: Navigation.view called with', id);
         // Esconde todas as views
         document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-        
+
         // Mostra a view desejada
         const target = document.getElementById(`view-${id}`);
+        console.log('DEBUG: Navigation.view target', target);
         if (target) {
             target.classList.remove('hidden');
+            console.log('DEBUG: Navigation.view target after remove hidden', target);
         }
+
+        // Se existir uma ferramenta correspondente, chame seu load() (garante injeção sob demanda)
+        try {
+            const code = id.startsWith('tool-') ? id.slice(5) : id;
+            const toolName = code.charAt(0).toUpperCase() + code.slice(1) + 'Tool';
+            const t = window[toolName];
+            console.log('DEBUG: Navigation.view toolName', toolName, 'found:', !!t);
+            if (t && typeof t.load === 'function') {
+                try { console.log('DEBUG: Navigation.view calling', toolName + '.load()'); t.load(); } catch (err) { console.error(`${toolName}.load() failed on view:`, err); }
+            }
+        } catch (e) { /* non-fatal */ }
 
         // Ajusta o tamanho das textareas ao entrar na tela
         setTimeout(() => {
@@ -52,7 +66,7 @@ const Navigation = {
 
         window.scrollTo(0, 0);
 
-        if ( id === 'home' ) {
+        if (id === 'home') {
             window.location.hash = '';
         }
     }
@@ -64,62 +78,70 @@ function autoResize(el) {
     el.style.height = el.scrollHeight + 'px';
 }
 
-// 4. INICIALIZAÇÃO QUANDO O DOM ESTIVER PRONTO
-document.addEventListener('DOMContentLoaded', () => {
-    Storage.loadAll();
+// 4. INICIALIZAÇÃO CENTRALIZADA (App.init)
+window.App = (function () {
+    'use strict';
+    const init = function () {
+        // Carrega dados persistidos em inputs
+        Storage.loadAll();
 
-    // 2. Resolve o bug do Recarregamento/Hash
-    const currentHash = window.location.hash.replace('#', '');
-    if (currentHash && currentHash !== 'home') {
-        // Pequeno delay para garantir que o DOM renderizou antes de trocar a view
-        setTimeout(() => Navigation.view(currentHash), 50);
-    } else {
-        Navigation.view('home');
-    }
-
-    if (typeof ClarezaTool !== 'undefined' && ClarezaTool.load) {
-        ClarezaTool.load();
-    }
-
-    if (typeof ValoresTool !== 'undefined' && ValoresTool.load) {
-        ValoresTool.load();
-    }
-
-    if (typeof RotaTool !== 'undefined' && RotaTool.load) {
-        RotaTool.load();
-    }
-    
-    if (typeof RotaTool !== 'undefined') {
-        RotaTool.load();
-    }
-
-    document.addEventListener('input', (e) => {
-        const el = e.target;
-        if (el.classList.contains('persist')) {
-            // Salva usando ID ou Name
-            const storageKey = el.id || el.name;
-            localStorage.setItem(storageKey, el.value);
-            
-            if(el.id === 'cp-resp-level') {
-                const badge = document.getElementById('resp-val');
-                if(badge) badge.innerText = el.value + '%';
-            }
+        // Restaura a view a partir do hash (se existir)
+        const currentHash = window.location.hash.replace('#', '');
+        if (currentHash && currentHash !== 'home') {
+            setTimeout(() => Navigation.view(currentHash), 50);
+        } else {
+            Navigation.view('home');
         }
-        if (el.classList.contains('auto-resize')) autoResize(el);
-    });
 
-    const valInput = document.getElementById('new-value-input');
-    if (valInput) {
-        valInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                ValoresTool.addCustomValue();
+        // Inicializa ferramentas de forma centralizada e segura
+        const tools = ['ClarezaTool', 'ValoresTool', 'RotaTool', 'SWOTTool', 'PyramidTool', 'CompetenciasTool', 'PropositoTool', 'PerdasGanhosTool', 'CicloRealidadeTool'];
+        tools.forEach(name => {
+            const t = window[name];
+            console.log('DEBUG: App.init tool', name, 'found:', !!t);
+            if (t && typeof t.load === 'function') {
+                try { console.log('DEBUG: Calling', name + '.load()'); t.load(); } catch (err) { console.error(`${name}.load() failed:`, err); }
             }
         });
-    }
 
-    // Aguarda um pequeno delay para garantir que o localStorage já preencheu os campos salvos
-    setTimeout(AppUtils.setDefaultDates, 100);
+        // Evento global para persistência de campos marcados com .persist
+        document.addEventListener('input', (e) => {
+            const el = e.target;
+            if (el && el.classList && el.classList.contains('persist')) {
+                const storageKey = el.id || el.name;
+                Storage.save(storageKey, el.value);
 
+                if (el.id === 'cp-resp-level') {
+                    const badge = document.getElementById('resp-val');
+                    if (badge) badge.innerText = el.value + '%';
+                }
+            }
+            if (el && el.classList && el.classList.contains('auto-resize')) autoResize(el);
+        });
+
+        // Atalho para adicionar novo valor pelo Enter no input da ferramenta de valores
+        const valInput = document.getElementById('new-value-input');
+        if (valInput) {
+            valInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const vt = window.ValoresTool;
+                    if (vt && typeof vt.addNewValue === 'function') {
+                        e.preventDefault();
+                        try { vt.addNewValue(); } catch (err) { console.error('ValoresTool.addNewValue failed', err); }
+                    }
+                }
+            });
+        }
+
+        // Aguarda pequeno delay para garantir que o localStorage já preencheu os campos salvos
+        setTimeout(AppUtils.setDefaultDates, 100);
+    };
+
+    return { init };
+})();
+
+// Invoca App.init quando o DOM estiver totalmente carregado (e todos os scripts deferidos tiverem executado)
+document.addEventListener('DOMContentLoaded', function () {
+    try { window.App.init(); } catch (e) { console.error('App.init failed:', e); }
 });
 
 const AppUtils = {
