@@ -94,7 +94,7 @@ window.App = (function () {
         }
 
         // Inicializa ferramentas de forma centralizada e segura
-        const tools = ['ClarezaTool', 'ValoresTool', 'RotaTool', 'SWOTTool', 'PyramidTool', 'CompetenciasTool', 'PropositoTool', 'PerdasGanhosTool', 'CicloRealidadeTool'];
+        const tools = ['ClarezaTool', 'ValoresTool', 'RotaTool', 'SWOTTool', 'PyramidTool', 'CompetenciasTool', 'PropositoTool', 'PerdasGanhosTool', 'CicloRealidadeTool', 'CoachingAbout', 'ApoioTool'];
         tools.forEach(name => {
             const t = window[name];
             console.log('DEBUG: App.init tool', name, 'found:', !!t);

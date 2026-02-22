@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coaching Tools App | Master System</title>
+    <title>kotini app | Master System</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Bibliotecas Externas -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,6 +23,8 @@
     <script src="swot.js" defer></script>
     <script src="pyramid.js" defer></script>
     <script src="competencias.js" defer></script>
+    <script src="about_coaching.js" defer></script>
+    <script src="apoio.js" defer></script>
 </head>
 
 <body>
@@ -32,13 +35,19 @@
             <div class="flex items-center gap-3 cursor-pointer" onclick="Navigation.view('home')">
                 <div
                     class="w-10 h-10 bg-[#ffde59] border-4 border-black flex items-center justify-center font-black text-2xl shadow-[2px_2px_0px_0px_black]">
-                    C</div>
-                <span class="font-black text-xl tracking-tighter uppercase italic">Coaching Tools</span>
+                    K</div>
+                <span class="font-black text-xl tracking-tighter uppercase italic">kotini app</span>
             </div>
-            <div class="flex gap-2">
-                <span class="nav-link active" id="link-home" onclick="Navigation.view('home')">Início</span>
-                <button onclick="Navigation.view('apoio')"
-                    class="font-black text-xs uppercase hover:underline nav-link active">Apoie este projeto</button>
+            <div class="flex gap-2 items-center">
+                <button onclick="Navigation.view('about-coaching')" class="nav-link active">
+                    <i class="fas fa-book-open mr-2"></i>O que é Coaching?
+                </button>
+                <span class="nav-link active" id="link-home" onclick="Navigation.view('home')">
+                    <i class="fas fa-home mr-2"></i>Início
+                </span>
+                <button onclick="Navigation.view('apoio')" class="nav-link active">
+                    <i class="fas fa-heart text-black mr-2"></i>Apoie este projeto
+                </button>
             </div>
         </div>
     </nav>
@@ -54,8 +63,8 @@
                 <p class="text-sm font-bold text-gray-600 uppercase tracking-widest mb-2">Seu Workspace de Alta
                     Performance</p>
                 <p class="text-gray-500 font-medium">
-                    Aplicativo exclusivo para coaches realizarem sessões profissionais e organizadas,
-                    aplicando ferramentas estruturadas e gerando relatórios de impacto para seus coachees.
+                    Aplicativo para coaches, mentores e líderes que ajudam no desenvolvimento de pessoas a alcançarem
+                    objetivos, aplicando ferramentas estruturadas e gerando relatórios de impacto para seus coachees.
                 </p>
             </div>
 
@@ -63,7 +72,7 @@
                 <!-- Card 1 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas de
                             Clareza</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Clareza Plena</h3>
                         <p class="text-sm text-gray-600 mt-2">Defina o objetivo do processo e os resultados da sessão.
@@ -76,7 +85,7 @@
                 <!-- Card 2 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas
                             Alinhamento</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Valores</h3>
                         <p class="text-sm text-gray-600 mt-2">Identifique o que realmente governa suas decisões e
@@ -89,7 +98,7 @@
                 <!-- Card 3 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas
                             Caminho</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Rota da Jornada</h3>
                         <p class="text-sm text-gray-600 mt-2">Identifique um caminho para a realização de seus sonhos e
@@ -101,7 +110,7 @@
                 <!-- Card 4 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas de
                             Propósito</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Propósito Inabalável</h3>
                         <p class="text-sm text-gray-600 mt-2">Identifique o que te move e defina sua missão inabalável.
@@ -114,7 +123,7 @@
                 <!-- Card 5 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas de
                             Decisão</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Perdas e Ganhos</h3>
                         <p class="text-sm text-gray-600 mt-2">Pese os ganhos e as perdas de suas decisões para agir com
@@ -127,7 +136,7 @@
                 <!-- Card 6 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas
                             Forças e Fraquezas</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">SWOT Pessoal</h3>
                         <p class="text-sm text-gray-600 mt-2">Identifique as forças, fraquezas, oportunidades e ameaças.
@@ -139,7 +148,7 @@
                 <!-- Card 7 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas de
                             Consistência</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Pirâmide do sucesso</h3>
                         <p class="text-sm text-gray-600 mt-2">Detalhe as próximas atividades para as próximas metas.</p>
@@ -150,7 +159,7 @@
                 <!-- Card 8 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas de
                             Consistência</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Roda de competências</h3>
                         <p class="text-sm text-gray-600 mt-2">Descubra quais são as competências mais importantes para
@@ -163,7 +172,7 @@
                 <!-- Card 9 -->
                 <div class="bc-card p-6 flex flex-col justify-between min-h-[250px]">
                     <div>
-                        <span class="text-[10px] font-black uppercase bg-blue-500 text-white px-2 py-1">Ferramentas de
+                        <span class="text-[10px] font-black uppercase bg-black text-white px-2 py-1">Ferramentas de
                             Realidade</span>
                         <h3 class="text-2xl font-black mt-4 uppercase leading-tight">Ciclo da Realidade</h3>
                         <p class="text-sm text-gray-600 mt-2">Mude sua percepção de mundo e modele o sucesso de quem já
@@ -178,6 +187,11 @@
         <!-- VIEW: TOOL CLAREZA (HTML renderizado por clareza.js) -->
         <section id="view-tool-clareza" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
             <!-- content renderizado por ClarezaTool.load() -->
+        </section>
+
+        <!-- VIEW: ABOUT COACHING (HTML renderizado por CoachingAbout.js) -->
+        <section id="view-about-coaching" class="view hidden no-print p-0 animate-in fade-in duration-1000">
+            <!-- content renderizado por CoachingAbout.load() -->
         </section>
 
         <!-- VALORES TOOL (HTML renderizado por valores.js) -->
@@ -216,40 +230,14 @@
         </section>
 
         <!-- PIRÂMIDE DO SUCESSO -->
-        <section id="view-pyramid" class="view hidden no-print">
-            <div class="max-w-5xl mx-auto">
+        <section id="view-pyramid" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por pyramid.js -->
+        </section>
 
-                <div class="mb-6 flex justify-between items-center border-b-2 border-black pb-4">
-                    <div class="w-20"></div>
-                    <div class="text-center">
-                        <h2 class="font-black uppercase text-xl">Pirâmide do Sucesso</h2>
-                    </div>
-                    <div class="w-20"></div>
-                </div>
-
-                <div class="no-print mb-8">
-                    <details
-                        class="bg-white border-4 border-black shadow-[4px_4px_0px_0px_black] group overflow-hidden transition-all">
-                        <summary
-                            class="list-none cursor-pointer p-4 flex justify-between items-center font-black uppercase text-sm hover:bg-gray-50 transition-colors">
-                            <span class="flex items-center gap-3">
-
-                                <div class="border-2 border-black p-4 bg-white font-bold text-sm">
-                                    <i class="fas fa-tools mr-2 text-[#ffde59]"></i> Manutenção do Sistema
-                                </div>
-                                <div class="border-2 border-black p-4 bg-white font-bold text-sm">
-                                    <i class="fas fa-lightbulb mr-2 text-[#ffde59]"></i> Novas Ferramentas
-                                </div>
-                </div>
-
-                <button onclick="Navigation.view('home')"
-                    class="mt-10 text-xs font-black uppercase underline decoration-4 decoration-[#ffde59] hover:text-gray-600">
-                    Voltar para o Início
-                </button>
-            </div>
-    </div>
-    </section>
-
+        <!-- APOIE ESTE PROJETO -->
+        <section id="view-apoio" class="view hidden no-print p-4 md:p-8 animate-in fade-in duration-500">
+            <!-- content renderizado por ApoioTool.load() -->
+        </section>
 
     </div>
 
