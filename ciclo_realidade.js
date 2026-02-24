@@ -164,11 +164,17 @@ const CicloRealidadeTool = {
 
             printArea.innerHTML = `
                 <style>
-                    @page { size: A4; margin: 10mm; }
-                    body { margin: 0; padding: 0; background: white !important; font-family: 'Inter', sans-serif; }
+                    @media print {
+                        @page { size: A4; margin: 0; }
+                        body { margin: 0; padding: 15mm; background: white !important; font-family: 'Inter', sans-serif; }
+                        body * { visibility: hidden; }
+                        #print-area, #print-area * { visibility: visible; }
+                        #print-area { position: absolute; left: 0; top: 0; width: 100%; display: block !important; }
+                        .page-break { page-break-after: always; break-after: page; }
+                    }
                     
                     .tool-title-area { border-bottom: 4px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
-                    .title-report { font-size: 24px; font-weight: 900; text-transform: uppercase; margin: 0; }
+                    .title-report { font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0; }
                     .subtitle-report { font-weight: 700; color: #666; text-transform: uppercase; margin: 0; font-size: 10px; letter-spacing: 2px; }
 
                     .header-info { display: flex; gap: 10px; margin-bottom: 30px; }
@@ -178,66 +184,81 @@ const CicloRealidadeTool = {
 
                     .section-title { font-size: 16px; font-weight: 900; text-transform: uppercase; border-left: 5px solid #ffde59; padding-left: 10px; margin: 25px 0 15px 0; }
                     
-                    .perception-box { border: 2px solid #000; padding: 20px; background: #f9f9f9 !important; font-size: 13px; line-height: 1.6; white-space: pre-wrap; -webkit-print-color-adjust: exact; }
+                    .perception-box { border: 2px solid #000; padding: 20px; background: #f9f9f9 !important; font-size: 14px; line-height: 1.6; white-space: pre-wrap; -webkit-print-color-adjust: exact; }
 
                     .modeling-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 15px; }
                     .modeling-cell { border: 2px solid #000; padding: 15px; min-height: 250px; }
                     .cell-label { font-size: 10px; font-weight: 900; text-transform: uppercase; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 10px; display: block; }
-                    .cell-content { font-size: 11px; line-height: 1.5; white-space: pre-wrap; }
+                    .cell-content { font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
 
                     .avoid-break { break-inside: avoid; page-break-inside: avoid; }
                     .footer-print { text-align: center; font-size: 9px; color: #999; text-transform: uppercase; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
-                    
-                    .vitoria-box { margin-top: 30px; border: 2px solid #000; padding: 15px; }
                 </style>
 
-                <div class="tool-title-area">
-                    <h1 class="title-report">Mudança de Ciclo da Realidade</h1>
-                    <p class="subtitle-report">Análise de Percepção e Modelagem de Sucesso</p>
-                </div>
+                <!-- PAGE 1: CONCLUSIONS -->
+                <div class="page-break">
+                    <div class="tool-title-area">
+                        <h1 class="title-report">Relatório de Sessão</h1>
+                        <p class="subtitle-report">Ferramenta: Mudança de Ciclo da Realidade</p>
+                    </div>
 
-                <div class="header-info">
-                    <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
-                    <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
-                    <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
-                </div>
+                    <div class="header-info">
+                        <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
+                        <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
+                        <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
+                    </div>
 
-                <div class="avoid-break">
-                    <h2 class="section-title">1. Percepção de Mundo</h2>
-                    <div class="perception-box">${getVal('cr-perception')}</div>
-                </div>
-
-                <div class="avoid-break">
-                    <h2 class="section-title">2. Modelagem de Sucesso</h2>
-                    <div class="modeling-grid">
-                        <div class="modeling-cell" style="background: #eff6ff !important; -webkit-print-color-adjust: exact;">
-                            <span class="cell-label">QUEM ELAS SÃO (SER)</span>
-                            <div class="cell-content">${getVal('cr-ser')}</div>
+                    <div class="avoid-break" style="margin-top: 40px; display: grid; grid-template-columns: 1fr; gap: 20px;">
+                        <div style="border: 2px solid #000; padding: 20px; background: #fffde5 !important; -webkit-print-color-adjust: exact;">
+                            <span class="info-label" style="font-size: 16px; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800; text-transform: uppercase;">Pequena Vitória</span>
+                            <div class="cell-content" style="font-size: 14px; line-height: 1.6;">${getVal('cr-vitoria')}</div>
                         </div>
-                        <div class="modeling-cell" style="background: #f0fdf4 !important; -webkit-print-color-adjust: exact;">
-                            <span class="cell-label">O QUE ELAS FAZEM (FAZER)</span>
-                            <div class="cell-content">${getVal('cr-fazer')}</div>
-                        </div>
-                        <div class="modeling-cell" style="background: #fefce8 !important; -webkit-print-color-adjust: exact;">
-                            <span class="cell-label">O QUE ELAS TÊM (TER)</span>
-                            <div class="cell-content">${getVal('cr-ter')}</div>
+                        <div style="border: 2px solid #000; padding: 20px; background: #fffde5 !important; -webkit-print-color-adjust: exact;">
+                            <span class="info-label" style="font-size: 16px; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800; text-transform: uppercase;">Por que valeu a pena?</span>
+                            <div class="cell-content" style="font-size: 14px; line-height: 1.6;">${getVal('cr-worthy')}</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="avoid-break" style="margin-top: 25px;">
-                    <div class="vitoria-box">
-                        <span class="info-label">Pequena Vitória</span>
-                        <div class="cell-content" style="font-size: 12px; margin-top: 5px;">${getVal('cr-vitoria')}</div>
+                <!-- PAGE 2: TOOL CONTENT -->
+                <div>
+                    <div class="tool-title-area">
+                        <h1 class="title-report">Mudança de Ciclo da Realidade</h1>
+                        <p class="subtitle-report">Análise de Percepção e Modelagem</p>
                     </div>
-                    <div class="vitoria-box" style="margin-top: 15px;">
-                        <span class="info-label">Por que valeu a pena?</span>
-                        <div class="cell-content" style="font-size: 12px; margin-top: 5px;">${getVal('cr-worthy')}</div>
-                    </div>
-                </div>
 
-                <div class="footer-print">
-                    Master Performance System - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                    <div class="header-info">
+                        <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
+                        <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
+                        <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
+                    </div>
+
+                    <div class="avoid-break">
+                        <h2 class="section-title">1. Percepção de Mundo</h2>
+                        <div class="perception-box">${getVal('cr-perception')}</div>
+                    </div>
+
+                    <div class="avoid-break">
+                        <h2 class="section-title">2. Modelagem de Sucesso</h2>
+                        <div class="modeling-grid">
+                            <div class="modeling-cell" style="background: #eff6ff !important; -webkit-print-color-adjust: exact;">
+                                <span class="cell-label">QUEM ELAS SÃO (SER)</span>
+                                <div class="cell-content">${getVal('cr-ser')}</div>
+                            </div>
+                            <div class="modeling-cell" style="background: #f0fdf4 !important; -webkit-print-color-adjust: exact;">
+                                <span class="cell-label">O QUE ELAS FAZEM (FAZER)</span>
+                                <div class="cell-content">${getVal('cr-fazer')}</div>
+                            </div>
+                            <div class="modeling-cell" style="background: #fefce8 !important; -webkit-print-color-adjust: exact;">
+                                <span class="cell-label">O QUE ELAS TÊM (TER)</span>
+                                <div class="cell-content">${getVal('cr-ter')}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-print">
+                        Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                    </div>
                 </div>
             `;
 

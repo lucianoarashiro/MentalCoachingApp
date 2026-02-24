@@ -103,10 +103,19 @@ const CoachingAbout = {
                 }
 
                 .sketch-illustration {
-                    width: 180px;
-                    height: 180px;
-                    margin: 30px auto;
+                    max-width: 100%;
+                    height: auto;
                     display: block;
+                    margin: 0 auto;
+                }
+
+                @media (max-width: 640px) {
+                    .sketchnote-container {
+                        padding: 10px;
+                    }
+                    .sketch-title {
+                        font-size: 2.5rem;
+                    }
                 }
 
                 .arrow-sketch {
@@ -160,16 +169,20 @@ const CoachingAbout = {
                 /* --- MICROINTERACTION: REACTIVE STEPS --- */
                 .staircase-container {
                     position: relative;
-                    margin: 60px 0;
-                    padding-left: 40px;
+                    margin: 40px auto;
+                    max-width: 320px;
+                    padding-left: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
                 .stair-step {
                     background: #fff;
                     border: 3px solid #000;
-                    padding: 20px;
+                    padding: 15px;
                     width: 250px;
-                    margin-bottom: -10px;
+                    margin-bottom: 20px;
                     position: relative;
                     box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
                     transition: all 0.3s ease;
@@ -177,7 +190,22 @@ const CoachingAbout = {
                     z-index: 5;
                 }
 
-                .stair-step:hover, .stair-step:active {
+                @media (min-width: 641px) {
+                    .staircase-container {
+                        margin: 60px 0;
+                        padding-left: 40px;
+                        display: block;
+                    }
+                    .stair-step {
+                        margin-bottom: -10px;
+                    }
+                    .stair-step:nth-child(1) { margin-left: 0; transform: rotate(-1deg); }
+                    .stair-step:nth-child(2) { margin-left: 60px; transform: rotate(1deg); }
+                    .stair-step:nth-child(3) { margin-left: 120px; transform: rotate(-0.5deg); }
+                    .stair-step:nth-child(4) { margin-left: 180px; transform: rotate(1.5deg); }
+                }
+
+                .stair-step:hover, .stair-step:active, .stair-step.active {
                     transform: translate(5px, 5px) rotate(0deg) !important;
                     box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
                     background: #fffdf0;
@@ -187,19 +215,51 @@ const CoachingAbout = {
                     position: absolute;
                     left: 105%; top: 50%;
                     transform: translateY(-50%);
-                    width: 220px;
+                    width: 200px;
                     display: flex;
                     align-items: center;
                     gap: 15px;
                     opacity: 0;
                     pointer-events: none;
                     transition: all 0.4s;
+                    z-index: 10;
                 }
 
-                .stair-step:hover .step-side-note,
-                .stair-step:active .step-side-note {
-                    opacity: 1;
-                    left: 110%;
+                /* Mobile Optimization */
+                @media (max-width: 640px) {
+                    .staircase-container {
+                        padding-left: 0;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    .step-side-note {
+                        position: relative;
+                        left: auto; top: auto;
+                        transform: none;
+                        width: 100%;
+                        background: #fff;
+                        margin-top: 15px;
+                        display: none; 
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+
+                    .stair-step.active .step-side-note {
+                        display: flex;
+                    }
+                }
+
+                /* Desktop Show Logic */
+                @media (min-width: 641px) {
+                    .stair-step:hover .step-side-note,
+                    .stair-step:active .step-side-note,
+                    .stair-step.active .step-side-note {
+                        opacity: 1;
+                        left: 110%;
+                        pointer-events: auto;
+                    }
                 }
 
                 .side-arrow {
@@ -217,10 +277,15 @@ const CoachingAbout = {
                     border: 1px dashed #000;
                     box-shadow: 3px 3px 0 rgba(0,0,0,0.05);
                 }
-                .stair-step:nth-child(1) { margin-left: 0; transform: rotate(-1deg); }
-                .stair-step:nth-child(2) { margin-left: 60px; transform: rotate(1deg); }
-                .stair-step:nth-child(3) { margin-left: 120px; transform: rotate(-0.5deg); }
-                .stair-step:nth-child(4) { margin-left: 180px; transform: rotate(1.5deg); }
+
+                @media (max-width: 640px) {
+                    .side-arrow {
+                        display: none;
+                    }
+                    .side-text {
+                        text-align: center;
+                    }
+                }
 
                 .stair-number {
                     font-family: 'Indie Flower', cursive;
@@ -348,7 +413,7 @@ const CoachingAbout = {
                         <div style="text-align: center;">
                             <div class="state-box" style="border-color: #e63946;">ESTADO A</div>
                             <h2 class="text-4xl mt-6 font-black uppercase">O início da jornada</h2>
-                            <svg class="sketch-illustration" viewBox="0 0 180 120" style="width: 450px; height: 300px;">
+                            <svg class="sketch-illustration" viewBox="0 0 180 120">
                                 <path class="rough-svg" d="M18,12 L72,18 L108,12 L162,24 L153,96 L90,102 L27,96 Z" fill="#fffef0" />
                                 <circle cx="54" cy="60" r="4" fill="#000" />
                                 <text x="45" y="52" font-family="Gochi Hand" font-size="12" fill="#000" font-weight="bold">VOCÊ</text>
@@ -366,7 +431,7 @@ const CoachingAbout = {
                         <div style="text-align: center;">
                             <div class="state-box" style="border-color: #2ecc71; transform: rotate(3deg);">ESTADO B</div>
                             <h2 class="text-4xl mt-6 font-black uppercase">O destino final</h2>
-                            <svg class="sketch-illustration" viewBox="0 0 180 120" style="width: 450px; height: 300px;">
+                            <svg class="sketch-illustration" viewBox="0 0 180 120">
                                 <!-- Map Part 2 -->
                                 <path class="rough-svg" d="M18,24 L72,12 L108,18 L162,12 L171,102 L99,96 L27,102 Z" fill="#fffef0" />
                                 <path class="rough-svg map-trail" d="M18,48 Q54,72 90,36 T153,60" stroke-dasharray="4" />
@@ -508,7 +573,17 @@ const CoachingAbout = {
 
     handleStepClick: function (element) {
         const rect = element.getBoundingClientRect();
-        this.spawnOnomatopoeia(rect.right - 20, rect.top, ["Check!", "Piso!", "Firme!", "Subiu!"]);
+
+        // Toggle active class on the clicked step
+        const isActive = element.classList.contains('active');
+
+        // Remove active from all other steps
+        document.querySelectorAll('.stair-step').forEach(s => s.classList.remove('active'));
+
+        if (!isActive) {
+            element.classList.add('active');
+            this.spawnOnomatopoeia(rect.right - 20, rect.top, ["Check!", "Piso!", "Firme!", "Subiu!"]);
+        }
     },
 
     handleFinalAction: function () {

@@ -94,11 +94,13 @@ window.App = (function () {
         }
 
         // Inicializa ferramentas de forma centralizada e segura
-        const tools = ['ClarezaTool', 'ValoresTool', 'RotaTool', 'SWOTTool', 'PyramidTool', 'CompetenciasTool', 'PropositoTool', 'PerdasGanhosTool', 'CicloRealidadeTool', 'CoachingAbout', 'ApoioTool'];
+        const tools = ['ClarezaTool', 'ValoresTool', 'RotaTool', 'SWOTTool', 'PyramidTool', 'CompetenciasTool', 'PropositoTool', 'PerdasGanhosTool', 'CicloRealidadeTool', 'CoachingAbout', 'ApoioTool', 'FeedbackTool'];
         tools.forEach(name => {
             const t = window[name];
             console.log('DEBUG: App.init tool', name, 'found:', !!t);
-            if (t && typeof t.load === 'function') {
+            if (t && typeof t.init === 'function') {
+                try { console.log('DEBUG: Calling', name + '.init()'); t.init(); } catch (err) { console.error(`${name}.init() failed:`, err); }
+            } else if (t && typeof t.load === 'function') {
                 try { console.log('DEBUG: Calling', name + '.load()'); t.load(); } catch (err) { console.error(`${name}.load() failed:`, err); }
             }
         });
@@ -134,10 +136,32 @@ window.App = (function () {
 
         // Aguarda pequeno delay para garantir que o localStorage já preencheu os campos salvos
         setTimeout(AppUtils.setDefaultDates, 100);
+
+        // Mobile Menu Toggle logic
+        const menuBtn = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuBtn.querySelector('i').classList.toggle('fa-bars');
+                menuBtn.querySelector('i').classList.toggle('fa-times');
+            });
+        }
     };
 
     return { init };
 })();
+
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuBtn = document.getElementById('menu-toggle');
+    if (mobileMenu) mobileMenu.classList.add('hidden');
+    if (menuBtn) {
+        menuBtn.querySelector('i').classList.add('fa-bars');
+        menuBtn.querySelector('i').classList.remove('fa-times');
+    }
+}
 
 // Invoca App.init quando o DOM estiver totalmente carregado (e todos os scripts deferidos tiverem executado)
 document.addEventListener('DOMContentLoaded', function () {

@@ -1,12 +1,12 @@
-window.SWOTTool = (function(){
+window.SWOTTool = (function () {
     'use strict';
     const that = {
-    load: () => {
-        const container = document.getElementById('view-swot');
-        if (!container) return;
-        if (container.querySelector('#swot-main')) return; // already built
+        load: () => {
+            const container = document.getElementById('view-swot');
+            if (!container) return;
+            if (container.querySelector('#swot-main')) return; // already built
 
-        const html = `
+            const html = `
             <div id="swot-main" class="flex flex-col gap-6">
                 
                 <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
@@ -136,35 +136,35 @@ window.SWOTTool = (function(){
 
             </div>
         `;
-        
-        container.innerHTML = html;
-        console.log('DEBUG: SWOTTool.load() HTML injected', container.innerHTML.length);
-    },
 
-    // 1. LIMPAR FORMULÁRIO
-    clearForm: () => {
-        if (confirm("Deseja realmente apagar toda a Matriz SWOT?")) {
-            const fields = [
-                'swot-name', 'swot-date', 'swot-coach',
-                'swot-strengths', 'swot-weaknesses', 'swot-threats', 
-                'swot-opportunities', 'swot-action', 'swot-victory', 'swot-worthy'
-            ];
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-                localStorage.removeItem(id);
-            });
-            
-            // Recarrega a página para resetar tudo e aplicar a data padrão
-            window.location.hash = '#swot'; // Garante que a hash seja swot para recarregar na mesma view
-            window.location.reload();
-        }
-    },
+            container.innerHTML = html;
+            console.log('DEBUG: SWOTTool.load() HTML injected', container.innerHTML.length);
+        },
 
-    // 2. CABEÇALHO PADRONIZADO
-    getHeaderHTML: (subtitulo) => {
-        const getVal = (id) => document.getElementById(id)?.value || '---';
-        return `
+        // 1. LIMPAR FORMULÁRIO
+        clearForm: () => {
+            if (confirm("Deseja realmente apagar toda a Matriz SWOT?")) {
+                const fields = [
+                    'swot-name', 'swot-date', 'swot-coach',
+                    'swot-strengths', 'swot-weaknesses', 'swot-threats',
+                    'swot-opportunities', 'swot-action', 'swot-victory', 'swot-worthy'
+                ];
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                    localStorage.removeItem(id);
+                });
+
+                // Recarrega a página para resetar tudo e aplicar a data padrão
+                window.location.hash = '#swot'; // Garante que a hash seja swot para recarregar na mesma view
+                window.location.reload();
+            }
+        },
+
+        // 2. CABEÇALHO PADRONIZADO
+        getHeaderHTML: (subtitulo) => {
+            const getVal = (id) => document.getElementById(id)?.value || '---';
+            return `
             <div class="print-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h1 style="font-family:'Space Grotesk'; font-size:18px; font-weight:900; margin:0">MATRIZ SWOT PESSOAL</h1>
@@ -177,20 +177,21 @@ window.SWOTTool = (function(){
                 </div>
             </div>
         `;
-    },
+        },
 
-    // 3. IMPRESSÃO PADRONIZADA (PÁGINA 1: CONCLUSÕES | PÁGINA 2: MATRIZ)
-    print: () => {
-        try {
-            const getVal = (id) => document.getElementById(id)?.value || '---';
-            const printArea = document.getElementById('print-area');
-            if (!printArea) return;
+        // 3. IMPRESSÃO PADRONIZADA (PÁGINA 1: CONCLUSÕES | PÁGINA 2: MATRIZ)
+        print: () => {
+            try {
+                const getVal = (id) => document.getElementById(id)?.value || '---';
+                const printArea = document.getElementById('print-area');
+                if (!printArea) return;
 
-            printArea.innerHTML = `
+                printArea.innerHTML = `
                 <style>
-                    @page { size: A4; margin: 15mm; }
                     @media print {
+                        @page { size: A4; margin: 0; }
                         html, body { margin: 0; padding: 0; background: white !important; -webkit-print-color-adjust: exact; }
+                        body { padding: 15mm; }
                         .page-break { page-break-after: always; break-after: page; display: block; }
                         .avoid-break { break-inside: avoid; page-break-inside: avoid; }
                     }
@@ -198,16 +199,17 @@ window.SWOTTool = (function(){
                     .print-header { border-bottom: 4px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
                     .info-grid { display: flex; gap: 8px; margin-top: 10px; }
                     .info-item { flex: 1; border: 2px solid #000; padding: 6px 10px; background: #ffde59 !important; }
-                    .info-label { font-size: 7px; font-weight: 900; text-transform: uppercase; display: block; line-height: 1; }
-                    .info-content { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+                    .info-label { font-size: 8px; font-weight: 900; text-transform: uppercase; display: block; line-height: 1; }
+                    .info-content { font-size: 11px; font-weight: 800; text-transform: uppercase; }
                     
-                    .section-title { font-size: 11px; font-weight: 900; text-transform: uppercase; margin-top: 20px; margin-bottom: 6px; font-family: 'Space Grotesk'; border-left: 4px solid #000; padding-left: 8px; }
-                    .text-box-print { border: 2px solid #000; padding: 12px; white-space: pre-wrap; font-size: 11px; line-height: 1.4; text-align: left; margin-bottom: 20px; }
+                    .section-title { font-size: 16px; font-weight: 900; text-transform: uppercase; margin-top: 20px; margin-bottom: 6px; font-family: 'Space Grotesk'; border-left: 4px solid #000; padding-left: 8px; }
+                    .text-box-print { border: 2px solid #000; padding: 12px; white-space: pre-wrap; font-size: 14px; line-height: 1.4; text-align: left; margin-bottom: 20px; }
                     
                     .swot-grid-print { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
                     .swot-box-print { border: 2px solid #000; padding: 10px; min-height: 250px; display: flex; flex-direction: column; }
                     .swot-tag { font-size: 8px; font-weight: 900; text-transform: uppercase; padding: 2px 6px; border: 2px solid #000; display: inline-block; margin-bottom: 8px; width: fit-content; }
-                    .swot-text { font-size: 10.5px; white-space: pre-wrap; line-height: 1.4; }
+                    .swot-text { font-size: 13px; white-space: pre-wrap; line-height: 1.4; }
+                    .footer-print { text-align: center; font-size: 9px; color: #999; text-transform: uppercase; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
                 </style>
 
                 <div class="report-container">
@@ -252,21 +254,24 @@ window.SWOTTool = (function(){
                             <div class="text-box-print" style="margin-top:5px; background: #fafafa !important;">${getVal('swot-action')}</div>
                         </div>
                     </div>
+                <div class="footer-print">
+                    Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
                 </div>
-            `;
-            setTimeout(() => window.print(), 500);
-        } catch (e) { console.error(e); }
-    }
+            </div>
+        `;
+                setTimeout(() => window.print(), 500);
+            } catch (e) { console.error(e); }
+        }
     };
 
     return that;
 })();
 
 // 4. LÓGICA DE NAVEGAÇÃO (TAB)
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Tab') {
         const active = document.activeElement;
-        
+
         // Fluxo: Coach -> Forças(1)
         if (active.id === 'swot-coach' && !e.shiftKey) {
             e.preventDefault();

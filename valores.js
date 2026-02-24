@@ -1,14 +1,14 @@
-window.ValoresTool = (function(){
+window.ValoresTool = (function () {
     'use strict';
     const that = {
-    load: () => {
-        console.log('DEBUG: ValoresTool.load() called');
-        const container = document.getElementById('view-tool-valores');
-        console.log('DEBUG: valores.js container', container);
-        if (!container) { console.log('DEBUG: valores.js load() early return: container not found'); return; }
-        if (container.querySelector('#valores-main')) { console.log('DEBUG: valores.js load() early return: already built'); return; }
+        load: () => {
+            console.log('DEBUG: ValoresTool.load() called');
+            const container = document.getElementById('view-tool-valores');
+            console.log('DEBUG: valores.js container', container);
+            if (!container) { console.log('DEBUG: valores.js load() early return: container not found'); return; }
+            if (container.querySelector('#valores-main')) { console.log('DEBUG: valores.js load() early return: already built'); return; }
 
-        const html = `
+            const html = `
             <div id="valores-main">
                 <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
                     <div class="w-20"></div>
@@ -146,176 +146,224 @@ window.ValoresTool = (function(){
                 </div>
             </div>
         `;
-        
-        container.innerHTML = html;
-        console.log('DEBUG: valores.js HTML injected', container.innerHTML.length);
-        that.init();  // Carrega os valores salvos ou padrão
-    },
 
-    defaultList: [
-        "Competitividade", "Aceitação social", "Compaixão", "Conforto", "Disciplina", 
-        "Espiritualidade", "Contribuição", "Desafio", "Estabilidade", 
-        "Evolução Permanente", "Excelência", "Fama", "Flexibilidade", "Honestidade", 
-        "Independência", "Justiça", "Liberdade", "Poder", "Qualidade de vida", 
-        "Reconhecimento", "Respeito", "Responsabilidade", "Rotina", "Segurança", 
-        "Status", "Sucesso"
-    ],
+            container.innerHTML = html;
+            console.log('DEBUG: valores.js HTML injected', container.innerHTML.length);
+            that.init();  // Carrega os valores salvos ou padrão
+        },
 
-    allowDrop: (e) => e.preventDefault(),
+        defaultList: [
+            "Competitividade", "Aceitação social", "Compaixão", "Conforto", "Disciplina",
+            "Espiritualidade", "Contribuição", "Desafio", "Estabilidade",
+            "Evolução Permanente", "Excelência", "Fama", "Flexibilidade", "Honestidade",
+            "Independência", "Justiça", "Liberdade", "Poder", "Qualidade de vida",
+            "Reconhecimento", "Respeito", "Responsabilidade", "Rotina", "Segurança",
+            "Status", "Sucesso"
+        ],
 
-    // No objeto ValoresTool em valores.js:
+        allowDrop: (e) => e.preventDefault(),
 
-    // 1. Quando começa a arrastar
-    drag: (e) => {
-        e.dataTransfer.setData("text", e.target.id);
-        e.target.classList.add('dragging'); // Opcional: opacidade no item sendo arrastado
-    },
+        // No objeto ValoresTool em valores.js:
 
-    // 2. Quando entra na zona de drop
-    dragEnter: (e) => {
-        e.preventDefault();
-        let target = e.target;
-        while(target && !target.classList.contains('drop-zone')) target = target.parentElement;
-        
-        if(target) {
-            target.classList.add('drop-target-active');
-        }
-    },
+        // 1. Quando começa a arrastar
+        drag: (e) => {
+            e.dataTransfer.setData("text", e.target.id);
+            e.target.classList.add('dragging'); // Opcional: opacidade no item sendo arrastado
+        },
 
-    // 3. Quando sai da zona de drop
-    dragLeave: (e) => {
-        let target = e.target;
-        while(target && !target.classList.contains('drop-zone')) target = target.parentElement;
-        
-        if(target) {
-            target.classList.remove('drop-target-active');
-        }
-    },
+        // 2. Quando entra na zona de drop
+        dragEnter: (e) => {
+            e.preventDefault();
+            let target = e.target;
+            while (target && !target.classList.contains('drop-zone')) target = target.parentElement;
 
-    // 4. Ajuste na função drop original para limpar a classe
-    drop: (e) => {
-        e.preventDefault();
-        const id = e.dataTransfer.getData("text");
-        const el = document.getElementById(id);
-        
-        let target = e.target;
-        while(target && !target.classList.contains('drop-zone')) target = target.parentElement;
-        
-        if(target) {
-            target.classList.remove('drop-target-active'); // Limpa o destaque
-            const afterElement = ValoresTool.getDragAfterElement(target, e.clientY);
-            if (afterElement == null) {
-                target.appendChild(el);
-            } else {
-                target.insertBefore(el, afterElement);
+            if (target) {
+                target.classList.add('drop-target-active');
             }
-            ValoresTool.cleanupAllTags();
-            ValoresTool.updateRankingNumbers();
-            ValoresTool.save();
-        }
-    },
+        },
 
-    getDragAfterElement: (container, y) => {
-        const draggableElements = [...container.querySelectorAll('.value-tag:not(.grabbing)')];
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
+        // 3. Quando sai da zona de drop
+        dragLeave: (e) => {
+            let target = e.target;
+            while (target && !target.classList.contains('drop-zone')) target = target.parentElement;
+
+            if (target) {
+                target.classList.remove('drop-target-active');
             }
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
-    },
+        },
 
-    cleanupAllTags: () => {
-        document.querySelectorAll('.value-tag').forEach(tag => tag.style.opacity = "1");
-    },
+        // 4. Ajuste na função drop original para limpar a classe
+        drop: (e) => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData("text");
+            const el = document.getElementById(id);
 
-    updateRankingNumbers: () => {
-        const items = document.querySelectorAll('#col-top5 .value-tag');
-        items.forEach((item, index) => {
-            const badge = item.querySelector('.rank-badge');
-            if (badge) badge.innerText = `${index + 1}º`;
-            if (index >= 5) item.style.opacity = "0.4";
-        });
-    },
+            let target = e.target;
+            while (target && !target.classList.contains('drop-zone')) target = target.parentElement;
 
-    createTag: (text, id, isCustom = false) => {
-        const el = document.createElement('div');
-        el.className = 'value-tag';
-        el.draggable = true;
-        el.id = id || `v-${Math.random().toString(36).substr(2, 9)}`;
-        el.dataset.custom = isCustom;
-        
-        const badge = document.createElement('div');
-        badge.className = 'rank-badge';
-        badge.innerText = '-';
-        el.appendChild(badge);
+            if (target) {
+                target.classList.remove('drop-target-active'); // Limpa o destaque
+                const afterElement = ValoresTool.getDragAfterElement(target, e.clientY);
+                if (afterElement == null) {
+                    target.appendChild(el);
+                } else {
+                    target.insertBefore(el, afterElement);
+                }
+                ValoresTool.cleanupAllTags();
+                ValoresTool.updateRankingNumbers();
+                ValoresTool.save();
+            }
+        },
 
-        const span = document.createElement('span');
-        span.innerText = text;
-        el.appendChild(span);
+        getDragAfterElement: (container, y) => {
+            const draggableElements = [...container.querySelectorAll('.value-tag:not(.grabbing)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        },
 
-        if (isCustom) {
-            const del = document.createElement('div');
-            del.className = 'delete-btn no-print';
-            del.innerHTML = '<i class="fas fa-times"></i>';
-            del.onclick = (e) => { e.stopPropagation(); el.remove(); ValoresTool.updateRankingNumbers(); ValoresTool.save(); };
-            el.appendChild(del);
-        }
+        cleanupAllTags: () => {
+            document.querySelectorAll('.value-tag').forEach(tag => tag.style.opacity = "1");
+        },
 
-        el.ondragstart = (e) => { el.classList.add('grabbing'); e.dataTransfer.setData("text", e.target.id); };
-        el.ondragend = () => { el.classList.remove('grabbing'); ValoresTool.updateRankingNumbers(); };
-        return el;
-    },
+        updateRankingNumbers: () => {
+            const items = document.querySelectorAll('#col-top5 .value-tag');
+            items.forEach((item, index) => {
+                const badge = item.querySelector('.rank-badge');
+                if (badge) badge.innerText = `${index + 1}º`;
+                if (index >= 5) item.style.opacity = "0.4";
+            });
+        },
 
-    addNewValue: () => {
-        const input = document.getElementById('new-value-input');
-        const val = input.value.trim();
-        if (val) {
-            document.getElementById('pool-values').appendChild(ValoresTool.createTag(val, null, true));
-            input.value = '';
+        createTag: (text, id, isCustom = false) => {
+            const el = document.createElement('div');
+            el.className = 'value-tag';
+            el.draggable = true;
+            el.id = id || `v-${Math.random().toString(36).substr(2, 9)}`;
+            el.dataset.custom = isCustom;
+
+            const badge = document.createElement('div');
+            badge.className = 'rank-badge';
+            badge.innerText = '-';
+            el.appendChild(badge);
+
+            const span = document.createElement('span');
+            span.innerText = text;
+            el.appendChild(span);
+
+            if (isCustom) {
+                const del = document.createElement('div');
+                del.className = 'delete-btn no-print';
+                del.innerHTML = '<i class="fas fa-times"></i>';
+                del.onclick = (e) => { e.stopPropagation(); el.remove(); ValoresTool.updateRankingNumbers(); ValoresTool.save(); };
+                el.appendChild(del);
+            }
+
+            el.ondragstart = (e) => { el.classList.add('grabbing'); e.dataTransfer.setData("text", e.target.id); };
+            el.ondragend = () => { el.classList.remove('grabbing'); ValoresTool.updateRankingNumbers(); };
+
+            // MOBILE MOVE MODE: Solo click en mobile
+            el.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    ValoresTool.openMobileMoveMenu(el);
+                }
+            });
+
+            return el;
+        },
+
+        openMobileMoveMenu: (tagEl) => {
+            const valueText = tagEl.querySelector('span').innerText;
+            const overlay = document.createElement('div');
+            overlay.className = 'mobile-move-overlay no-print';
+
+            overlay.innerHTML = `
+            <div class="move-header">
+                <span class="text-[10px] font-black uppercase text-gray-500">Movendo Valor:</span>
+                <div class="move-tag-display">${valueText}</div>
+            </div>
+            
+            <p class="text-xs font-bold uppercase mb-4 text-gray-600">Para qual categoria deseja mover?</p>
+            
+            <div class="move-zones-container">
+                <div class="move-zone-btn bg-red-100 border-red-500 text-red-700" onclick="ValoresTool.moveTagToZone('${tagEl.id}', 'col-nada')">NADA A VER</div>
+                <div class="move-zone-btn bg-blue-100 border-blue-500 text-blue-700" onclick="ValoresTool.moveTagToZone('${tagEl.id}', 'col-asvezes')">ÀS VEZES</div>
+                <div class="move-zone-btn bg-green-100 border-green-500 text-green-700" onclick="ValoresTool.moveTagToZone('${tagEl.id}', 'col-tudo')">TUDO A VER</div>
+                <div class="move-zone-btn bg-yellow-100 border-yellow-500 text-yellow-700" onclick="ValoresTool.moveTagToZone('${tagEl.id}', 'col-top5')">RANKING (TOP 5)</div>
+            </div>
+            
+            <button class="move-cancel-btn" onclick="this.parentElement.remove()">Cancelar</button>
+        `;
+
+            document.body.appendChild(overlay);
+        },
+
+        moveTagToZone: (tagId, zoneId) => {
+            const el = document.getElementById(tagId);
+            const zone = document.getElementById(zoneId);
+            const overlay = document.querySelector('.mobile-move-overlay');
+
+            if (el && zone) {
+                zone.appendChild(el);
+                ValoresTool.updateRankingNumbers();
+                ValoresTool.save();
+            }
+
+            if (overlay) overlay.remove();
+        },
+
+        addNewValue: () => {
+            const input = document.getElementById('new-value-input');
+            const val = input.value.trim();
+            if (val) {
+                document.getElementById('pool-values').appendChild(ValoresTool.createTag(val, null, true));
+                input.value = '';
+                ValoresTool.save();
+            }
+        },
+
+        init: () => {
+            const pool = document.getElementById('pool-values');
+            if (!pool) return;
+            pool.innerHTML = '';
+            ValoresTool.defaultList.forEach((v, i) => pool.appendChild(ValoresTool.createTag(v, `val-${i}`, false)));
             ValoresTool.save();
-        }
-    },
+        },
 
-    init: () => {
-        const pool = document.getElementById('pool-values');
-        if (!pool) return;
-        pool.innerHTML = '';
-        ValoresTool.defaultList.forEach((v, i) => pool.appendChild(ValoresTool.createTag(v, `val-${i}`, false)));
-        ValoresTool.save();
-    },
+        reset: () => {
+            if (confirm("Deseja resetar todas as posições?")) {
+                const zones = ['pool-values', 'col-nada', 'col-asvezes', 'col-tudo', 'pool-top5', 'col-top5'];
+                zones.forEach(z => localStorage.removeItem(`zone-${z}`));
+                location.reload();
+            }
+        },
 
-    reset: () => {
-        if(confirm("Deseja resetar todas as posições?")) {
+        save: () => {
             const zones = ['pool-values', 'col-nada', 'col-asvezes', 'col-tudo', 'pool-top5', 'col-top5'];
-            zones.forEach(z => localStorage.removeItem(`zone-${z}`));
-            location.reload();
-        }
-    },
+            zones.forEach(z => {
+                const container = document.getElementById(z);
+                if (container) {
+                    const data = Array.from(container.children).map(c => ({
+                        text: c.querySelector('span').innerText,
+                        isCustom: c.dataset.custom === "true"
+                    }));
+                    localStorage.setItem(`zone-${z}`, JSON.stringify(data));
+                }
+            });
+        },
 
-    save: () => {
-        const zones = ['pool-values', 'col-nada', 'col-asvezes', 'col-tudo', 'pool-top5', 'col-top5'];
-        zones.forEach(z => {
-            const container = document.getElementById(z);
-            if (container) {
-                const data = Array.from(container.children).map(c => ({
-                    text: c.querySelector('span').innerText,
-                    isCustom: c.dataset.custom === "true"
-                }));
-                localStorage.setItem(`zone-${z}`, JSON.stringify(data));
-            }
-        });
-    },
+        load: () => {
+            const container = document.getElementById('view-tool-valores');
+            if (!container) return;
+            if (container.querySelector('#valores-main')) return; // already built
 
-    load: () => {
-        const container = document.getElementById('view-tool-valores');
-        if (!container) return;
-        if (container.querySelector('#valores-main')) return; // already built
-
-        const html = `
+            const html = `
             <div id="valores-main">
                 <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
                     <div class="w-20"></div>
@@ -438,81 +486,84 @@ window.ValoresTool = (function(){
                 </div>
             </div>
         `;
-        container.innerHTML = html;
-        that.init();
-    },
+            container.innerHTML = html;
+            that.init();
+        },
 
-    clearForm: () => {
-        if (confirm("Deseja realmente limpar toda a Hierarquia de Valores? Isso resetará as listas e os textos.")) {
-            // 1. Limpa os campos de texto finais
-            const fields = ['val-victory', 'val-worthy', 'val-name', 'val-coach', 'val-date'];
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
+        clearForm: () => {
+            if (confirm("Deseja realmente limpar toda a Hierarquia de Valores? Isso resetará as listas e os textos.")) {
+                // 1. Limpa os campos de texto finais
+                const fields = ['val-victory', 'val-worthy', 'val-name', 'val-coach', 'val-date'];
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.value = '';
+                        localStorage.removeItem(id);
+                    }
+                });
+
+                // 2. Limpa os dados do LocalStorage específicos da ferramenta de valores
+                localStorage.removeItem('valores-data'); // Se você usa esse objeto para a lista
+                // Se você salva os itens individualmente, adicione a lógica aqui. 
+                const zones = ['pool-values', 'col-nada', 'col-asvezes', 'col-tudo', 'pool-top5', 'col-top5'];
+                zones.forEach(z => localStorage.removeItem(`zone-${z}`));
+                location.reload();
+                // Como padrão do seu app.js, vamos limpar o que for persist:
+                document.querySelectorAll('#view-valores .persist').forEach(el => {
+                    localStorage.removeItem(el.id);
                     el.value = '';
-                    localStorage.removeItem(id);
-                }
-            });
+                });
 
-            // 2. Limpa os dados do LocalStorage específicos da ferramenta de valores
-            localStorage.removeItem('valores-data'); // Se você usa esse objeto para a lista
-            // Se você salva os itens individualmente, adicione a lógica aqui. 
-            const zones = ['pool-values', 'col-nada', 'col-asvezes', 'col-tudo', 'pool-top5', 'col-top5'];
-            zones.forEach(z => localStorage.removeItem(`zone-${z}`));
-            location.reload();
-            // Como padrão do seu app.js, vamos limpar o que for persist:
-            document.querySelectorAll('#view-valores .persist').forEach(el => {
-                localStorage.removeItem(el.id);
-                el.value = '';
-            });
+                // 3. Força o recarregamento mantendo a view ativa
+                window.location.hash = 'tool-valores';
+                window.location.reload();
+            }
+        },
 
-            // 3. Força o recarregamento mantendo a view ativa
-            window.location.hash = 'tool-valores';
-            window.location.reload();
-        }
-    },
+        print: () => {
+            try {
+                // Função auxiliar para capturar valores com os novos IDs específicos
+                const getVal = (id) => {
+                    const el = document.getElementById(id);
+                    return el && el.value ? el.value : '---';
+                };
 
-    print: () => {
-        try {
-            // Função auxiliar para capturar valores com os novos IDs específicos
-            const getVal = (id) => {
-                const el = document.getElementById(id);
-                return el && el.value ? el.value : '---';
-            };
-            
-            // 1. CAPTURA DE DADOS DO CABEÇALHO (IDs atualizados conforme sua solicitação)
-            const coachee = getVal('val-name').toUpperCase();
-            const coach = getVal('val-coach').toUpperCase();
-            const data = getVal('val-date');
+                // 1. CAPTURA DE DADOS DO CABEÇALHO (IDs atualizados conforme sua solicitação)
+                const coachee = getVal('val-name').toUpperCase();
+                const coach = getVal('val-coach').toUpperCase();
+                const data = getVal('val-date');
 
-            // 2. CAPTURA DE DADOS DE CONCLUSÃO
-            const vitoria = getVal('val-victory');
-            const valeuPena = getVal('val-worthy');
+                // 2. CAPTURA DE DADOS DE CONCLUSÃO
+                const vitoria = getVal('val-victory');
+                const valeuPena = getVal('val-worthy');
 
-            const printArea = document.getElementById('print-area');
-            if (!printArea) return;
+                const printArea = document.getElementById('print-area');
+                if (!printArea) return;
 
-            // 3. MONTAGEM DO CONTEÚDO (Mantendo o layout solicitado anteriormente)
-            printArea.innerHTML = `
+                // 3. MONTAGEM DO CONTEÚDO (Mantendo o layout solicitado anteriormente)
+                printArea.innerHTML = `
                 <style>
                     @media print {
-                        @page { size: A4; margin: 10mm; }
-                        body { background: white !important; -webkit-print-color-adjust: exact; }
+                        @page { size: A4; margin: 0; }
+                        body { background: white !important; -webkit-print-color-adjust: exact; padding: 15mm; }
                     }
                     .report-table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; }
-                    .print-header { border-bottom: 4px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
-                    .info-grid { display: flex; gap: 10px; margin-top: 10px; }
-                    .info-item { flex: 1; border: 2px solid #000; padding: 5px 10px; background: #ffde59 !important; }
-                    .info-label { font-size: 8px; font-weight: 800; text-transform: uppercase; display: block; color: #000; }
-                    .info-content { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #000; }
+                    .tool-title-area { border-bottom: 4px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
+                    .title-report { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0; }
+                    .subtitle-report { font-weight: 700; color: #666; text-transform: uppercase; margin: 0; font-size: 10px; letter-spacing: 1px; }
+
+                    .header-info { display: flex; gap: 10px; margin-bottom: 30px; }
+                    .info-box { flex: 1; background: #ffde59 !important; border: 2px solid #000; padding: 8px 12px; -webkit-print-color-adjust: exact; }
+                    .info-label { font-size: 8px; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; display: block; color: #000; }
+                    .info-content { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #000; }
 
                     .triagem-container { display: flex; gap: 10px; margin-bottom: 20px; align-items: flex-start; }
                     .col-print { flex: 1; border: 2px solid #000; background: #fff; min-height: 380px; }
-                    .col-header-print { background: #000; color: #fff; padding: 6px; text-align: center; font-weight: 800; text-transform: uppercase; font-size: 9px; }
-                    .value-item-print { padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 10px; }
+                    .col-header-print { background: #000; color: #fff; padding: 6px; text-align: center; font-weight: 800; text-transform: uppercase; font-size: 11px; }
+                    .value-item-print { padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 12px; }
 
                     .ranking-row { border: 3px solid #000; background: #fffde5 !important; margin-top: 10px; }
-                    .ranking-header { background: #ffde59; color: #000; padding: 8px; text-align: center; font-weight: 900; text-transform: uppercase; font-size: 12px; border-bottom: 3px solid #000; }
+                    .ranking-header { background: #ffde59; color: #000; padding: 8px; text-align: center; font-weight: 900; text-transform: uppercase; font-size: 14px; border-bottom: 3px solid #000; }
                     .ranking-list { display: grid; grid-template-columns: repeat(5, 1fr); padding: 10px; gap: 8px; }
                     .ranking-slot { text-align: center; padding: 8px; border: 1px dashed #000; background: #fff; }
 
@@ -524,16 +575,14 @@ window.ValoresTool = (function(){
                     <thead>
                         <tr>
                             <td>
-                                <div class="print-header">
-                                    <div style="display:flex; justify-content:space-between; align-items:center">
-                                        <h1 style="font-family:'Space Grotesk'; font-size:16px; font-weight:900; margin:0">HIERARQUIA DE VALORES</h1>
-                                        <span style="font-size:8px; font-weight:700">MASTER PERFORMANCE SYSTEM</span>
-                                    </div>
-                                    <div class="info-grid">
-                                        <div class="info-item"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
-                                        <div class="info-item"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
-                                        <div class="info-item"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
-                                    </div>
+                                <div class="tool-title-area">
+                                    <h1 class="title-report">Relatório de Sessão</h1>
+                                    <p class="subtitle-report">Ferramenta: Hierarquia de Valores</p>
+                                </div>
+                                <div class="header-info">
+                                    <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
+                                    <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
+                                    <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
                                 </div>
                             </td>
                         </tr>
@@ -583,11 +632,11 @@ window.ValoresTool = (function(){
                 </table>
             `;
 
-            setTimeout(() => { window.print(); }, 500);
-        } catch (e) { 
-            console.error("Erro na impressão de Valores:", e);
+                setTimeout(() => { window.print(); }, 500);
+            } catch (e) {
+                console.error("Erro na impressão de Valores:", e);
+            }
         }
-    }
     };
 
     return that;

@@ -156,7 +156,7 @@ const ClarezaTool = {
                 <div class="h-28 lg:hidden"></div>
             </div>
         `;
-        
+
         container.innerHTML = html;
     },
 
@@ -164,11 +164,11 @@ const ClarezaTool = {
         if (confirm("Deseja realmente limpar todo o formulário de Clareza Plena?")) {
             // IDs de todos os campos da ferramenta
             const fields = [
-                'cp-epp', 'cp-worthy', 'cp-actual', 'cp-desired', 
+                'cp-epp', 'cp-worthy', 'cp-actual', 'cp-desired',
                 'cp-picture', 'cp-purpose', 'cp-resp-who', 'cp-resp-level',
                 'cp-name', 'cp-coach', 'cp-date'
             ];
-            
+
             fields.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
@@ -203,8 +203,8 @@ const ClarezaTool = {
             const coachee = getVal('cp-name').toUpperCase();
             const coach = getVal('cp-coach').toUpperCase();
             const data = getVal('cp-date');
-            const vitoria = getVal('cp-epp'); 
-            const valeuPena = getVal('cp-worthy'); 
+            const vitoria = getVal('cp-epp');
+            const valeuPena = getVal('cp-worthy');
 
             const mapping_questions = [
                 { label: "1. Resultado esperado", val: getVal('cp-actual') },
@@ -218,8 +218,10 @@ const ClarezaTool = {
 
             printArea.innerHTML = `
                 <style>
-                    @page { size: A4; margin: 5mm; }
-                    body { margin: 0; padding: 0; background: white !important; }
+                    @media print {
+                        @page { size: A4; margin: 0; }
+                        body { margin: 0; padding: 15mm; background: white !important; }
+                    }
                     
                     /* Estrutura de repetição automática */
                     .report-table { width: 100%; border-collapse: collapse; }
@@ -334,14 +336,14 @@ const ClarezaTool = {
                         <tr>
                             <td>
                                 <div class="footer-print">
-                                    Master Performance System - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                                    Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
                                 </div>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
             `;
-            
+
             setTimeout(() => { window.print(); }, 500);
         } catch (e) { console.error(e); }
     }

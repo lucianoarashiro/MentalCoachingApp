@@ -199,11 +199,14 @@ const PerdasGanhosTool = {
 
             printArea.innerHTML = `
                 <style>
-                    @page { size: A4; margin: 10mm; }
-                    body { margin: 0; padding: 0; background: white !important; font-family: 'Inter', sans-serif; }
+                    @media print {
+                        @page { size: A4; margin: 0; }
+                        body { margin: 0; padding: 15mm; background: white !important; font-family: 'Inter', sans-serif; }
+                        .page-break { page-break-after: always; break-after: page; }
+                    }
                     
                     .tool-title-area { border-bottom: 4px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
-                    .title-report { font-size: 24px; font-weight: 900; text-transform: uppercase; margin: 0; }
+                    .title-report { font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0; }
                     .subtitle-report { font-weight: 700; color: #666; text-transform: uppercase; margin: 0; font-size: 10px; letter-spacing: 2px; }
 
                     .header-info { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -216,77 +219,86 @@ const PerdasGanhosTool = {
                     /* Matriz de Impressão */
                     .matrix-print { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid #000; margin-bottom: 25px; }
                     .matrix-cell { padding: 15px; border: 1px solid #000; min-height: 150px; }
-                    .cell-label { font-size: 10px; font-weight: 900; text-transform: uppercase; display: block; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 10px; }
-                    .cell-content { font-size: 12px; line-height: 1.4; white-space: pre-wrap; }
+                    .cell-label { font-size: 11px; font-weight: 900; text-transform: uppercase; display: block; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 10px; }
+                    .cell-content { font-size: 14px; line-height: 1.4; white-space: pre-wrap; }
 
                     .section-title { font-size: 16px; font-weight: 900; text-transform: uppercase; border-left: 5px solid #ffde59; padding-left: 10px; margin: 20px 0 10px 0; }
-                    .ref-box { border: 1px solid #ddd; padding: 15px; background: #fafafa !important; font-size: 12px; line-height: 1.5; white-space: pre-wrap; margin-bottom: 15px; -webkit-print-color-adjust: exact; }
+                    .ref-box { border: 1px solid #ddd; padding: 15px; background: #fafafa !important; font-size: 14px; line-height: 1.5; white-space: pre-wrap; margin-bottom: 15px; -webkit-print-color-adjust: exact; }
 
                     .avoid-break { break-inside: avoid; page-break-inside: avoid; }
                     .footer-print { text-align: center; font-size: 9px; color: #999; text-transform: uppercase; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }
                 </style>
 
-                <div class="tool-title-area">
-                    <h1 class="title-report">Perdas e Ganhos</h1>
-                    <p class="subtitle-report">Análise de Decisão e Alinhamento</p>
-                </div>
-
-                <div class="header-info">
-                    <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
-                    <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
-                    <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
-                </div>
-
-                <div class="obj-box">
-                    <span class="info-label">Objetivo Analisado</span>
-                    <div class="info-content" style="font-size: 14px;">${obj}</div>
-                </div>
-
-                <div class="matrix-print">
-                    <div class="matrix-cell" style="background: #e6ffed !important; -webkit-print-color-adjust: exact;">
-                        <span class="cell-label">1. GANHA se acontecer</span>
-                        <div class="cell-content">${getVal('pg-q1')}</div>
+                <div class="page-break">
+                    <div class="tool-title-area">
+                        <h1 class="title-report">Relatório de Sessão</h1>
+                        <p class="subtitle-report">Ferramenta: Perdas e Ganhos</p>
                     </div>
-                    <div class="matrix-cell" style="background: #fff5f5 !important; -webkit-print-color-adjust: exact;">
-                        <span class="cell-label">2. PERDE se acontecer</span>
-                        <div class="cell-content">${getVal('pg-q2')}</div>
+
+                    <div class="header-info">
+                        <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
+                        <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
+                        <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
                     </div>
-                    <div class="matrix-cell" style="background: #fffaf0 !important; -webkit-print-color-adjust: exact;">
-                        <span class="cell-label">3. PERDE se NÃO acontecer</span>
-                        <div class="cell-content">${getVal('pg-q3')}</div>
-                    </div>
-                    <div class="matrix-cell" style="background: #ebf8ff !important; -webkit-print-color-adjust: exact;">
-                        <span class="cell-label">4. GANHA se NÃO acontecer</span>
-                        <div class="cell-content">${getVal('pg-q4')}</div>
+
+                    <div class="avoid-break" style="margin-top: 40px; display: grid; grid-template-columns: 1fr; gap: 20px;">
+                        <div style="border: 2px solid #000; padding: 20px; background: #fffde5 !important; -webkit-print-color-adjust: exact;">
+                            <span class="info-label" style="font-size: 16px; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 15px;">Pequena Vitória</span>
+                            <div class="cell-content" style="font-size: 14px; line-height: 1.6;">${getVal('pg-vitoria')}</div>
+                        </div>
+                        <div style="border: 2px solid #000; padding: 20px; background: #fffde5 !important; -webkit-print-color-adjust: exact;">
+                            <span class="info-label" style="font-size: 16px; border-bottom: 2px solid #ffde59; padding-bottom: 5px; margin-bottom: 15px;">Por que valeu a pena?</span>
+                            <div class="cell-content" style="font-size: 14px; line-height: 1.6;">${getVal('pi-worthy')}</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="avoid-break">
-                    <h2 class="section-title">Estratégias e Aprendizados</h2>
-                    
-                    <span class="info-label" style="margin-top: 15px;">5. Minimizar perdas da mudança</span>
-                    <div class="ref-box">${getVal('pg-ref1')}</div>
-
-                    <span class="info-label">6. Manter ganhos atuais</span>
-                    <div class="ref-box">${getVal('pg-ref2')}</div>
-
-                    <span class="info-label">7. Aprendizado Geral</span>
-                    <div class="ref-box" style="background: #fffde5 !important;">${getVal('pg-ref3')}</div>
-                </div>
-
-                <div class="avoid-break" style="margin-top: 20px; display: grid; grid-template-columns: 1fr; gap: 15px;">
-                    <div style="border: 2px solid #000; padding: 12px;">
-                        <span class="info-label">Pequena Vitória</span>
-                        <div class="cell-content">${getVal('pg-vitoria')}</div>
+                <div>
+                    <div class="tool-title-area">
+                        <h1 class="title-report">Perdas e Ganhos</h1>
+                        <p class="subtitle-report">Análise de Decisão e Alinhamento</p>
                     </div>
-                    <div style="border: 2px solid #000; padding: 12px;">
-                        <span class="info-label">Por que valeu a pena?</span>
-                        <div class="cell-content">${getVal('pi-worthy')}</div>
-                    </div>
-                </div>
 
-                <div class="footer-print">
-                    Master Performance System - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                    <div class="obj-box">
+                        <span class="info-label">Objetivo Analisado</span>
+                        <div class="info-content" style="font-size: 14px;">${obj}</div>
+                    </div>
+
+                    <div class="matrix-print">
+                        <div class="matrix-cell" style="background: #e6ffed !important; -webkit-print-color-adjust: exact;">
+                            <span class="cell-label">1. GANHA se acontecer</span>
+                            <div class="cell-content">${getVal('pg-q1')}</div>
+                        </div>
+                        <div class="matrix-cell" style="background: #fff5f5 !important; -webkit-print-color-adjust: exact;">
+                            <span class="cell-label">2. PERDE se acontecer</span>
+                            <div class="cell-content">${getVal('pg-q2')}</div>
+                        </div>
+                        <div class="matrix-cell" style="background: #fffaf0 !important; -webkit-print-color-adjust: exact;">
+                            <span class="cell-label">3. PERDE se NÃO acontecer</span>
+                            <div class="cell-content">${getVal('pg-q3')}</div>
+                        </div>
+                        <div class="matrix-cell" style="background: #ebf8ff !important; -webkit-print-color-adjust: exact;">
+                            <span class="cell-label">4. GANHA se NÃO acontecer</span>
+                            <div class="cell-content">${getVal('pg-q4')}</div>
+                        </div>
+                    </div>
+
+                    <div class="avoid-break">
+                        <h2 class="section-title">Estratégias e Aprendizados</h2>
+                        
+                        <span class="info-label" style="margin-top: 15px;">5. Minimizar perdas da mudança</span>
+                        <div class="ref-box">${getVal('pg-ref1')}</div>
+
+                        <span class="info-label">6. Manter ganhos atuais</span>
+                        <div class="ref-box">${getVal('pg-ref2')}</div>
+
+                        <span class="info-label">7. Aprendizado Geral</span>
+                        <div class="ref-box" style="background: #fffde5 !important;">${getVal('pg-ref3')}</div>
+                    </div>
+
+                    <div class="footer-print">
+                        Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                    </div>
                 </div>
             `;
 

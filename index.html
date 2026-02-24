@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kotini app | Master System</title>
+    <title>Kotini App | Master Coach</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Bibliotecas Externas -->
@@ -25,6 +25,7 @@
     <script src="competencias.js" defer></script>
     <script src="about_coaching.js" defer></script>
     <script src="apoio.js" defer></script>
+    <script src="feedback.js" defer></script>
 </head>
 
 <body>
@@ -38,7 +39,14 @@
                     K</div>
                 <span class="font-black text-xl tracking-tighter uppercase italic">kotini app</span>
             </div>
-            <div class="flex gap-2 items-center">
+            <!-- Hamburguer Menu (Mobile) -->
+            <button id="menu-toggle"
+                class="md:hidden text-2xl border-4 border-black p-1 bg-[#ffde59] shadow-[2px_2px_0px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Desktop Links (Hidden on Mobile) -->
+            <div class="hidden md:flex gap-2 items-center">
                 <button onclick="Navigation.view('about-coaching')" class="nav-link active">
                     <i class="fas fa-book-open mr-2"></i>O que é Coaching?
                 </button>
@@ -46,9 +54,33 @@
                     <i class="fas fa-home mr-2"></i>Início
                 </span>
                 <button onclick="Navigation.view('apoio')" class="nav-link active">
-                    <i class="fas fa-heart text-black mr-2"></i>Apoie este projeto
+                    <i class="fas fa-heart text-black mr-2"></i>Apoio
+                </button>
+                <button onclick="FeedbackTool.showFeedbackModal()" class="nav-link active">
+                    <i class="fas fa-comment shadow-none mr-2"></i>Feedback
                 </button>
             </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="hidden md:hidden absolute top-full left-0 w-full bg-white border-b-4 border-black p-4 flex flex-col gap-4 shadow-lg z-50">
+            <button onclick="toggleMobileMenu(); Navigation.view('about-coaching')"
+                class="nav-link active w-full justify-start text-sm">
+                <i class="fas fa-book-open mr-3"></i>O que é Coaching?
+            </button>
+            <button onclick="toggleMobileMenu(); Navigation.view('home')"
+                class="nav-link active w-full justify-start text-sm">
+                <i class="fas fa-home mr-3"></i>Início
+            </button>
+            <button onclick="toggleMobileMenu(); Navigation.view('apoio')"
+                class="nav-link active w-full justify-start text-sm">
+                <i class="fas fa-heart text-black mr-3"></i>Apoio
+            </button>
+            <button onclick="toggleMobileMenu(); FeedbackTool.showFeedbackModal()"
+                class="nav-link active w-full justify-start text-sm">
+                <i class="fas fa-comment mr-3"></i>Feedback
+            </button>
         </div>
     </nav>
 

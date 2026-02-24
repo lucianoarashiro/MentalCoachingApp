@@ -1,12 +1,12 @@
-window.RotaTool = (function(){
+window.RotaTool = (function () {
     'use strict';
     const that = {
-    load: () => {
-        const container = document.getElementById('view-rota');
-        if (!container) return;
-        if (container.querySelector('#rota-main')) return; // already built
+        load: () => {
+            const container = document.getElementById('view-rota');
+            if (!container) return;
+            if (container.querySelector('#rota-main')) return; // already built
 
-        const html = `
+            const html = `
             <div id="rota-main" class="max-w-5xl mx-auto">
                 <div class="mb-6 flex justify-between items-center border-b-4 border-black pb-4">
                     <div class="w-20"></div>
@@ -142,21 +142,21 @@ window.RotaTool = (function(){
                 </div>
             </div>
         `;
-        
-        container.innerHTML = html;
-        that.restore();  // Carrega os marcos salvos
-    },
-    addMarco: (text = '', focus = false) => {
-        const container = document.getElementById('list-marcos');
-        if (!container) return;
 
-        const marcoId = 'marco-' + Date.now();
-        const div = document.createElement('div');
-        div.id = marcoId;
-        div.className = "flex flex-col md:flex-row items-center gap-4 group animate-in slide-in-from-top duration-300 draggable-marco cursor-move";
-        div.draggable = true;
+            container.innerHTML = html;
+            that.restore();  // Carrega os marcos salvos
+        },
+        addMarco: (text = '', focus = false) => {
+            const container = document.getElementById('list-marcos');
+            if (!container) return;
 
-        div.innerHTML = `
+            const marcoId = 'marco-' + Date.now();
+            const div = document.createElement('div');
+            div.id = marcoId;
+            div.className = "flex flex-col md:flex-row items-center gap-4 group animate-in slide-in-from-top duration-300 draggable-marco cursor-move";
+            div.draggable = true;
+
+            div.innerHTML = `
             <div class="flex-1 text-right hidden md:block">
                 <span class="font-black text-[10px] uppercase text-gray-300 group-hover:text-black transition-colors">Arraste para reordenar</span>
             </div>
@@ -176,171 +176,171 @@ window.RotaTool = (function(){
             </div>
         `;
 
-        // Drag & Drop events
-        div.addEventListener('dragstart', () => { div.classList.add('dragging'); div.style.opacity = "0.4"; });
-        div.addEventListener('dragend', () => { div.classList.remove('dragging'); div.style.opacity = "1"; that.save(); });
+            // Drag & Drop events
+            div.addEventListener('dragstart', () => { div.classList.add('dragging'); div.style.opacity = "0.4"; });
+            div.addEventListener('dragend', () => { div.classList.remove('dragging'); div.style.opacity = "1"; that.save(); });
 
-        // Remove button
-        div.querySelector('.remove-marco').addEventListener('click', function() { this.closest('.draggable-marco').remove(); that.save(); });
+            // Remove button
+            div.querySelector('.remove-marco').addEventListener('click', function () { this.closest('.draggable-marco').remove(); that.save(); });
 
-        container.appendChild(div);
+            container.appendChild(div);
 
-        const textarea = div.querySelector('textarea');
-        if (focus) {
-            setTimeout(() => {
-                textarea.focus();
-                autoResize(textarea);
-            }, 50);
-        } else if (text) {
-            setTimeout(() => autoResize(textarea), 50);
-        }
-
-        that.save();
-    },
-
-    // 2. LÓGICA DE TECLADO REFINADA
-    handleKeydown: (e, el) => {
-        const allMarcos = Array.from(document.querySelectorAll('.marco-input'));
-        const index = allMarcos.indexOf(el);
-
-        // TAB (Próximo ou Novo)
-        if (e.key === 'Tab' && !e.shiftKey) {
-            e.preventDefault();
-            if (index === allMarcos.length - 1) {
-                // Se for o último, cria um novo
-                RotaTool.addMarco('', true);
-            } else {
-                // Se não for o último, foca no próximo e vai para o fim do texto
-                const next = allMarcos[index + 1];
-                next.focus();
-                next.setSelectionRange(next.value.length, next.value.length);
+            const textarea = div.querySelector('textarea');
+            if (focus) {
+                setTimeout(() => {
+                    textarea.focus();
+                    autoResize(textarea);
+                }, 50);
+            } else if (text) {
+                setTimeout(() => autoResize(textarea), 50);
             }
-        }
 
-        // Shift + TAB (Voltar)
-        if (e.key === 'Tab' && e.shiftKey) {
-            e.preventDefault();
-            if (index > 0) {
-                const prev = allMarcos[index - 1];
-                prev.focus();
-                prev.setSelectionRange(prev.value.length, prev.value.length);
-            } else {
-                const destiny = document.getElementById('rota-destiny');
-                destiny.focus();
-                destiny.setSelectionRange(destiny.value.length, destiny.value.length);
-            }
-        }
+            that.save();
+        },
 
-        // Backspace (Apagar se vazio)
-        if (e.key === 'Backspace' && el.value.trim() === '') {
-            e.preventDefault();
-            const parent = el.closest('.draggable-marco');
-            const prev = allMarcos[index - 1];
-            
-            if (prev) {
-                prev.focus();
-                prev.setSelectionRange(prev.value.length, prev.value.length);
-            } else {
-                document.getElementById('rota-destiny').focus();
-            }
-            parent.remove();
-            RotaTool.save();
-        }
-    },
+        // 2. LÓGICA DE TECLADO REFINADA
+        handleKeydown: (e, el) => {
+            const allMarcos = Array.from(document.querySelectorAll('.marco-input'));
+            const index = allMarcos.indexOf(el);
 
-    // 3. PERSISTÊNCIA E CARREGAMENTO
-    save: () => {
-        const marcos = Array.from(document.querySelectorAll('.marco-input')).map(input => input.value);
-        localStorage.setItem('rota-marcos-data', JSON.stringify(marcos));
-    },
-
-    restore: () => {
-        const container = document.getElementById('list-marcos');
-        if (!container) return;
-
-        container.innerHTML = '';
-        const saved = localStorage.getItem('rota-marcos-data');
-        if (saved) {
-            const marcos = JSON.parse(saved);
-            marcos.forEach(m => that.addMarco(m, false));
-        }
-
-        const destiny = document.getElementById('rota-destiny');
-        if (destiny) {
-            destiny.addEventListener('keydown', (e) => {
-                if (e.key === 'Tab' && !e.shiftKey) {
-                    const firstMarco = document.querySelector('.marco-input');
-                    if (!firstMarco) {
-                        e.preventDefault();
-                        that.addMarco('', true);
-                    } else {
-                        e.preventDefault();
-                        firstMarco.focus();
-                        firstMarco.setSelectionRange(firstMarco.value.length, firstMarco.value.length);
-                    }
+            // TAB (Próximo ou Novo)
+            if (e.key === 'Tab' && !e.shiftKey) {
+                e.preventDefault();
+                if (index === allMarcos.length - 1) {
+                    // Se for o último, cria um novo
+                    RotaTool.addMarco('', true);
+                } else {
+                    // Se não for o último, foca no próximo e vai para o fim do texto
+                    const next = allMarcos[index + 1];
+                    next.focus();
+                    next.setSelectionRange(next.value.length, next.value.length);
                 }
-            });
-        }
-        that.initDragAndDrop();
-    },
+            }
 
-    // 4. SISTEMA DE ARRASTAR
-    initDragAndDrop: () => {
-        const container = document.getElementById('list-marcos');
-        if (!container) return;
-        container.addEventListener('dragover', e => {
-            e.preventDefault();
-            const dragging = document.querySelector('.dragging');
-            const afterElement = RotaTool.getDragAfterElement(container, e.clientY);
-            container.classList.add('border-2', 'border-dashed', 'border-gray-300', 'rounded-xl');
-            if (afterElement == null) container.appendChild(dragging);
-            else container.insertBefore(dragging, afterElement);
-        });
-        container.addEventListener('dragleave', () => container.classList.remove('border-2', 'border-dashed', 'border-gray-300'));
-        container.addEventListener('drop', () => { container.classList.remove('border-2', 'border-dashed', 'border-gray-300'); RotaTool.save(); });
-    },
+            // Shift + TAB (Voltar)
+            if (e.key === 'Tab' && e.shiftKey) {
+                e.preventDefault();
+                if (index > 0) {
+                    const prev = allMarcos[index - 1];
+                    prev.focus();
+                    prev.setSelectionRange(prev.value.length, prev.value.length);
+                } else {
+                    const destiny = document.getElementById('rota-destiny');
+                    destiny.focus();
+                    destiny.setSelectionRange(destiny.value.length, destiny.value.length);
+                }
+            }
 
-    getDragAfterElement: (container, y) => {
-        const draggableElements = [...container.querySelectorAll('.draggable-marco:not(.dragging)')];
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
-            if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
-            else return closest;
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
-    },
+            // Backspace (Apagar se vazio)
+            if (e.key === 'Backspace' && el.value.trim() === '') {
+                e.preventDefault();
+                const parent = el.closest('.draggable-marco');
+                const prev = allMarcos[index - 1];
 
-    clearForm: () => {
-        if (confirm("Deseja realmente apagar toda a Rota da Jornada?")) {
-            const fields = ['rota-name', 'rota-coach', 'rota-date', 'rota-destiny', 'rota-victory', 'rota-worthy'];
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-                localStorage.removeItem(id);
-            });
-            localStorage.removeItem('rota-marcos-data');
+                if (prev) {
+                    prev.focus();
+                    prev.setSelectionRange(prev.value.length, prev.value.length);
+                } else {
+                    document.getElementById('rota-destiny').focus();
+                }
+                parent.remove();
+                RotaTool.save();
+            }
+        },
+
+        // 3. PERSISTÊNCIA E CARREGAMENTO
+        save: () => {
+            const marcos = Array.from(document.querySelectorAll('.marco-input')).map(input => input.value);
+            localStorage.setItem('rota-marcos-data', JSON.stringify(marcos));
+        },
+
+        restore: () => {
             const container = document.getElementById('list-marcos');
-            if (container) container.innerHTML = '';
-            window.location.hash = 'rota';
-            window.location.reload();
-        }
-    },
+            if (!container) return;
 
-    // 5. IMPRESSÃO CORRIGIDA (SEM RECUO E SEM ESPAÇOS EXTRAS)
-    /* ... dentro do objeto RotaTool ... */
+            container.innerHTML = '';
+            const saved = localStorage.getItem('rota-marcos-data');
+            if (saved) {
+                const marcos = JSON.parse(saved);
+                marcos.forEach(m => that.addMarco(m, false));
+            }
 
-    print: () => {
-        try {
-            const getVal = (id) => document.getElementById(id)?.value || '---';
-            const coachee = getVal('rota-name').toUpperCase();
-            const coach = getVal('rota-coach').toUpperCase();
-            const data = getVal('rota-date');
+            const destiny = document.getElementById('rota-destiny');
+            if (destiny) {
+                destiny.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab' && !e.shiftKey) {
+                        const firstMarco = document.querySelector('.marco-input');
+                        if (!firstMarco) {
+                            e.preventDefault();
+                            that.addMarco('', true);
+                        } else {
+                            e.preventDefault();
+                            firstMarco.focus();
+                            firstMarco.setSelectionRange(firstMarco.value.length, firstMarco.value.length);
+                        }
+                    }
+                });
+            }
+            that.initDragAndDrop();
+        },
 
-            const printArea = document.getElementById('print-area');
-            if (!printArea) return;
+        // 4. SISTEMA DE ARRASTAR
+        initDragAndDrop: () => {
+            const container = document.getElementById('list-marcos');
+            if (!container) return;
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const dragging = document.querySelector('.dragging');
+                const afterElement = RotaTool.getDragAfterElement(container, e.clientY);
+                container.classList.add('border-2', 'border-dashed', 'border-gray-300', 'rounded-xl');
+                if (afterElement == null) container.appendChild(dragging);
+                else container.insertBefore(dragging, afterElement);
+            });
+            container.addEventListener('dragleave', () => container.classList.remove('border-2', 'border-dashed', 'border-gray-300'));
+            container.addEventListener('drop', () => { container.classList.remove('border-2', 'border-dashed', 'border-gray-300'); RotaTool.save(); });
+        },
 
-            // Função interna para o cabeçalho idêntico em todas as páginas
-            const getHeaderHTML = (subtitulo) => `
+        getDragAfterElement: (container, y) => {
+            const draggableElements = [...container.querySelectorAll('.draggable-marco:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+                else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        },
+
+        clearForm: () => {
+            if (confirm("Deseja realmente apagar toda a Rota da Jornada?")) {
+                const fields = ['rota-name', 'rota-coach', 'rota-date', 'rota-destiny', 'rota-victory', 'rota-worthy'];
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                    localStorage.removeItem(id);
+                });
+                localStorage.removeItem('rota-marcos-data');
+                const container = document.getElementById('list-marcos');
+                if (container) container.innerHTML = '';
+                window.location.hash = 'rota';
+                window.location.reload();
+            }
+        },
+
+        // 5. IMPRESSÃO CORRIGIDA (SEM RECUO E SEM ESPAÇOS EXTRAS)
+        /* ... dentro do objeto RotaTool ... */
+
+        print: () => {
+            try {
+                const getVal = (id) => document.getElementById(id)?.value || '---';
+                const coachee = getVal('rota-name').toUpperCase();
+                const coach = getVal('rota-coach').toUpperCase();
+                const data = getVal('rota-date');
+
+                const printArea = document.getElementById('print-area');
+                if (!printArea) return;
+
+                // Função interna para o cabeçalho idêntico em todas as páginas
+                const getHeaderHTML = (subtitulo) => `
                 <div class="print-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <h1 style="font-family:'Space Grotesk'; font-size:18px; font-weight:900; margin:0">ROTA DA JORNADA</h1>
@@ -354,11 +354,12 @@ window.RotaTool = (function(){
                 </div>
             `;
 
-            printArea.innerHTML = `
+                printArea.innerHTML = `
                 <style>
-                    @page { size: A4; margin: 7.5mm 15mm; }
                     @media print {
+                        @page { size: A4; margin: 0; }
                         html, body { margin: 0; padding: 0; background: white !important; -webkit-print-color-adjust: exact; }
+                        body { padding: 15mm; }
                         .page-break { page-break-after: always; break-after: page; }
                     }
                     
@@ -368,12 +369,13 @@ window.RotaTool = (function(){
                     .print-header { border-bottom: 4px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
                     .info-grid { display: flex; gap: 8px; margin-top: 10px; }
                     .info-item { flex: 1; border: 2px solid #000; padding: 6px 10px; background: #ffde59 !important; }
-                    .info-label { font-size: 7px; font-weight: 900; text-transform: uppercase; display: block; line-height: 1; margin-bottom: 2px; }
-                    .info-content { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+                    .info-label { font-size: 8px; font-weight: 900; text-transform: uppercase; display: block; line-height: 1; margin-bottom: 2px; }
+                    .info-content { font-size: 11px; font-weight: 800; text-transform: uppercase; }
                     
                     /* Seções de Texto */
-                    .section-title { font-size: 11px; font-weight: 900; text-transform: uppercase; margin-top: 20px; margin-bottom: 6px; font-family: 'Space Grotesk'; border-left: 4px solid #ffde59; padding-left: 8px; }
-                    .text-box-print { border: 2px solid #000; padding: 10px; white-space: pre-wrap; word-wrap: break-word; font-size: 11px; line-height: 1.4; text-align: left; background: white; margin-bottom: 10px; }
+                    .section-title { font-size: 16px; font-weight: 900; text-transform: uppercase; margin-top: 20px; margin-bottom: 6px; font-family: 'Space Grotesk'; border-left: 4px solid #ffde59; padding-left: 8px; }
+                    .text-box-print { border: 2px solid #000; padding: 10px; white-space: pre-wrap; word-wrap: break-word; font-size: 14px; line-height: 1.4; text-align: left; background: white; margin-bottom: 10px; }
+                    .footer-print { text-align: center; font-size: 9px; color: #999; text-transform: uppercase; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
                     
                     /* Linha do Tempo e Marcos */
                     .destiny-box-print { border: 3px solid #000; padding: 12px; background: #ffde59 !important; margin-bottom: 20px; text-align: left !important; }
@@ -450,13 +452,16 @@ window.RotaTool = (function(){
                             `).join('')}
                             <div class="today-print">Estado Atual (Hoje)</div>
                         </div>
+                        <div class="footer-print">
+                            Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                        </div>
                     </div>
                 </div>
             `;
 
-            setTimeout(() => { window.print(); }, 500);
-        } catch (e) { console.error("Erro na impressão:", e); }
-    }
+                setTimeout(() => { window.print(); }, 500);
+            } catch (e) { console.error("Erro na impressão:", e); }
+        }
     };
 
     return that;

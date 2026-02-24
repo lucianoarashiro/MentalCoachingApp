@@ -1,12 +1,12 @@
-window.PyramidTool = (function(){
+window.PyramidTool = (function () {
     'use strict';
     const that = {
-    load: () => {
-        const container = document.getElementById('view-pyramid');
-        if (!container) return;
-        if (container.querySelector('#pyramid-main')) return; // already built
+        load: () => {
+            const container = document.getElementById('view-pyramid');
+            if (!container) return;
+            if (container.querySelector('#pyramid-main')) return; // already built
 
-        const html = `
+            const html = `
             <div id="pyramid-main" class="max-w-5xl mx-auto">
                 
                 <div class="mb-6 flex justify-between items-center border-b-2 border-black pb-4">
@@ -124,43 +124,43 @@ window.PyramidTool = (function(){
                 </div>
             </div>
         `;
-        
-        container.innerHTML = html;
-        console.log('DEBUG: PyramidTool.load() HTML injected', container.innerHTML.length);
-        that.init();  // Inicializa auto-resize e data
-    },
 
-    init: () => {
-        const textareas = document.querySelectorAll('#view-pyramid .auto-resize');
-        textareas.forEach(tx => {
-            tx.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
+            container.innerHTML = html;
+            console.log('DEBUG: PyramidTool.load() HTML injected', container.innerHTML.length);
+            that.init();  // Inicializa auto-resize e data
+        },
+
+        init: () => {
+            const textareas = document.querySelectorAll('#view-pyramid .auto-resize');
+            textareas.forEach(tx => {
+                tx.addEventListener('input', function () {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
             });
-        });
 
-        const dateInput = document.getElementById('pyramid-date');
-        if (dateInput && !dateInput.value) {
-            dateInput.value = new Date().toISOString().split('T')[0];
-        }
-    },
+            const dateInput = document.getElementById('pyramid-date');
+            if (dateInput && !dateInput.value) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
+        },
 
-    clearForm: () => {
-        if (confirm("Deseja apagar todos os dados da Pirâmide?")) {
-            const inputs = document.querySelectorAll('#view-pyramid .persist');
-            inputs.forEach(el => {
-                el.value = '';
-                localStorage.removeItem(el.id);
-            });
-            window.location.hash = 'pyramid';
-            window.location.reload();
-        }
-    },
+        clearForm: () => {
+            if (confirm("Deseja apagar todos os dados da Pirâmide?")) {
+                const inputs = document.querySelectorAll('#view-pyramid .persist');
+                inputs.forEach(el => {
+                    el.value = '';
+                    localStorage.removeItem(el.id);
+                });
+                window.location.hash = 'pyramid';
+                window.location.reload();
+            }
+        },
 
-    // CABEÇALHO COM CAIXAS TOTALMENTE IGUAIS EM LARGURA E ALTURA
-    getHeaderHTML: (subtitulo) => {
-        const getVal = (id) => document.getElementById(id)?.value || '---';
-        return `
+        // CABEÇALHO COM CAIXAS TOTALMENTE IGUAIS EM LARGURA E ALTURA
+        getHeaderHTML: (subtitulo) => {
+            const getVal = (id) => document.getElementById(id)?.value || '---';
+            return `
             <div class="print-header-container">
                 <div class="print-title-row">
                     <h1 class="main-title-print">Pirâmide do Sucesso</h1>
@@ -183,33 +183,35 @@ window.PyramidTool = (function(){
                 </div>
             </div>
         `;
-    },
+        },
 
-    print: () => {
-        const getVal = (id) => {
-            const val = document.getElementById(id)?.value || '---';
-            return val.replace(/\n/g, '<br>');
-        };
+        print: () => {
+            const getVal = (id) => {
+                const val = document.getElementById(id)?.value || '---';
+                return val.replace(/\n/g, '<br>');
+            };
 
-        const printArea = document.getElementById('print-area');
-        if (!printArea) return;
+            const printArea = document.getElementById('print-area');
+            if (!printArea) return;
 
-        let styleTag = document.getElementById('pyramid-print-style');
-        if (!styleTag) {
-            styleTag = document.createElement('style');
-            styleTag.id = 'pyramid-print-style';
-            document.head.appendChild(styleTag);
-        }
-        
-        styleTag.innerHTML = `
+            let styleTag = document.getElementById('pyramid-print-style');
+            if (!styleTag) {
+                styleTag = document.createElement('style');
+                styleTag.id = 'pyramid-print-style';
+                document.head.appendChild(styleTag);
+            }
+
+            styleTag.innerHTML = `
             @media print {
+                @page { size: A4; margin: 0; }
+                body { margin: 0; padding: 15mm; background: white !important; font-family: 'Inter', sans-serif; }
                 body * { visibility: hidden; }
                 #print-area, #print-area * { visibility: visible; }
                 #print-area { position: absolute; left: 0; top: 0; width: 100%; display: block !important; }
                 
                 .print-header-container { margin-bottom: 25px; }
                 .print-title-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
-                .main-title-print { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 900; text-transform: uppercase; margin: 0; }
+                .main-title-print { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0; }
                 .subtitle-print { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; }
 
                 /* FORÇA LARGURAS E ALTURAS IDÊNTICAS */
@@ -239,27 +241,29 @@ window.PyramidTool = (function(){
                 /* ESTRUTURA DA PIRÂMIDE */
                 .pyramid-top-header { background: #ffde59 !important; -webkit-print-color-adjust: exact; border: 3px solid black; text-align: center; padding: 15px; margin-top: 30px; margin-bottom: 25px; box-shadow: 4px 4px 0px 0px black; }
                 .pyramid-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; }
-                .pilar-box { border: 3px solid black; padding: 12px; min-height: 280px; background: white !important; box-shadow: 4px 4px 0px 0px black; }                .pilar-title { font-weight: 900; font-size: 12px; border-bottom: 2px solid black; padding-bottom: 6px; margin-bottom: 12px; text-transform: uppercase; }
-                .activity-line { font-size: 10px; margin-bottom: 10px; padding-left: 8px; border-left: 3px solid #eee; line-height: 1.4; }
+                .pilar-box { border: 3px solid black; padding: 12px; min-height: 280px; background: white !important; box-shadow: 4px 4px 0px 0px black; }
+                .pilar-title { font-weight: 900; font-size: 14px; border-bottom: 2px solid black; padding-bottom: 6px; margin-bottom: 12px; text-transform: uppercase; }
+                .activity-line { font-size: 12px; margin-bottom: 10px; padding-left: 8px; border-left: 3px solid #eee; line-height: 1.4; }
                 
                 /* SEÇÕES DE CONCLUSÃO */
-                .section-title { font-family: 'Space Grotesk'; font-size: 13px; font-weight: 900; text-transform: uppercase; margin: 25px 0 10px 0; border-left: 5px solid #ffde59; padding-left: 10px; }
+                .section-title { font-family: 'Space Grotesk'; font-size: 16px; font-weight: 900; text-transform: uppercase; margin: 25px 0 10px 0; border-left: 5px solid #ffde59; padding-left: 10px; }
                 .text-box-print { 
                     white-space: pre-wrap !important; 
                     border: 3px solid black !important; 
                     padding: 15px; 
                     min-height: 100px; 
-                    font-size: 11px; 
+                    font-size: 14px; 
                     background: white !important;
                     box-shadow: 4px 4px 0px 0px black;
                 }
 
                 .page-break { page-break-before: always; }
-                .footer-notice { margin-top: 50px; text-align: center; font-size: 9px; font-weight: 800; text-transform: uppercase; border-top: 2px dashed black; padding-top: 15px; color: #444; }
+                .footer-print { text-align: center; font-size: 9px; color: #999; text-transform: uppercase; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+                .footer-notice { margin-top: 30px; text-align: center; font-size: 9px; font-weight: 800; text-transform: uppercase; border-top: 2px dashed black; padding-top: 15px; color: #444; }
             }
         `;
 
-        printArea.innerHTML = `
+            printArea.innerHTML = `
             <table style="width: 100%;">
                 <tbody>
                     <tr>
@@ -288,9 +292,9 @@ window.PyramidTool = (function(){
                                         <div class="pilar-box">
                                             <span style="font-size: 8px; font-weight: 900; text-transform: uppercase; color: #666;">Pilar 0${i} / Sub-Meta</span>
                                             <div class="pilar-title">${getVal('pyramid-sub-' + i)}</div>
-                                            <div class="activity-line">• ${getVal('pyramid-a'+i+'-1')}</div>
-                                            <div class="activity-line">• ${getVal('pyramid-a'+i+'-2')}</div>
-                                            <div class="activity-line">• ${getVal('pyramid-a'+i+'-3')}</div>
+                                            <div class="activity-line">• ${getVal('pyramid-a' + i + '-1')}</div>
+                                            <div class="activity-line">• ${getVal('pyramid-a' + i + '-2')}</div>
+                                            <div class="activity-line">• ${getVal('pyramid-a' + i + '-3')}</div>
                                         </div>
                                     `).join('')}
                                 </div>
@@ -299,13 +303,16 @@ window.PyramidTool = (function(){
                     </tr>
                 </tbody>
             </table>
+            <div class="footer-print">
+                Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+            </div>
         `;
 
-        setTimeout(() => { window.print(); }, 500);
-    }
+            setTimeout(() => { window.print(); }, 500);
+        }
     };
 
-    document.addEventListener('DOMContentLoaded', function(){ if (window.PyramidTool && window.PyramidTool.init) window.PyramidTool.init(); });
+    document.addEventListener('DOMContentLoaded', function () { if (window.PyramidTool && window.PyramidTool.init) window.PyramidTool.init(); });
 
     return that;
 })();

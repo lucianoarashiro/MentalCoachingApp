@@ -19,8 +19,11 @@ body {
     min-height: 100vh;
 }
 
-h1, h2, h3, h4 { 
-    font-family: 'Space Grotesk', sans-serif; 
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     color: var(--border-dark);
 }
@@ -76,8 +79,10 @@ h1, h2, h3, h4 {
     transition: all 0.2s;
     font-family: 'Inter', sans-serif;
     color: #1a1a1a;
-    overflow: hidden; /* Remove barra de rolagem para o auto-resize */
-    resize: none;    /* Impede redimensionamento manual pelo usuário */
+    overflow: hidden;
+    /* Remove barra de rolagem para o auto-resize */
+    resize: none;
+    /* Impede redimensionamento manual pelo usuário */
 }
 
 .input-field:focus {
@@ -95,17 +100,17 @@ h1, h2, h3, h4 {
     align-items: center;
     font-family: 'Space Grotesk', sans-serif;
     box-shadow: 4px 4px 0px 0px var(--border-dark);
-    background: var(--brand-yellow); 
-    
-    border: 3px solid var(--border-dark); 
+    background: var(--brand-yellow);
+
+    border: 3px solid var(--border-dark);
 }
 
-.nav-link:hover { 
+.nav-link:hover {
     transform: translate(-2px, -2px);
     box-shadow: 6px 6px 0px 0px var(--border-dark);
 }
 
-.nav-link:active { 
+.nav-link:active {
     transform: translate(4px, 4px);
     box-shadow: 0px 0px 0px 0px var(--border-dark);
 }
@@ -113,7 +118,7 @@ h1, h2, h3, h4 {
 /* Helper de Tipografia para Perguntas */
 .label-main {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.4rem; 
+    font-size: 1.4rem;
     font-weight: 700;
     text-transform: uppercase;
     display: block;
@@ -123,7 +128,7 @@ h1, h2, h3, h4 {
 }
 
 .label-reference {
-    font-size: 0.95rem; 
+    font-size: 0.95rem;
     font-weight: 500;
     color: #4a4a4a;
     margin-bottom: 1rem;
@@ -154,8 +159,21 @@ h1, h2, h3, h4 {
 
 @media (max-width: 768px) {
     .label-main {
-        font-size: 1.1rem !important; /* Diminui levemente o título no mobile */
+        font-size: 1.1rem !important;
         line-height: 1.2;
+    }
+
+    #app-container {
+        padding: 1rem !important;
+        margin-top: 0 !important;
+    }
+
+    .grid {
+        gap: 1rem !important;
+    }
+
+    .bc-card {
+        padding: 1.25rem !important;
     }
 }
 
@@ -165,6 +183,7 @@ h1, h2, h3, h4 {
 details summary::-webkit-details-marker {
     display: none;
 }
+
 details summary {
     list-style: none;
 }
@@ -182,7 +201,10 @@ details summary {
     align-content: flex-start;
     transition: background 0.2s;
 }
-.drop-zone:hover { background: #ebedef; }
+
+.drop-zone:hover {
+    background: #ebedef;
+}
 
 .value-tag {
     background: white;
@@ -195,16 +217,22 @@ details summary {
     box-shadow: 2px 2px 0px 0px #1a1a1a;
     text-transform: uppercase;
     transition: transform 0.1s;
-    display: inline-flex; /* Mudança aqui: inline-flex ajuda no dimensionamento */
+    display: inline-flex;
+    /* Mudança aqui: inline-flex ajuda no dimensionamento */
     align-items: center;
     justify-content: center;
     gap: 8px;
     transition: transform 0.1s;
-    white-space: nowrap; /* Garante que o texto e o X fiquem na mesma linha */
+    white-space: nowrap;
+    /* Garante que o texto e o X fiquem na mesma linha */
     height: fit-content;
 
 }
-.value-tag:active { cursor: grabbing; transform: scale(0.95); }
+
+.value-tag:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
 
 /* Estilo do Número de Ranking */
 .rank-badge {
@@ -213,7 +241,8 @@ details summary {
     font-size: 0.65rem;
     width: 22px;
     height: 18px;
-    display: none; /* Escondido por padrão em todas as zonas */
+    display: none;
+    /* Escondido por padrão em todas as zonas */
     align-items: center;
     justify-content: center;
     border-radius: 2px;
@@ -237,6 +266,7 @@ details summary {
     border-radius: 4px;
     transition: background 0.2s;
 }
+
 .delete-btn:hover {
     background: rgba(255, 77, 77, 0.1);
 }
@@ -247,16 +277,25 @@ details summary {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media print {
     @page {
-        margin: 10mm; /* Remove cabeçalhos e rodapés do browser */
+        margin: 0;
+        /* Forced 0 margin hides browser headers/footers */
     }
+
     /* Esconde o corpo principal do app, nav, botões, etc */
-    body > *:not(#print-area) {
+    body>*:not(#print-area) {
         display: none !important;
     }
 
@@ -267,6 +306,8 @@ details summary {
         left: 0;
         top: 0;
         width: 100%;
+        padding: 15mm;
+        /* Re-adds safe margins manually */
     }
 
     body {
@@ -274,10 +315,21 @@ details summary {
         padding: 0;
         font-size: 11pt;
     }
-    .no-print { display: none !important; }
-    .print-only { display: block !important; }
-    .bc-card { border: none; box-shadow: none; padding: 0; }
-    
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+
+    .bc-card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+
     /* Evita quebra dentro de blocos de conteúdo */
     .print-block {
         page-break-inside: avoid !important;
@@ -297,33 +349,43 @@ details summary {
         margin-bottom: 2rem;
     }
 
-    .value-tag .delete-btn { display: none !important; }
-
-    .columns-container { 
-        display: flex; 
-        gap: 10px; 
-        width: 100%; 
-        align-items: flex-start; /* Alinha pelo topo */
+    .value-tag .delete-btn {
+        display: none !important;
     }
-    .print-col { 
-        flex: 1; /* Força as 3 a terem largura igual */
-        min-width: 0; 
+
+    .columns-container {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        align-items: flex-start;
+        /* Alinha pelo topo */
+    }
+
+    .print-col {
+        flex: 1;
+        /* Força as 3 a terem largura igual */
+        min-width: 0;
         border: 2px solid #000;
     }
 
     /* 1. Garante que o container da Pirâmide seja visível */
-    #view-pyramid, #view-pyramid * {
+    #view-pyramid,
+    #view-pyramid * {
         visibility: visible !important;
     }
 
     /* 2. Força textareas a respeitarem as quebras de linha */
-    #view-pyramid textarea.persist, 
+    #view-pyramid textarea.persist,
     #view-pyramid .input-field {
-        white-space: pre-wrap !important; /* Mantém as quebras de linha do usuário */
+        white-space: pre-wrap !important;
+        /* Mantém as quebras de linha do usuário */
         word-wrap: break-word !important;
-        height: auto !important;          /* Expande a altura no papel */
-        overflow: visible !important;      /* Garante que nada fique escondido */
-        border: 2px solid black !important; /* Mantém o visual Bauhaus */
+        height: auto !important;
+        /* Expande a altura no papel */
+        overflow: visible !important;
+        /* Garante que nada fique escondido */
+        border: 2px solid black !important;
+        /* Mantém o visual Bauhaus */
         background-color: transparent !important;
         appearance: none !important;
         -webkit-appearance: none !important;
@@ -332,20 +394,25 @@ details summary {
     /* 3. Ajuste específico para o topo (amarelo) */
     #pyramid-goal {
         background-color: #ffde59 !important;
-        -webkit-print-color-adjust: exact; /* Força o navegador a imprimir a cor */
+        -webkit-print-color-adjust: exact;
+        /* Força o navegador a imprimir a cor */
         print-color-adjust: exact;
         text-align: center !important;
         font-weight: bold !important;
     }
 
     /* 4. Remove elementos desnecessários na impressão */
-    .no-print, button, summary i {
+    .no-print,
+    button,
+    summary i {
         display: none !important;
     }
 
 }
 
-.print-only { display: none; }
+.print-only {
+    display: none;
+}
 
 /* Esconde a div de impressão enquanto você está usando o app */
 #print-area {
@@ -355,14 +422,17 @@ details summary {
 /* Feedback visual para o Drag & Drop */
 .drop-zone {
     transition: all 0.2s ease;
-    border: 3px solid transparent; /* Reserva o espaço da borda */
+    border: 3px solid transparent;
+    /* Reserva o espaço da borda */
 }
 
 /* Quando uma tag está sendo arrastada sobre a coluna */
 .drop-zone.drop-target-active {
-    background-color: rgba(255, 222, 89, 0.1); /* Um leve amarelo ao fundo */
+    background-color: rgba(255, 222, 89, 0.1);
+    /* Um leve amarelo ao fundo */
     border: 3px dashed var(--brand-yellow);
-    transform: scale(1.01); /* Um leve "zoom" para dar profundidade */
+    transform: scale(1.01);
+    /* Um leve "zoom" para dar profundidade */
 }
 
 /* Opcional: Feedback no item que está sendo carregado */
@@ -384,4 +454,122 @@ details summary {
     border-radius: 99px;
     margin-top: 10px;
     display: inline-block;
+}
+
+/* MOBILE MOVE MODE OVERLAY */
+.mobile-move-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    animation: fadeIn 0.1s ease-out;
+    backdrop-filter: blur(4px);
+}
+
+.move-header {
+    border-bottom: 4px solid black;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.move-tag-display {
+    display: inline-block;
+    background: #ffde59;
+    padding: 8px 16px;
+    border: 3px solid black;
+    font-weight: 900;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px 0px black;
+    margin-top: 10px;
+}
+
+.move-zones-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.move-zone-btn {
+    flex: 1;
+    border: 4px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    box-shadow: 6px 6px 0px 0px black;
+    transition: all 0.1s;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+}
+
+.move-zone-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0px 0px black;
+}
+
+.move-cancel-btn {
+    margin-top: 20px;
+    border: 3px solid black;
+    padding: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    background: #eee;
+}
+
+@media (min-width: 769px) {
+    .mobile-move-overlay {
+        display: none !important;
+    }
+}
+/* FEEDBACK & MODAL STYLES */
+#feedback-fab {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--brand-yellow);
+    border: 4px solid var(--border-dark);
+    box-shadow: 6px 6px 0px 0px var(--border-dark);
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#feedback-fab:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0px 0px var(--border-dark);
+}
+
+#feedback-fab:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px 0px var(--border-dark);
+}
+
+#feedback-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.1s ease-out;
+}
+
+.feedback-modal-content {
+    background: white;
 }

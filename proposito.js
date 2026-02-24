@@ -192,8 +192,10 @@ const PropositoTool = {
 
             printArea.innerHTML = `
                 <style>
-                    @page { size: A4; margin: 10mm; }
-                    body { margin: 0; padding: 0; background: white !important; font-family: 'Inter', sans-serif; }
+                    @media print {
+                        @page { size: A4; margin: 0; }
+                        body { margin: 0; padding: 15mm; background: white !important; font-family: 'Inter', sans-serif; }
+                    }
                     
                     .report-table { width: 100%; border-collapse: collapse; }
                     
@@ -202,8 +204,8 @@ const PropositoTool = {
                         padding-bottom: 15px;
                         margin-bottom: 20px;
                     }
-                    .title-report { font-size: 26px; font-weight: 900; text-transform: uppercase; margin: 0; letter-spacing: -1px; }
-                    .subtitle-report { font-weight: 700; color: #666; text-transform: uppercase; margin: 0; font-size: 11px; letter-spacing: 2px; }
+                    .title-report { font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0; letter-spacing: -1px; }
+                    .subtitle-report { font-weight: 700; color: #666; text-transform: uppercase; margin: 0; font-size: 10px; letter-spacing: 2px; }
 
                     .header-info { display: flex; gap: 15px; margin-bottom: 30px; }
                     .info-box { flex: 1; background: #ffde59 !important; border: 3px solid #000; padding: 10px 15px; -webkit-print-color-adjust: exact; }
@@ -211,7 +213,7 @@ const PropositoTool = {
                     .info-content { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #000; }
 
                     .section-title { 
-                        font-size: 18px; 
+                        font-size: 16px; 
                         font-weight: 900; 
                         text-transform: uppercase; 
                         background: #000 !important; 
@@ -242,74 +244,93 @@ const PropositoTool = {
                     .footer-print { text-align: center; font-size: 10px; color: #999; text-transform: uppercase; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
                 </style>
 
-                <div class="tool-title-area">
-                    <h1 class="title-report">Propósito Inabalável</h1>
-                    <p class="subtitle-report">Relatório de Alinhamento e Missão</p>
-                </div>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <td>
+                                <div class="tool-title-area">
+                                    <h1 class="title-report">Propósito Inabalável</h1>
+                                    <p class="subtitle-report">Relatório de Alinhamento e Missão</p>
+                                </div>
 
-                <div class="header-info">
-                    <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
-                    <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
-                    <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
-                </div>
+                                <div class="header-info">
+                                    <div class="info-box"><span class="info-label">Coachee</span><div class="info-content">${coachee}</div></div>
+                                    <div class="info-box"><span class="info-label">Coach</span><div class="info-content">${coach}</div></div>
+                                    <div class="info-box"><span class="info-label">Data</span><div class="info-content">${data}</div></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </thead>
 
-                <div class="avoid-break vitoria-worthy">
-                    <h2 class="section-title">1. Reflexão</h2>
-                    <div class="mini-box">
-                        <span class="mini-label">Pequena Vitória</span>
-                        <div class="sphere-content">${getVal('pi-vitoria')}</div>
-                    </div>
-                    <div class="mini-box">
-                        <span class="mini-label">Por que valeu a pena?</span>
-                        <div class="sphere-content">${getVal('pi-worthy')}</div>
-                    </div>
-                </div>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="avoid-break vitoria-worthy">
+                                    <h2 class="section-title">1. Reflexão</h2>
+                                    <div class="mini-box">
+                                        <span class="mini-label">Pequena Vitória</span>
+                                        <div class="sphere-content">${getVal('pi-vitoria')}</div>
+                                    </div>
+                                    <div class="mini-box">
+                                        <span class="mini-label">Por que valeu a pena?</span>
+                                        <div class="sphere-content">${getVal('pi-worthy')}</div>
+                                    </div>
+                                </div>
 
+                                <div class="page-break avoid-break">
+                                    <h2 class="section-title">2. As Esferas de Motivação</h2>
+                                    <div class="sphere-grid">
+                                        <div class="sphere-box">
+                                            <span class="sphere-label">Pessoal (EU)</span>
+                                            <div class="sphere-content">${getVal('pi-eu')}</div>
+                                        </div>
+                                        <div class="sphere-box">
+                                            <span class="sphere-label">Coletiva (NÓS)</span>
+                                            <div class="sphere-content">${getVal('pi-nos')}</div>
+                                        </div>
+                                        <div class="sphere-box">
+                                            <span class="sphere-label">Global (MUNDO)</span>
+                                            <div class="sphere-content">${getVal('pi-mundo')}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="page-break avoid-break">
-                    <h2 class="section-title">2. As Esferas de Motivação</h2>
-                    <div class="sphere-grid">
-                        <div class="sphere-box">
-                            <span class="sphere-label">Pessoal (EU)</span>
-                            <div class="sphere-content">${getVal('pi-eu')}</div>
-                        </div>
-                        <div class="sphere-box">
-                            <span class="sphere-label">Coletiva (NÓS)</span>
-                            <div class="sphere-content">${getVal('pi-nos')}</div>
-                        </div>
-                        <div class="sphere-box">
-                            <span class="sphere-label">Global (MUNDO)</span>
-                            <div class="sphere-content">${getVal('pi-mundo')}</div>
-                        </div>
-                    </div>
-                </div>
+                                <div class="avoid-break">
+                                    <h2 class="section-title">3. Propósitos Inabaláveis (Top 3)</h2>
+                                    <div class="top3-container">
+                                        <div class="top3-item">
+                                            <span class="top3-num">1.</span>
+                                            <span class="top3-text">${getVal('pi-top1')}</span>
+                                        </div>
+                                        <div class="top3-item">
+                                            <span class="top3-num">2.</span>
+                                            <span class="top3-text">${getVal('pi-top2')}</span>
+                                        </div>
+                                        <div class="top3-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                                            <span class="top3-num">3.</span>
+                                            <span class="top3-text">${getVal('pi-top3')}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="avoid-break">
-                    <h2 class="section-title">3. Propósitos Inabaláveis (Top 3)</h2>
-                    <div class="top3-container">
-                        <div class="top3-item">
-                            <span class="top3-num">1.</span>
-                            <span class="top3-text">${getVal('pi-top1')}</span>
-                        </div>
-                        <div class="top3-item">
-                            <span class="top3-num">2.</span>
-                            <span class="top3-text">${getVal('pi-top2')}</span>
-                        </div>
-                        <div class="top3-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
-                            <span class="top3-num">3.</span>
-                            <span class="top3-text">${getVal('pi-top3')}</span>
-                        </div>
-                    </div>
-                </div>
+                                <div class="avoid-break">
+                                    <h2 class="section-title">4. Percepção</h2>
+                                    <div class="reflection-box">${getVal('pi-percepcao')}</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
 
-                <div class="avoid-break">
-                    <h2 class="section-title">4. Percepção</h2>
-                    <div class="reflection-box">${getVal('pi-percepcao')}</div>
-                </div>
-
-                <div class="footer-print">
-                    Master Performance System - Gerado em ${new Date().toLocaleDateString('pt-BR')}
-                </div>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <div class="footer-print">
+                                    Kotini App - Gerado em ${new Date().toLocaleDateString('pt-BR')}
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             `;
 
             setTimeout(() => { window.print(); }, 500);

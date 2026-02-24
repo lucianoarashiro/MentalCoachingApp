@@ -1,5 +1,5 @@
 /* Roda de Competências Tool - Dynamic Competencies (3-10) */
-window.CompetenciasTool = (function(){
+window.CompetenciasTool = (function () {
     'use strict';
     const STORAGE_DATA_KEY = 'competencias-items';
     const STORAGE_META_KEY = 'competencias-meta';
@@ -58,16 +58,16 @@ window.CompetenciasTool = (function(){
 
                 <!-- MODE TOGGLE (visible after step 1) -->
                 <div id="section-toggle" class="hidden bc-card p-6 mb-6">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                         <label class="font-black uppercase text-sm">Modo de Edição:</label>
-                        <div class="flex gap-3">
-                            <button onclick="CompetenciasTool.setMode('table')" id="btn-mode-table" class="px-4 py-2 border-2 border-black font-bold text-sm bg-[#ffde59]">
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button onclick="CompetenciasTool.setMode('table')" id="btn-mode-table" class="px-6 py-3 md:px-4 md:py-2 border-2 border-black font-bold text-sm bg-[#ffde59] shadow-[2px_2px_0px_0px_black] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] transition-all">
                                 <i class="fas fa-table"></i> Tabela
                             </button>
-                            <button onclick="CompetenciasTool.setMode('chart')" id="btn-mode-chart" class="px-4 py-2 border-2 border-black font-bold text-sm bg-white">
+                            <button onclick="CompetenciasTool.setMode('chart')" id="btn-mode-chart" class="px-6 py-3 md:px-4 md:py-2 border-2 border-black font-bold text-sm bg-white shadow-[2px_2px_0px_0px_black] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] transition-all">
                                 <i class="fas fa-chart-radar"></i> Gráfico
                             </button>
-                            <button onclick="CompetenciasTool.backToDefine()" class="px-4 py-2 border-2 border-black font-bold text-sm bg-white">
+                            <button onclick="CompetenciasTool.backToDefine()" class="px-6 py-3 md:px-4 md:py-2 border-2 border-black font-bold text-sm bg-white shadow-[2px_2px_0px_0px_black] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] transition-all">
                                 ← Voltar
                             </button>
                         </div>
@@ -157,15 +157,15 @@ window.CompetenciasTool = (function(){
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         const count = Math.max(data.length || 0, MIN_COMPETENCIES);
         const defineList = document.getElementById('comp-define-list');
-        
+
         defineList.innerHTML = ''; // Clear existing
-        
-        for (let i=0; i<count; i++) {
+
+        for (let i = 0; i < count; i++) {
             const item = data[i] || { label: '', score: 5, comment: '' };
             const div = document.createElement('div');
             div.className = 'p-3 border-2 border-black bg-white relative';
             div.innerHTML = `
-                <label class="text-[10px] font-black block mb-1">Competência ${i+1}</label>
+                <label class="text-[10px] font-black block mb-1">Competência ${i + 1}</label>
                 <div class="flex gap-2">
                     <input id="comp-label-${i}" class="persist input-field text-sm comp-label-input flex-1" placeholder="Descreva a competência" value="${item.label || ''}">
                     ${count > MIN_COMPETENCIES ? `<button onclick="CompetenciasTool.removeCompetency(${i})" class="bg-red-200 border-2 border-red-500 text-red-700 font-bold px-3 py-2 hover:bg-red-300 transition-colors" title="Excluir competência">
@@ -174,13 +174,13 @@ window.CompetenciasTool = (function(){
                 </div>
             `;
             defineList.appendChild(div);
-            
+
             // Attach keyboard listeners
             const input = div.querySelector('input');
             input.addEventListener('keydown', (e) => handleLabelKeydown(e, i));
             input.addEventListener('change', () => saveLabelData());
         }
-        
+
         // Update button visibility
         const btnAdd = document.getElementById('btn-add-competency');
         if (btnAdd) btnAdd.style.display = count >= MAX_COMPETENCIES ? 'none' : 'block';
@@ -190,32 +190,37 @@ window.CompetenciasTool = (function(){
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         const count = Math.max(data.length || 0, MIN_COMPETENCIES);
         const tableList = document.getElementById('comp-table-list');
-        
+
         tableList.innerHTML = ''; // Clear existing
-        
-        for (let i=0; i<count; i++) {
+
+        for (let i = 0; i < count; i++) {
             const item = data[i] || { label: '', score: 5, comment: '' };
             const div = document.createElement('div');
-            div.className = 'p-3 border-2 border-black bg-white grid grid-cols-12 gap-2 items-start';
+            div.className = 'p-4 border-2 border-black bg-white grid grid-cols-12 gap-3 items-start md:p-3 md:gap-2';
             div.innerHTML = `
-                <div class="col-span-5">
+                <div class="col-span-8 md:col-span-5">
                     <label class="text-[9px] font-black block mb-1">Competência</label>
-                    <div id="comp-table-name-${i}" class="font-bold p-2 bg-gray-100 min-h-[40px] flex items-center text-sm cursor-pointer hover:bg-yellow-100 transition-colors" title="Clique para editar comentário">${item.label || `Competência ${i+1}`}</div>
+                    <div id="comp-table-name-${i}" class="font-bold p-2 bg-gray-100 min-h-[48px] md:min-h-[40px] flex items-center text-sm cursor-pointer hover:bg-yellow-100 transition-colors" title="Clique para editar comentário">${item.label || `Competência ${i + 1}`}</div>
                 </div>
-                <div class="col-span-2">
+                <div class="col-span-4 md:col-span-2">
                     <label class="text-[9px] font-black block mb-1">Nota</label>
-                    <input id="comp-score-${i}" type="number" min="1" max="10" value="${item.score || 5}" class="persist input-field text-center text-lg font-bold" oninput="CompetenciasTool.saveData();">
+                    <input id="comp-score-${i}" type="number" min="1" max="10" value="${item.score || 5}" class="persist input-field text-center text-xl md:text-lg font-black bg-yellow-50 md:bg-white h-[48px] md:h-auto" oninput="CompetenciasTool.saveData();">
                 </div>
-                <div class="col-span-5">
+                <div class="col-span-12 md:col-span-5">
                     <label class="text-[9px] font-black block mb-1">Comentário</label>
-                    <textarea id="comp-comment-${i}" class="persist input-field text-xs min-h-[40px] auto-resize" placeholder="Obs..." oninput="CompetenciasTool.autoResizeTextarea(this); CompetenciasTool.saveData();">${item.comment || ''}</textarea>
+                    <textarea id="comp-comment-${i}" class="persist input-field text-xs min-h-[48px] md:min-h-[40px] auto-resize" placeholder="Obs..." oninput="CompetenciasTool.autoResizeTextarea(this); CompetenciasTool.saveData();">${item.comment || ''}</textarea>
                 </div>
             `;
             tableList.appendChild(div); // Insert into DOM
-            
-            // Attach click listener to table name for comment editing
+
+            // Attach click listener to table name for comment editing (ONLY on desktop)
             const nameEl = div.querySelector(`#comp-table-name-${i}`);
-            nameEl.addEventListener('click', () => openCommentModal(i));
+            if (window.innerWidth > 768) {
+                nameEl.addEventListener('click', () => openCommentModal(i));
+            } else {
+                nameEl.classList.remove('cursor-pointer', 'hover:bg-yellow-100');
+                nameEl.title = "";
+            }
         }
     }
 
@@ -223,7 +228,7 @@ window.CompetenciasTool = (function(){
         const input = e.target;
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         const count = Math.max(data.length || 0, MIN_COMPETENCIES);
-        
+
         // Tab: Add new competency or go to next
         if (e.key === 'Tab' && !e.shiftKey) {
             e.preventDefault();
@@ -239,7 +244,7 @@ window.CompetenciasTool = (function(){
                 if (nextInput) nextInput.focus();
             }
         }
-        
+
         // Backspace on empty field: Remove competency or move to previous
         if (e.key === 'Backspace' && input.value === '') {
             e.preventDefault();
@@ -267,19 +272,19 @@ window.CompetenciasTool = (function(){
     function saveLabelData() {
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         const count = Math.max(document.querySelectorAll('.comp-label-input').length, MIN_COMPETENCIES);
-        
+
         // Ensure array is large enough
         while (data.length < count) {
             data.push({ label: '', score: 5, comment: '' });
         }
-        
-        for (let i=0; i<count; i++) {
+
+        for (let i = 0; i < count; i++) {
             const input = document.querySelector(`#comp-label-${i}`);
             if (input && data[i]) {
                 data[i].label = input.value;
             }
         }
-        
+
         localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(data));
     }
 
@@ -296,15 +301,15 @@ window.CompetenciasTool = (function(){
     function removeCompetency(index) {
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         const count = Math.max(data.length || 0, MIN_COMPETENCIES);
-        
+
         // Don't allow removing below MIN_COMPETENCIES
         if (count <= MIN_COMPETENCIES) return;
-        
+
         data.splice(index, 1);
         localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(data));
         rebuildDefineList();
         rebuildTableList();
-        
+
         // Refresh chart if in chart mode
         if (editMode === 'chart' && chart) {
             renderChart(data);
@@ -328,14 +333,14 @@ window.CompetenciasTool = (function(){
         const items = data ? JSON.parse(data) : [];
 
         // Restore meta
-        if (metaData.name) document.getElementById('comp-name').value = metaData.name;
-        if (metaData.date) document.getElementById('comp-date').value = metaData.date;
-        if (metaData.coach) document.getElementById('comp-coach').value = metaData.coach;
-        if (metaData.objetivo) document.getElementById('comp-objetivo').value = metaData.objetivo;
-        if (metaData.reflection) document.getElementById('comp-reflection').value = metaData.reflection;
-        if (metaData.priority) document.getElementById('comp-priority').value = metaData.priority;
-        if (metaData.victory) document.getElementById('comp-victory').value = metaData.victory;
-        if (metaData.worthy) document.getElementById('comp-worthy').value = metaData.worthy;
+        document.getElementById('comp-name').value = metaData.name || '';
+        document.getElementById('comp-date').value = metaData.date || '';
+        document.getElementById('comp-coach').value = metaData.coach || '';
+        document.getElementById('comp-objetivo').value = metaData.objetivo || '';
+        document.getElementById('comp-reflection').value = metaData.reflection || '';
+        document.getElementById('comp-priority').value = metaData.priority || '';
+        document.getElementById('comp-victory').value = metaData.victory || '';
+        document.getElementById('comp-worthy').value = metaData.worthy || '';
 
         // Initialize with MIN_COMPETENCIES competencies if needed
         if (items.length < MIN_COMPETENCIES) {
@@ -350,7 +355,7 @@ window.CompetenciasTool = (function(){
             document.getElementById('section-define').classList.add('hidden');
             document.getElementById('section-toggle').classList.remove('hidden');
             renderChart(items);
-            
+
             // After DOM and styles are fully ready, resize all comment textareas that have content
             setTimeout(() => {
                 for (let i = 0; i < items.length; i++) {
@@ -421,11 +426,11 @@ window.CompetenciasTool = (function(){
     function saveData() {
         const data = localStorage.getItem(STORAGE_DATA_KEY);
         const items = data ? JSON.parse(data) : [];
-        
+
         // Get actual count of competencies
         const count = Math.max(document.querySelectorAll('.persist.input-field[id^="comp-score-"]').length, MIN_COMPETENCIES);
-        
-        for (let i=0; i<count; i++) {
+
+        for (let i = 0; i < count; i++) {
             const scoreEl = document.getElementById(`comp-score-${i}`);
             const commentEl = document.getElementById(`comp-comment-${i}`);
             if (!items[i]) items[i] = { label: '', score: 5, comment: '' };
@@ -449,13 +454,13 @@ window.CompetenciasTool = (function(){
 
         if (chart && editMode === 'chart') {
             // Update both labels (with comment emoji) and scores
-            const labels = items.map((it,i) => {
-                const label = it.label || `Comp ${i+1}`;
+            const labels = items.map((it, i) => {
+                const label = it.label || `Comp ${i + 1}`;
                 const hasComment = it.comment && it.comment.trim() ? ' 💬' : '';
                 return label + hasComment;
             });
             chart.data.labels = labels;
-            chart.data.datasets[0].data = items.map(it=>it.score);
+            chart.data.datasets[0].data = items.map(it => it.score);
             chart.update('none');
         }
     }
@@ -465,22 +470,22 @@ window.CompetenciasTool = (function(){
     function renderChart(items) {
         const ctx = document.getElementById('competencias-chart');
         if (!ctx) return;
-        const labels = items.map((it,i) => {
-            const label = it.label || `Comp ${i+1}`;
+        const labels = items.map((it, i) => {
+            const label = it.label || `Comp ${i + 1}`;
             const hasComment = it.comment && it.comment.trim() ? ' 💬' : '';
             return label + hasComment;
         });
         const data = items.map(it => it.score || 0);
-        
+
         if (chart) {
             chart.data.labels = labels;
             chart.data.datasets[0].data = data;
             chart.update();
             return;
         }
-        
+
         if (typeof Chart === 'undefined') return;
-        
+
         chart = new Chart(ctx, {
             type: 'radar',
             data: {
@@ -500,18 +505,18 @@ window.CompetenciasTool = (function(){
                 scales: { r: { suggestedMin: 0, suggestedMax: 10, ticks: { stepSize: 1 } } }
             }
         });
-        
+
         attachChartInteractivity(ctx, items);
     }
 
     function attachChartInteractivity(canvas, items) {
         canvas.style.cursor = 'default';
-        
+
         canvas.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             if (dragInfo.active && dragInfo.pointIndex !== null) {
                 updateChartPointFromMouse(x, y, dragInfo.pointIndex);
                 canvas.style.cursor = 'grabbing';
@@ -524,20 +529,20 @@ window.CompetenciasTool = (function(){
                 }
             }
         });
-        
+
         canvas.addEventListener('mousedown', (e) => {
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const pointIndex = getPointAtPosition(x, y);
-            
+
             if (pointIndex !== null) {
                 dragInfo.active = true;
                 dragInfo.pointIndex = pointIndex;
                 e.preventDefault();
             }
         });
-        
+
         canvas.addEventListener('mouseup', () => {
             dragInfo.active = false;
             dragInfo.pointIndex = null;
@@ -546,6 +551,8 @@ window.CompetenciasTool = (function(){
 
         canvas.addEventListener('contextmenu', (e) => {
             e.preventDefault();
+            if (window.innerWidth <= 768) return; // Disable modal on mobile
+
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -555,16 +562,18 @@ window.CompetenciasTool = (function(){
             }
         });
 
-        // Add single click listener for opening comment modal (better support for touch/mobile)
+        // Add single click listener for opening comment modal (ONLY on desktop)
         canvas.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) return; // Disable modal on mobile
+
             // Only open modal if no drag occurred
             if (dragInfo.active) return;
-            
+
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const pointIndex = getPointAtPosition(x, y);
-            
+
             // Only trigger if we're near a label (not just hovering over point for drag purposes)
             // Use a small touch target radius
             if (pointIndex !== null && !dragInfo.active) {
@@ -579,7 +588,7 @@ window.CompetenciasTool = (function(){
                 }
             }
         });
-        
+
         canvas.addEventListener('mouseleave', () => {
             dragInfo.active = false;
             dragInfo.pointIndex = null;
@@ -589,32 +598,32 @@ window.CompetenciasTool = (function(){
 
     function getPointAtPosition(x, y) {
         if (!chart || !chart.data.datasets[0]) return null;
-        
+
         const canvas = document.getElementById('competencias-chart');
         if (!canvas) return null;
-        
+
         const rect = canvas.getBoundingClientRect();
         const canvasWidth = rect.width;
         const canvasHeight = rect.height;
         const chartWidth = chart.canvas.width;
         const chartHeight = chart.canvas.height;
-        
+
         const scaleX = chartWidth / canvasWidth;
         const scaleY = chartHeight / canvasHeight;
-        
+
         // Convert screen coordinates to chart coordinates
         const chartX = x * scaleX;
         const chartY = y * scaleY;
-        
+
         const meta = chart.getDatasetMeta(0);
         if (!meta.data) return null;
-        
+
         for (let i = 0; i < meta.data.length; i++) {
             const point = meta.data[i];
             const dx = point.x - chartX;
             const dy = point.y - chartY;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            
+
             if (distance <= 12) return i;
         }
         return null;
@@ -622,38 +631,38 @@ window.CompetenciasTool = (function(){
 
     function updateChartPointFromMouse(x, y, pointIndex) {
         if (!chart) return;
-        
+
         const canvas = document.getElementById('competencias-chart');
         if (!canvas) return;
-        
+
         const rect = canvas.getBoundingClientRect();
         const canvasWidth = rect.width;
         const canvasHeight = rect.height;
         const chartWidth = chart.canvas.width;
         const chartHeight = chart.canvas.height;
-        
+
         const scaleX = chartWidth / canvasWidth;
         const scaleY = chartHeight / canvasHeight;
-        
+
         // Convert screen coordinates to chart coordinates
         const chartX = x * scaleX;
         const chartY = y * scaleY;
-        
+
         const scaleR = chart.scales.r;
         const centerX = scaleR.xCenter;
         const centerY = scaleR.yCenter;
         const distance = Math.sqrt(Math.pow(chartX - centerX, 2) + Math.pow(chartY - centerY, 2));
-        
+
         const maxRadius = scaleR.drawingArea;
         let value = (distance / maxRadius) * 10;
         value = Math.max(1, Math.min(10, Math.round(value)));
-        
+
         chart.data.datasets[0].data[pointIndex] = value;
         chart.update('none');
-        
+
         const scoreEl = document.getElementById(`comp-score-${pointIndex}`);
         if (scoreEl) scoreEl.value = value;
-        
+
         saveData();
     }
 
@@ -661,7 +670,7 @@ window.CompetenciasTool = (function(){
         currentCommentIndex = pointIndex;
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         const item = data[pointIndex];
-        
+
         document.getElementById('comp-modal-title').innerText = `Editar Comentário`;
         document.getElementById('comp-modal-label').innerText = `${item.label || `Competência ${pointIndex + 1}`} - Nota: ${item.score}/10`;
         document.getElementById('comp-modal-textarea').value = item.comment || '';
@@ -690,7 +699,7 @@ window.CompetenciasTool = (function(){
     function deleteCommentFromModal() {
         if (currentCommentIndex === null) return;
         if (!confirm('Deseja deletar este comentário?')) return;
-        
+
         const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
         data[currentCommentIndex].comment = '';
         localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(data));
@@ -706,11 +715,16 @@ window.CompetenciasTool = (function(){
         if (!confirm('Deseja limpar toda a Roda de Competências?')) return;
         localStorage.removeItem(STORAGE_DATA_KEY);
         localStorage.removeItem(STORAGE_META_KEY);
-        // Clear all persisted input fields
-        document.querySelectorAll('.persist').forEach(el => {
+
+        // Clear all persisted input fields from DOM and localStorage
+        document.querySelectorAll('#comp-main .persist').forEach(el => {
+            const storageKey = el.id || el.name;
+            if (storageKey) localStorage.removeItem(storageKey);
+
             if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
             else el.value = '';
         });
+
         if (chart) chart.destroy();
         window.location.hash = 'competencias';
         window.location.reload();
@@ -721,7 +735,7 @@ window.CompetenciasTool = (function(){
             const printArea = document.getElementById('print-area');
             if (!printArea) return;
             const data = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY) || '[]');
-            
+
             const getVal = id => document.getElementById(id)?.value || '---';
             const coachee = getVal('comp-name').toUpperCase();
             const coach = getVal('comp-coach').toUpperCase();
@@ -733,7 +747,7 @@ window.CompetenciasTool = (function(){
             const worthy = getVal('comp-worthy');
 
             let chartImg = '';
-            
+
             // Check if we need to create a temporary chart
             if (!chart && data.length >= MIN_COMPETENCIES) {
                 // Create temporary chart for printing
@@ -746,13 +760,13 @@ window.CompetenciasTool = (function(){
                 tempCanvas.style.top = '-9999px';
                 tempCanvas.style.visibility = 'hidden';
                 document.body.appendChild(tempCanvas);
-                
-                const labels = data.map((it,i) => {
-                    const label = it.label || `Comp ${i+1}`;
+
+                const labels = data.map((it, i) => {
+                    const label = it.label || `Comp ${i + 1}`;
                     const hasComment = it.comment && it.comment.trim() ? ' 💬' : '';
                     return label + hasComment;
                 });
-                
+
                 const tempChart = new Chart(tempCanvas, {
                     type: 'radar',
                     data: {
@@ -775,7 +789,7 @@ window.CompetenciasTool = (function(){
                         scales: { r: { suggestedMin: 0, suggestedMax: 10, ticks: { stepSize: 1 } } }
                     }
                 });
-                
+
                 // Use requestAnimationFrame to ensure render completion, then capture image
                 let frameCount = 0;
                 const captureImage = () => {
@@ -785,7 +799,7 @@ window.CompetenciasTool = (function(){
                     } else {
                         try {
                             chartImg = `<img src="${tempChart.toBase64Image()}" style="width:100%;max-width:500px">`;
-                        } catch(e) { 
+                        } catch (e) {
                             chartImg = '';
                             console.warn('Failed to capture chart image:', e);
                         }
@@ -799,14 +813,14 @@ window.CompetenciasTool = (function(){
             } else if (chart) {
                 try {
                     chartImg = `<img src="${chart.toBase64Image()}" style="width:100%;max-width:500px">`;
-                } catch(e) { 
+                } catch (e) {
                     chartImg = '';
                 }
             }
-            
+
             doPrint(printArea, data, { coachee, coach, dataSession, objetivo, reflection, priority, victory, worthy, chartImg });
-        } catch (e) { 
-            console.error('Print error:', e); 
+        } catch (e) {
+            console.error('Print error:', e);
         }
     }
 
@@ -815,29 +829,29 @@ window.CompetenciasTool = (function(){
 
         printArea.innerHTML = `
             <style>
-                @page { size:A4; margin:15mm }
                 @media print {
-                    body { margin:0; padding:0; background:white !important }
+                    @page { size:A4; margin:0 }
+                    body { margin:0; padding:15mm; background:white !important }
                     .page-break { page-break-after:always; break-after:page; margin-top:60px }
                 }
                 .print-header { border-bottom:4px solid #000; margin-bottom:20px; padding-bottom:10px }
                 .info-grid { display:flex; gap:8px; margin-top:10px }
                 .info-item { flex:1; border:2px solid #000; padding:8px; background:#ffde59 }
-                .section-title { font-weight:900; text-transform:uppercase; margin-top:20px; margin-bottom:8px; border-left:4px solid #ffde59; padding-left:10px }
-                .box { border:2px solid #000; padding:12px; white-space:pre-wrap; background:#fafafa }
+                .section-title { font-size: 16px; font-weight:900; text-transform:uppercase; margin-top:20px; margin-bottom:8px; border-left:4px solid #ffde59; padding-left:10px }
+                .box { border:2px solid #000; padding:12px; white-space:pre-wrap; background:#fafafa; font-size: 14px; line-height: 1.5; }
             </style>
 
             <!-- PAGE 1 -->
             <div>
                 <div class="print-header">
                     <div style="display:flex; justify-content:space-between; align-items:center">
-                        <h1 style="font-weight:900; margin:0">Roda de Competências</h1>
-                        <div style="font-size:9px; font-weight:700">MASTER PERFORMANCE SYSTEM</div>
+                        <h1 style="font-size: 22px; font-weight:900; margin:0">Roda de Competências</h1>
+                        <div style="font-size:10px; font-weight:700">Kotini App</div>
                     </div>
                     <div class="info-grid">
-                        <div class="info-item"><div style="font-size:8px; font-weight:900">Coachee</div><div style="font-weight:800">${coachee}</div></div>
-                        <div class="info-item"><div style="font-size:8px; font-weight:900">Coach</div><div style="font-weight:800">${coach}</div></div>
-                        <div class="info-item"><div style="font-size:8px; font-weight:900">Data</div><div style="font-weight:800">${dataSession}</div></div>
+                        <div class="info-item"><div style="font-size:8px; font-weight:900">Coachee</div><div style="font-size: 11px; font-weight:800">${coachee}</div></div>
+                        <div class="info-item"><div style="font-size:8px; font-weight:900">Coach</div><div style="font-size: 11px; font-weight:800">${coach}</div></div>
+                        <div class="info-item"><div style="font-size:8px; font-weight:900">Data</div><div style="font-size: 11px; font-weight:800">${dataSession}</div></div>
                     </div>
                 </div>
 
@@ -872,9 +886,9 @@ window.CompetenciasTool = (function(){
                         <th style="padding:8px; text-align:center; font-weight:900; width: 10%">Nota</th>
                         <th style="padding:8px; text-align:left; font-weight:900; width: 60%">Comentário</th>
                     </tr>
-                    ${data.map((it,i) => `
+                    ${data.map((it, i) => `
                         <tr style="border-bottom:1px solid #ddd; vertical-align: top; page-break-inside: avoid;">
-                            <td style="padding:8px; word-break: break-word; overflow-wrap: break-word;">${it.label || `Competência ${i+1}`}</td>
+                            <td style="padding:8px; word-break: break-word; overflow-wrap: break-word;">${it.label || `Competência ${i + 1}`}</td>
                             <td style="padding:8px; text-align:center; font-weight:700">${it.score}/10</td>
                             <td style="padding:8px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; font-size:10px; line-height: 1.5; max-width: 100%;">${(it.comment || '---').replace(/\n/g, '\n')}</td>
                         </tr>
